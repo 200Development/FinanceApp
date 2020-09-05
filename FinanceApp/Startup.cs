@@ -24,8 +24,11 @@ namespace FinanceApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityCore<ApplicationUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

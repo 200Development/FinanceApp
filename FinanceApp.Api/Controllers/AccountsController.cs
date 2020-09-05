@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using FinanceApp.Data;
-using FinanceApp.Data.Models.Entities;
+﻿using FinanceApp.Data;
 using FinanceApp.Data.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers
@@ -22,17 +18,27 @@ namespace FinanceApp.Api.Controllers
 
 
         // GET: api/Accounts
-        [HttpGet]
-        public async Task<ActionResult<Account>> GetAccounts()
-        {
-            try
-            {
-               return Ok(await _accountRepository.GetAllAccountsAsync());
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
+        // GET: api/Accounts/?pageIndex=0&pageSize=10
+        // GET: api/Accounts/?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc
+        //[HttpGet]
+        //public async Task<ActionResult<ApiResult<Account>>> GetAccounts(
+        //    int pageIndex = 0,
+        //    int pageSize = 10,
+        //    string sortColumn = null,
+        //    string sortOrder = null,
+        //    string filterColumn = null,
+        //    string filterQuery = null)
+        //{
+        //    var accounts = await _accountRepository.GetAllAccountsAsync();
+
+        //    return await ApiResult<Account>.CreateAsync(
+        //        accounts as IQueryable<Account>, 
+        //        pageIndex,
+        //        pageSize,
+        //        sortColumn,
+        //        sortOrder,
+        //        filterColumn,
+        //        filterQuery);
+        //}
     }
 }

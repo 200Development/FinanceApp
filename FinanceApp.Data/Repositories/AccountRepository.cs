@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using FinanceApp.Data.Base;
 using FinanceApp.Data.Models.Entities;
@@ -19,7 +18,6 @@ namespace FinanceApp.Data.Repositories
         public async Task<IEnumerable<Account>> GetAllAccountsAsync()
         {
             return await FindAll()
-                .OrderBy(a => a.Name)
                 .ToListAsync();
         }
 

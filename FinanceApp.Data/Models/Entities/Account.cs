@@ -3,7 +3,7 @@ using FinanceApp.Data.Interfaces;
 
 namespace FinanceApp.Data.Models.Entities
 {
-    public class Account : IAccount
+    public class Account : IAccount, IEntity
     {
          public Account()
         {

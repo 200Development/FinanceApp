@@ -21,12 +21,10 @@ namespace FinanceApp.Controllers
         {
             try
             {
-                var sortParam = "";
+                ViewData["NameSortParam"] = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
+                ViewData["BalanceSortParam"] = sortOrder == "Balance" ? "balance_desc" : "Balance";
 
-                ViewData["NameSortParam"] = sortParam = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
-                ViewData["BalanceSortParam"] = sortParam = sortOrder == "Balance" ? "balance_desc" : "Balance";
-
-                var accountVM = await _accountService.GetAccountViewModel(1, sortParam);
+                var accountVM = await _accountService.GetAccountViewModel(1, sortOrder);
 
                 return View(accountVM);
             }
@@ -48,10 +46,8 @@ namespace FinanceApp.Controllers
         {
             try
             {
-                var sortParam = "";
-
-                ViewData["NameSortParam"] = sortParam = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
-                ViewData["BalanceSortParam"] = sortParam = sortOrder == "Balance" ? "balance_desc" : "Balance";
+                ViewData["NameSortParam"] = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
+                ViewData["BalanceSortParam"] = sortOrder == "Balance" ? "balance_desc" : "Balance";
 
                 var accountVM = await _accountService.GetAccountViewModel(page, sortOrder);               
            

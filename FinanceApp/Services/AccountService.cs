@@ -24,7 +24,7 @@ namespace FinanceApp.Services
             _accountRepository = new AccountRepository(context);
         }
 
-        public async Task<AccountViewModel> GetAccountViewModel(int page, string sortParam)
+        public async Task<AccountViewModel> GetAccountViewModel(int page, string sortOrder)
         {
             var pageSize = Convert.ToInt32(_configuration["defaultPageSize"]);
 
@@ -32,7 +32,7 @@ namespace FinanceApp.Services
             // TODO: Research what type of collection to use, preferably avoid using cast
             accountVM.Accounts = (IList<Account>)await _accountRepository.GetAllAccountsAsync();
 
-            switch (sortParam)
+            switch (sortOrder)
             {
                 case "name_desc":
                     accountVM.Accounts.OrderByDescending(a => a.Name);

@@ -1,0 +1,8 @@
+﻿.customFooter {
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: 0;
+    background: #50514F;
+    color: #E1E5EE;
+    flex-shrink: 0;
+}

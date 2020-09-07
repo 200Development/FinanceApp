@@ -1,0 +1,29 @@
+﻿<link rel="stylesheet" href="~/css/footer.css" />
+
+<footer class="footer-big customFooter">
+    <p>@DateTime.Now.Year - J R Parsons, LLC</p>
+    <div class="row">
+        <div class="col-md-5">
+
+        </div>
+        <div class="col-md-1">
+            <div>
+                <button type="submit" class="nav-link btn btn-link text-white">@Html.ActionLink("Home", "Index", "Home", null, new { @style = "color: white;" })</button>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div>
+                <button type="submit" class="nav-link btn btn-link text-white">@Html.ActionLink("Privacy", "Privacy", "Home", null, new { @style = "color: white;" })</button>
+            </div>
+            <div>
+                <button type="submit" class="nav-link btn btn-link text-white">@Html.ActionLink("About", "", "Home", null, new { @style = "color: white;" })</button>
+            </div>
+            <div>
+                <button type="submit" class="nav-link btn btn-link text-white">@Html.ActionLink("Contact", "", "Home", null, new { @style = "color: white;" })</button>
+            </div>
+        </div>
+        <div class="col-md-5">
+
+        </div>
+    </div>
+</footer>

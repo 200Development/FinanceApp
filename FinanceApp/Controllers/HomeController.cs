@@ -24,6 +24,26 @@ namespace FinanceApp.Controllers
             return View();
         }
 
+        public IActionResult FinancialSnapshotInfo()
+        {
+            return View();
+        }
+
+        public IActionResult ConnectAccountsInfo()
+        {
+            return View();
+        }
+
+        public IActionResult FinancialReportsInfo()
+        {
+            return View();
+        }
+
+        public IActionResult Subscription()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

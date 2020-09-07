@@ -31,7 +31,6 @@
                     @Html.ValidationMessageFor(model => model.Account.Balance, "", new { @class = "text-danger" })
                 </div>
             </td>
-            <td></td>
         </tr>
         @if (Model != null && Model.PagedAccounts.Count > 0)
         {
@@ -51,7 +50,7 @@
         else
         {
             <tr>
-                <td colspan="4">No Accounts</td>
+                <td colspan="3">No Accounts</td>
             </tr>
         }
     </tbody>

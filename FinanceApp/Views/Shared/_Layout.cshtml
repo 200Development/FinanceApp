@@ -30,30 +30,17 @@
                         </nav>
                     </div>
                     <div class="row">
-                        <div class="container-fluid ">
-                            <div class="row justify-content-center">
-                                <ul class="nav justify-content-center">
-                                    <li class="nav-item">@Html.ActionLink("Dashboard", "", "")</li>
-                                    <li class="nav-item">@Html.ActionLink("Accounts", "Index", "Accounts")</li>
-                                    <li class="nav-item">@Html.ActionLink("Bills", "", "")</li>
-                                    <li class="nav-item">@Html.ActionLink("Transactions", "", "")</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-10">
                             @RenderBody()
                         </div>
                         <div class="col-md-1"></div>
                     </div>
-                    <hr />
-                    <partial name="_FooterPartial" />
                 </div>
                 <div class="col-md-1 h-100" id="rightPane"></div>
             </div>
-        </div>
+        </div>        
+        <partial name="_FooterPartial" />
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>

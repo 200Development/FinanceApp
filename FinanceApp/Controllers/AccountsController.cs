@@ -48,7 +48,7 @@ namespace FinanceApp.Controllers
                 ViewData["NameSortParam"] = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
                 ViewData["BalanceSortParam"] = sortOrder == "Balance" ? "balance_desc" : "Balance";
 
-                var accountVM = await _accountService.GetAccountViewModel(1, sortOrder);               
+                var accountVM = await _accountService.GetAccountViewModel(page, sortOrder);               
            
 
                 return PartialView("_AccountsTable", accountVM);

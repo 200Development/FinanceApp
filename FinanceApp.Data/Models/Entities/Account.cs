@@ -7,7 +7,6 @@ namespace FinanceApp.Data.Models.Entities
     {
          public Account()
         {
-         // UserId = Global.Instance.User != null ? Global.Instance.User.Id : string.Empty;
           Balance = 0.00m;
           PaycheckContribution = 0.00m;
           SuggestedPaycheckContribution = 0.00m;

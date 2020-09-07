@@ -6,7 +6,6 @@ using FinanceApp.Data;
 using FinanceApp.Data.Models.Entities;
 using FinanceApp.Data.Repositories;
 using FinanceApp.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using X.PagedList;
 
@@ -52,6 +51,20 @@ namespace FinanceApp.Services
             
 
             return accountVM;
+        }
+
+        public bool Create(Account account)
+        {
+            try
+            {
+                _accountRepository.CreateAccount(account);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

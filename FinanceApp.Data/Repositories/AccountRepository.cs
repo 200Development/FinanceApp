@@ -30,6 +30,7 @@ namespace FinanceApp.Data.Repositories
         public void CreateAccount(Account account)
         {
             Create(account);
+            Save();
         }
 
         public void UpdateAccount(Account account)

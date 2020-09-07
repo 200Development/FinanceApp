@@ -39,5 +39,10 @@ namespace FinanceApp.Data.Base
         {
             this._context.Set<T>().Remove(entity);
         }
+
+        public void Save(bool acceptAllChangesOnSuccess = true)
+        {
+            this._context.SaveChanges(acceptAllChangesOnSuccess);
+        }
     }
 }

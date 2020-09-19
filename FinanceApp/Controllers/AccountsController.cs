@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using FinanceApp.Data;
 using FinanceApp.Services;
 using FinanceApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -16,9 +16,9 @@ namespace FinanceApp.Controllers
     {
         private readonly AccountService _accountService;
 
-        public AccountsController(ApplicationDbContext context, IConfiguration configuration)
+        public AccountsController(ApplicationDbContext context, IConfiguration config, IHttpContextAccessor httpContextAccessor)
         {
-            _accountService = new AccountService(context, configuration);
+            _accountService = new AccountService(context, config, httpContextAccessor);
         }
 
 
@@ -29,13 +29,13 @@ namespace FinanceApp.Controllers
                 ViewData["NameSortParam"] = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
                 ViewData["BalanceSortParam"] = sortOrder == "Balance" ? "balance_desc" : "Balance";
 
-                var accountVM = await _accountService.GetAccountViewModel(1, sortOrder);
+                var accountVM = await _accountService.GetViewModelAsync(1, sortOrder);
 
                 return View(accountVM);
             }
             catch (Exception e)
             {
-                //TODO: Add logger
+                Logger.Instance.Error(e);
                 return View("Error");
             }
         }
@@ -48,14 +48,14 @@ namespace FinanceApp.Controllers
                 ViewData["NameSortParam"] = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
                 ViewData["BalanceSortParam"] = sortOrder == "Balance" ? "balance_desc" : "Balance";
 
-                var accountVM = await _accountService.GetAccountViewModel(page, sortOrder);               
+                var accountVM = await _accountService.GetViewModelAsync(page, sortOrder);               
            
 
                 return PartialView("_AccountsTable", accountVM);
             }
             catch (Exception e)
             {
-             //   Logger.Instance.Error(e);
+                Logger.Instance.Error(e);
                 return View("Error");
             }
         }
@@ -64,17 +64,13 @@ namespace FinanceApp.Controllers
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                accountVm.Account.UserId = userId;
-
-                if (!_accountService.Create(accountVm.Account)) return View("Error");
-
+                if (!_accountService.CreateAccount(accountVm.Account)) return View("Error");
 
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-
+                Logger.Instance.Error(e);
                 return View("Error");
             }
         }

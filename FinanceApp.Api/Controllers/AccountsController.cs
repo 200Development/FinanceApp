@@ -8,13 +8,13 @@ namespace FinanceApp.Api.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly AccountRepository _accountRepository;
+        //private readonly AccountRepository _accountRepository;
 
 
-        public AccountsController(ApplicationDbContext context)
-        {
-            _accountRepository = new AccountRepository(context);
-        }
+        //public AccountsController(ApplicationDbContext context)
+        //{
+        //    _accountRepository = new AccountRepository(context);
+        //}
 
 
         // GET: api/Accounts

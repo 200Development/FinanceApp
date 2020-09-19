@@ -1,0 +1,173 @@
+﻿@model FinanceApp.ViewModels.TransactionViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Transaction</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Transaction.UserId);
+    <div class="form-horizontal col-lg-11 col-md-11 col-sm-11">
+        <h4>Transaction</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+     
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2 col-lg-2">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.Type, Model.TypeSelectList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div id="divIsBill">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsBill, "Paying a Bill?", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.CheckBoxFor(model => model.IsBill, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+
+        <div id="divPayBill">
+            <div class="form-group">
+                <label class="control-label col-md-2">Bill</label>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.Transaction.SelectedExpenseId, new SelectList(Model.BillsOutstanding, "Id", "Name"), " ", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.BillsOutstanding, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div id="divPayee">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Transaction.Payee, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Transaction.Payee, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Transaction.Payee, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Transaction.Memo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Transaction.Memo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.Transaction.Category,Model.CategorySelectList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Transaction.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="divCreditAccount">
+            <div class="form-group">
+                <label class="control-label col-md-2">Credit</label>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(model => model.Transaction.CreditAccountId, new SelectList(Model.Accounts, "Id", "Name"), " ", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.Accounts, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div id="divDebitAccount">
+            <div class="form-group">
+                <label class="control-label col-md-2">Debit</label>
+                <div class="col-md-3"> 
+                    @Html.DropDownListFor(model => model.Transaction.DebitAccountId, new SelectList(Model.Accounts, "Id", "Name"), " ", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Accounts, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Transaction.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Transaction.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Transaction.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+    <script>
+        var isBillCb = document.getElementById('IsBill');
+        var payBillDiv = document.getElementById('divPayBill');
+        var payeeDiv = document.getElementById('divPayee');
+        var transactionType = document.getElementById('Type');
+        var creditAccountDiv = document.getElementById('divCreditAccount');
+        var debitAccountDiv = document.getElementById('divDebitAccount');
+        var isBillDiv = document.getElementById('divIsBill');
+
+        function isBill() {
+            if (isBillCb.checked) {
+                payBillDiv.style.display = "block";
+                payeeDiv.style.display = "none";
+            } else {
+                payBillDiv.style.display = "none";
+                payeeDiv.style.display = "block";
+            }
+        };
+
+
+        function updateType() {
+            // 0 - Income, 1 - Expense, 2 - Transfer
+            if (transactionType.value === "0") {
+                creditAccountDiv.style.display = "none";
+                debitAccountDiv.style.display = "none";
+                isBillDiv.style.display = "none";
+            } else if (transactionType.value === "1") {
+                creditAccountDiv.style.display = "block";
+                debitAccountDiv.style.display = "none";
+                isBillDiv.style.display = "block";
+            } else if (transactionType.value === "2") {
+                creditAccountDiv.style.display = "block";
+                debitAccountDiv.style.display = "block";
+                isBillDiv.style.display = "none";
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            updateType();
+            isBill();
+        });
+
+        transactionType.addEventListener('change', (event) => {
+            updateType();
+        });
+
+        isBillCb.addEventListener('change', (event) => {
+            isBill();
+        });
+
+    </script>
+}

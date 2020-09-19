@@ -4,14 +4,16 @@ using FinanceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200919163944_addBillsExpensesTransactionsTables")]
+    partial class addBillsExpensesTransactionsTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,13 +253,9 @@ namespace FinanceApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreditAccountId")
-                        .IsUnique()
-                        .HasFilter("[CreditAccountId] IS NOT NULL");
+                    b.HasIndex("CreditAccountId");
 
-                    b.HasIndex("DebitAccountId")
-                        .IsUnique()
-                        .HasFilter("[DebitAccountId] IS NOT NULL");
+                    b.HasIndex("DebitAccountId");
 
                     b.HasIndex("SelectedExpenseId");
 
@@ -422,12 +420,12 @@ namespace FinanceApp.Data.Migrations
             modelBuilder.Entity("FinanceApp.Data.Models.Entities.Transaction", b =>
                 {
                     b.HasOne("FinanceApp.Data.Models.Entities.Account", "CreditAccount")
-                        .WithOne()
-                        .HasForeignKey("FinanceApp.Data.Models.Entities.Transaction", "CreditAccountId");
+                        .WithMany()
+                        .HasForeignKey("CreditAccountId");
 
                     b.HasOne("FinanceApp.Data.Models.Entities.Account", "DebitAccount")
-                        .WithOne()
-                        .HasForeignKey("FinanceApp.Data.Models.Entities.Transaction", "DebitAccountId");
+                        .WithMany()
+                        .HasForeignKey("DebitAccountId");
 
                     b.HasOne("FinanceApp.Data.Models.Entities.Expense", "SelectedExpense")
                         .WithMany()

@@ -145,7 +145,7 @@ namespace FinanceApp.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("AmountDue")
@@ -183,10 +183,10 @@ namespace FinanceApp.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("BillId")
+                    b.Property<int?>("BillId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreditAccountId")
+                    b.Property<int?>("CreditAccountId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Due")
@@ -251,13 +251,9 @@ namespace FinanceApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreditAccountId")
-                        .IsUnique()
-                        .HasFilter("[CreditAccountId] IS NOT NULL");
+                    b.HasIndex("CreditAccountId");
 
-                    b.HasIndex("DebitAccountId")
-                        .IsUnique()
-                        .HasFilter("[DebitAccountId] IS NOT NULL");
+                    b.HasIndex("DebitAccountId");
 
                     b.HasIndex("SelectedExpenseId");
 
@@ -399,35 +395,29 @@ namespace FinanceApp.Data.Migrations
                 {
                     b.HasOne("FinanceApp.Data.Models.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountId");
                 });
 
             modelBuilder.Entity("FinanceApp.Data.Models.Entities.Expense", b =>
                 {
                     b.HasOne("FinanceApp.Data.Models.Entities.Bill", "Bill")
                         .WithMany()
-                        .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BillId");
 
                     b.HasOne("FinanceApp.Data.Models.Entities.Account", "CreditAccount")
                         .WithMany()
-                        .HasForeignKey("CreditAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreditAccountId");
                 });
 
             modelBuilder.Entity("FinanceApp.Data.Models.Entities.Transaction", b =>
                 {
                     b.HasOne("FinanceApp.Data.Models.Entities.Account", "CreditAccount")
-                        .WithOne()
-                        .HasForeignKey("FinanceApp.Data.Models.Entities.Transaction", "CreditAccountId");
+                        .WithMany()
+                        .HasForeignKey("CreditAccountId");
 
                     b.HasOne("FinanceApp.Data.Models.Entities.Account", "DebitAccount")
-                        .WithOne()
-                        .HasForeignKey("FinanceApp.Data.Models.Entities.Transaction", "DebitAccountId");
+                        .WithMany()
+                        .HasForeignKey("DebitAccountId");
 
                     b.HasOne("FinanceApp.Data.Models.Entities.Expense", "SelectedExpense")
                         .WithMany()

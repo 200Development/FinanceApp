@@ -23,9 +23,9 @@ namespace FinanceApp.Data.Models.Entities
         public string Name { get; set; }
         public DateTime Due { get; set; }
         public decimal Amount { get; set; }
-        public int BillId { get; set; }
+        public int? BillId { get; set; }
         public Bill Bill { get; set; }
-        public int CreditAccountId { get; set; }
+        public int? CreditAccountId { get; set; }
         public Account CreditAccount { get; set; }
         public bool IsPaid { get; set; }
     }

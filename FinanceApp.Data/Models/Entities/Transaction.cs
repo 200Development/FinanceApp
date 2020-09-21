@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using FinanceApp.Data.Models.Enums;
 
 namespace FinanceApp.Data.Models.Entities
@@ -40,15 +41,18 @@ namespace FinanceApp.Data.Models.Entities
         public int? CreditAccountId { get; set; }
         
         [Display(Name = "From")]
+        [ForeignKey("CreditAccountId")]
         public Account CreditAccount { get; set; }
         
         public int? DebitAccountId { get; set; }
         
         [Display(Name = "To")]
+        [ForeignKey("DebitAccountId")]
         public Account DebitAccount { get; set; }
 
         public int? SelectedExpenseId { get; set; }
 
+        [ForeignKey("SelectedExpenseId")]
         public Expense SelectedExpense { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace FinanceApp.Data.Models.Entities
         [Required, Display(Name = "Frequency")]
         public FrequencyEnum PaymentFrequency { get; set; }
 
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
 
         public Account Account { get; set; }
     }

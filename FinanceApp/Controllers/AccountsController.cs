@@ -26,6 +26,17 @@ namespace FinanceApp.Controllers
         {
             try
             {
+                try
+                {
+                    await _accountService.CheckAndCreatePoolAccountAsync();
+                    await _accountService.CheckAndCreateEmergencyFundAsync();
+                    await _accountService.CheckAndCreateAddNewAccountAsync();
+                }
+                catch (Exception e)
+                {
+                   Logger.Instance.Error(e);
+                }
+
                 ViewData["NameSortParam"] = string.IsNullOrWhiteSpace(sortOrder) ? "name_desc" : "";
                 ViewData["BalanceSortParam"] = sortOrder == "Balance" ? "balance_desc" : "Balance";
 

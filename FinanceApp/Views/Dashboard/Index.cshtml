@@ -121,8 +121,69 @@
 
 
 @section scripts {
-
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the bar chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            const cashFlowByMonth = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Metrics.CashFlowByMonth));
+
+            var cashFlowArray = [['Month', 'Cash Flow']];
+
+            $.each(cashFlowByMonth,
+                function(i, v) {
+                    cashFlowArray.push([i,v]);
+                });
+
+            const data = google.visualization.arrayToDataTable(cashFlowArray);
+
+
+            const options = {
+                width: "100%",
+                pointSize: 8,
+                lineWidth: 2,
+                height: "100%",
+                backgroundColor: "transparent",
+                colors: ["#6BFFB8"],
+                tooltip: {
+                    textStyle: {
+                        color: "#E1E5EE",
+                        fontSize: 12
+                    },
+                    showColorCode: false
+                },
+                legend: {
+                    textStyle: {
+                        color: "#E1E5EE",
+                        border: 2,
+                        fontSize: 12
+                    }
+                },
+                chartArea: {
+                    left: 75,
+                    top: 25,
+                    height: "80%"
+                },
+                vAxis: {
+                    gridlines: {
+                        color: "transparent"
+                    }
+                }
+            }
+
+            const chart = new google.visualization.AreaChart(document.getElementById("chartCashFlow"));
+            chart.draw(data, options);
+        };
 
 
         var updatedAccounts = [];
@@ -131,6 +192,8 @@
 
             let j = 1;
             debugger;
+            const accounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Accounts));
+
             if (accounts.length > 0) {
                 for (let i = 0; i < accounts.length; i++) {
                     const account = accounts[i];
@@ -262,11 +325,12 @@
                         $label.text('Saved');
                         $label.css('color', '#6BFFB8');
                         $label.show();
-                        $label.fadeOut(2500,  function() {
-                            const $label = $('#saveResponseLabel');
-                            $label.css('color', 'transparent');
-                            $label.css('display', 'block');
-                        });
+                        $label.fadeOut(2500,
+                            function() {
+                                const $label = $('#saveResponseLabel');
+                                $label.css('color', 'transparent');
+                                $label.css('display', 'block');
+                            });
                     },
                     error: function(error) {
                         console.log('Error: ' + error);
@@ -275,92 +339,9 @@
             }
         }
 
-        function chart() {
-
-            const cashFlowByMonth = metrics.CashFlowByMonth;
-            const cashFlowLength = Object.keys(cashFlowByMonth).length;
-
-            let monthsArray = new Array(cashFlowLength);
-            let cashFlowArray = new Array(cashFlowLength);
-            let highestAmount = 0;
-
-            for (let prop in cashFlowByMonth) {
-                if (cashFlowByMonth.hasOwnProperty(prop)) {
-                    monthsArray.push(prop);
-                    cashFlowArray.push(cashFlowByMonth[prop]);
-                    if (cashFlowByMonth[prop] > highestAmount) {
-                        highestAmount = cashFlowByMonth[prop];
-                    }
-                }
-            }
-
-            monthsArray = monthsArray.filter(function(n) { return n != undefined });
-            cashFlowArray = cashFlowArray.filter(function(n) { return n != undefined });
-
-            const dataTable = new window.google.visualization.DataTable();
-
-            var data = [['Month', 'Cash Flow']];
-
-            for (let i = 0; i <= monthsArray.length; i++) {
-                data.push([monthsArray[i], cashFlowArray[i]]);
-            }
-
-            var numRows = data.length;
-            var numCols = data[0].length;
-
-            dataTable.addColumn('string', data[0][0]);
-
-            for (let i = 1; i < numCols; i++)
-                dataTable.addColumn('number', data[0][i]);
-
-            for (let i = 1; i < numRows; i++)
-                dataTable.addRow(data[i]);
-
-            const options = {
-                width: "100%",
-                pointSize: 8,
-                lineWidth: 2,
-                height: "100%",
-                backgroundColor: "transparent",
-                colors: ["#6BFFB8"],
-                tooltip: {
-                    textStyle: {
-                        color: "#E1E5EE",
-                        fontSize: 12
-                    },
-                    showColorCode: false
-                },
-                legend: {
-                    textStyle: {
-                        color: "#E1E5EE",
-                        border: 2,
-                        fontSize: 12
-                    }
-                },
-                chartArea: {
-                    left: 75,
-                    top: 25,
-                    height: "80%"
-                },
-                vAxis: {
-                    gridlines: {
-                        color: "transparent"
-                    }
-                }
-            }
-
-            const googleChart = new window.google.visualization.AreaChart(document.getElementById("chartCashFlow"));
-            googleChart.draw(dataTable, options);
-        };
-
-        google.load("visualization",
-            "1",
-            {
-                packages: ["corechart"]
-            });
 
         $(document).ready(function() {
-            chart();
+            //drawChart();
             loadAccounts();
         });
 

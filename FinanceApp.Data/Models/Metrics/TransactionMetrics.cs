@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace FinanceApp.Data.Models.Metrics
 {
@@ -28,7 +30,7 @@ namespace FinanceApp.Data.Models.Metrics
         public Dictionary<string, decimal> DiscretionaryExpensesByMonth { get; set; }
         public Dictionary<string, decimal> ExpensesByMonth { get; set; }
         public Dictionary<string, decimal> IncomeByMonth { get; set; }
-        public Dictionary<string, decimal> TransfersByMonth { get; set; }
+        public dynamic TransactionsByMonth { get; set; }
         public Dictionary<string, decimal> CreditCardExpensesByMonth { get; set; }
     }
 }

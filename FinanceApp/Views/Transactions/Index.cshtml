@@ -102,79 +102,31 @@
 
 
 @section scripts {
-
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
 
-        function chart() {
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
 
-            @*const metrics = @Html.Raw(Json.Encode(@Model.Metrics));
-            const expensesByMonth = metrics.ExpensesByMonth;
-            const incomeByMonth = metrics.IncomeByMonth;
-            const transfersByMonth = metrics.TransfersByMonth;
+        // Callback that creates and populates a data table,
+        // instantiates the bar chart, passes in the data and
+        // draws it.
+        function drawChart() {
 
-            const expensesLength = Object.keys(expensesByMonth).length;
-            const incomeLength = Object.keys(incomeByMonth).length;
-            const transferLength = Object.keys(transfersByMonth).length;
+            const transactions = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Metrics.TransactionsByMonth));
+            let metricsArray = [['Month', 'Expenses', 'Income']];
 
-            let monthsArray = new Array(expensesLength);
-            let expensesArray = new Array(expensesLength);
-            let incomeArray = new Array(incomeLength);
-            let transferArray = new Array(transferLength);
-            let highestAmount = 0;
+            debugger;
+            $.each(transactions,
+                function(i, v) {
+                    metricsArray.push([i, v.Expenses, v.Income]);
+                });
 
-
-            for (let prop in expensesByMonth) {
-                if (expensesByMonth.hasOwnProperty(prop)) {
-                    monthsArray.push(prop);
-                    expensesArray.push(expensesByMonth[prop]);
-                    if (expensesByMonth[prop] > highestAmount) {
-                        highestAmount = expensesByMonth[prop];
-                    }
-                }
-            }
-
-            for (let prop in incomeByMonth) {
-                if (incomeByMonth.hasOwnProperty(prop)) {
-                    incomeArray.push(incomeByMonth[prop]);
-                    if (incomeByMonth[prop] > highestAmount) {
-                        highestAmount = incomeByMonth[prop];
-                    }
-                }
-            }
-
-            for (let prop in transfersByMonth) {
-                if (transfersByMonth.hasOwnProperty(prop)) {
-                    transferArray.push(transfersByMonth[prop]);
-                    if (transfersByMonth[prop] > highestAmount) {
-                        highestAmount = transfersByMonth[prop];
-                    }
-                }
-            }
-
-            monthsArray = monthsArray.filter(function(n) { return n != undefined });
-            expensesArray = expensesArray.filter(function(n) { return n != undefined });
-            incomeArray = incomeArray.filter(function(n) { return n != undefined });
-            transferArray = transferArray.filter(function(n) { return n != undefined });
-
-            var dataTable = new window.google.visualization.DataTable();
-
-            var data = [['Month', 'Income', 'Expense']];
-
-            for (let i = 0; i <= monthsArray.length; i++) {
-                data.push([monthsArray[i], incomeArray[i], expensesArray[i]]);
-            }
-
-            var numRows = data.length;
-            var numCols = data[0].length;
-
-            dataTable.addColumn('string', data[0][0]);
-
-            for (let i = 1; i < numCols; i++)
-                dataTable.addColumn('number', data[0][i]);
-
-            for (let i = 1; i < numRows; i++)
-                dataTable.addRow(data[i]);
+            const data = google.visualization.arrayToDataTable(metricsArray);
 
             var options = {
                 width: "100%",
@@ -210,12 +162,13 @@
             }
 
             var googleChart = new window.google.visualization.AreaChart(document.getElementById("chartTransactions"));
-            googleChart.draw(dataTable, options);*@
+            googleChart.draw(data, options);
+
         };
 
         function updateType() {
 
-            const transactionType = document.getElementById('Type');
+            const transactionType = document.getElementById('NewTransactionType');
             const creditAccountDiv = document.getElementById('divCreditAccount');
 
             // 0 - Income, 1 - Expense, 2 - Transfer
@@ -242,7 +195,7 @@
             const day = ('0' + dateFields[1]).slice(-2);
             const date = year + '-' + month + '-' + day;
 
-            const amount = Number($('#transactionAmount_' + id).text().replace('$','')) != NaN ? Number($('#transactionAmount_' + id).text().replace('$','')) : -1;
+            const amount = Number($('#transactionAmount_' + id).text().replace('$', '')) != NaN ? Number($('#transactionAmount_' + id).text().replace('$', '')) : -1;
             const typeId = Number($('#transactionTypeId_' + id).text()) != NaN ? Number($('#transactionTypeId_' + id).text()) : -1;
             const categoryId = Number($('#transactionCategoryId_' + id).text()) != NaN ? Number($('#transactionCategoryId_' + id).text()) : -1;
             const creditAccountId = Number($('#transactionCreditAccountId_' + id).text()) != NaN ? $('#transactionCreditAccountId_' + id).text() : -1;
@@ -258,18 +211,18 @@
             $('#selectedTransactionType').val(typeId);
             $('#selectedTransactionCategory').val(categoryId);
             switch (typeId) {
-                case 0:
-                    $('#from').css('display', 'none');
-                    break;
-                case 1:
-                    $('#from').css('display', 'block');
-                    break;
-                case 2:
-                    $('#from').css('display', 'block');
-                    break;
-                default:
-                    $('#from').css('display', 'none');
-                    break;
+            case 0:
+                $('#from').css('display', 'none');
+                break;
+            case 1:
+                $('#from').css('display', 'block');
+                break;
+            case 2:
+                $('#from').css('display', 'block');
+                break;
+            default:
+                $('#from').css('display', 'none');
+                break;
             }
             $('#Transaction_CreditAccountId').val(creditAccountId);
         };
@@ -412,15 +365,6 @@
 
         document.addEventListener("DOMContentLoaded", updateType);
         document.addEventListener("DOMContentLoaded", addTableListeners);
-
-
-        google.load("visualization",
-            "1",
-            {
-                packages: ["corechart"]
-            });
-
-        $(document).ready(function() { chart(); });
 
     </script>
 }

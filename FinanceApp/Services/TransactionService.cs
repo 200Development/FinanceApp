@@ -49,6 +49,7 @@ namespace FinanceApp.Services
                 transactionVM.BillsOutstanding = await _expenseService.GetAllUnpaidExpenses();
                 transactionVM.TypeSelectList = GetTransactionTypeSelectList();
                 transactionVM.CategorySelectList = GetCategorySelectList();
+                transactionVM.Metrics = await GetMetricsAsync();
 
                 switch (sortOrder)
                 {
@@ -113,7 +114,7 @@ namespace FinanceApp.Services
             }
         }
         
-        public async Task<TransactionMetrics> GetMetricsAsync()
+        private async Task<TransactionMetrics> GetMetricsAsync()
         {
             try
             {
@@ -126,7 +127,6 @@ namespace FinanceApp.Services
 
                 var incomeTransactions = enumerable.Where(t => t.Type == TransactionTypesEnum.Income).ToList();
                 var expenseTransactions = enumerable.Where(t => t.Type == TransactionTypesEnum.Expense).ToList();
-                //var transferTransactions = transactions.Where(t => t.Type == TransactionTypesEnum.Transfer).ToList();
 
                 var expenseTransactionsByMonth = expenseTransactions.Select(t => new { t.Date.Year, t.Date.Month, t.Amount })
                     .GroupBy(x => new { x.Year, x.Month }, (key, group) => new { year = key.Year, month = key.Month, expenses = group.Sum(k => k.Amount) }).ToList();
@@ -134,15 +134,11 @@ namespace FinanceApp.Services
                 var incomeTransactionsByMonth = incomeTransactions.Select(t => new { t.Date.Year, t.Date.Month, t.Amount })
                     .GroupBy(x => new { x.Year, x.Month }, (key, group) => new { year = key.Year, month = key.Month, expenses = group.Sum(k => k.Amount) }).ToList();
 
-                //var transferTransactionsByMonth = transferTransactions.Select(t => new { t.Date.Year, t.Date.Month, t.Amount })
-                //    .GroupBy(x => new { x.Year, x.Month }, (key, group) => new { year = key.Year, month = key.Month, expenses = group.Sum(k => k.Amount) }).ToList();
-
 
                 var expensesByMonth = new Dictionary<DateTime, decimal>();
                 var mandatoryByMonth = new Dictionary<DateTime, decimal>();
                 var discretionaryByMonth = new Dictionary<DateTime, decimal>();
                 var incomeByMonth = new Dictionary<DateTime, decimal>();
-                var transfersByMonth = new Dictionary<DateTime, decimal>();
 
 
                 foreach (var transaction in expenseTransactionsByMonth)
@@ -159,14 +155,7 @@ namespace FinanceApp.Services
                     incomeByMonth.Add(date, amount);
                 }
 
-                //foreach (var transaction in transferTransactionsByMonth)
-                //{
-                //    var date = new DateTime(transaction.year, transaction.month, 1);
-                //    var amount = transaction.expenses;
-                //    transfersByMonth.Add(date, amount);
-                //}
-
-
+               
                 foreach (KeyValuePair<DateTime, decimal> transaction in expensesByMonth)
                 {
                     if (expensesByMonth.ContainsKey(transaction.Key) == false)
@@ -183,15 +172,7 @@ namespace FinanceApp.Services
                     }
                 }
 
-                foreach (KeyValuePair<DateTime, decimal> transaction in transfersByMonth)
-                {
-                    if (transfersByMonth.ContainsKey(transaction.Key) == false)
-                    {
-                        transfersByMonth.Add(transaction.Key, 0m);
-                    }
-                }
-
-
+              
                 var oneYearAgo = DateTime.Today.AddYears(-1);
                 var index = new DateTime(oneYearAgo.Year, oneYearAgo.Month, 1);
 
@@ -205,18 +186,22 @@ namespace FinanceApp.Services
                         expensesByMonth.Add(i, 0m);
                     if (!incomeByMonth.ContainsKey(i))
                         incomeByMonth.Add(i, 0m);
-                    if (!transfersByMonth.ContainsKey(i))
-                        transfersByMonth.Add(i, 0m);
                 }
+
+                var sortedExpenses = expensesByMonth.OrderByDescending(e => e.Key);
+                var sortedIncome = incomeByMonth.OrderByDescending(e => e.Key);
 
                 metrics.MandatoryExpensesByMonth = mandatoryByMonth.Take(12).OrderBy(expense => expense.Key.Year).ThenBy(expense => expense.Key.Month).ToDictionary(expense => $"{ConvertMonthIntToString(expense.Key.Month)} {expense.Key.Year}", expense => expense.Value);
                 metrics.DiscretionaryExpensesByMonth = discretionaryByMonth.Take(12).OrderBy(expense => expense.Key).ToDictionary(mandatory => $"{ConvertMonthIntToString(mandatory.Key.Month)} {mandatory.Key.Year}", mandatory => mandatory.Value);
-                metrics.ExpensesByMonth = expensesByMonth.Take(12).OrderBy(expense => expense.Key).ToDictionary(disc => $"{ConvertMonthIntToString(disc.Key.Month)} {disc.Key.Year}", disc => disc.Value);
-                metrics.IncomeByMonth = incomeByMonth.Take(12).OrderBy(expense => expense.Key).ToDictionary(disc => $"{ConvertMonthIntToString(disc.Key.Month)} {disc.Key.Year}", disc => disc.Value);
-                metrics.TransfersByMonth = transfersByMonth.Take(12).OrderBy(expense => expense.Key).ToDictionary(disc => $"{ConvertMonthIntToString(disc.Key.Month)} {disc.Key.Year}", disc => disc.Value);
+                metrics.ExpensesByMonth = sortedExpenses.Take(12).OrderBy(expense => expense.Key).ToDictionary(disc => $"{ConvertMonthIntToString(disc.Key.Month)} {disc.Key.Year}", disc => disc.Value);
+                metrics.IncomeByMonth = sortedIncome.Take(12).OrderBy(expense => expense.Key).ToDictionary(disc => $"{ConvertMonthIntToString(disc.Key.Month)} {disc.Key.Year}", disc => disc.Value);
 
+                metrics.TransactionsByMonth = metrics.ExpensesByMonth.ToDictionary(pair => pair.Key,
+                    pair => new {
+                        Expenses = pair.Value,
+                        Income = metrics.IncomeByMonth[pair.Key]});
 
-                return metrics;
+            return metrics;
             }
             catch (SqlException e)
             {
@@ -462,11 +447,10 @@ namespace FinanceApp.Services
                             {
                                 var originalBalance = transaction.DebitAccount.Balance; // logs beginning balance
                                 transaction.DebitAccount.Balance += transaction.Amount;
-                                Logger.Instance.Calculation($"{transaction.DebitAccount.Name}.balance ({originalBalance}) + {transaction.Amount} = {transaction.DebitAccount.Balance}");
 
                                 // Update Account's required savings
-                                var balanceSurplus = AccountService.UpdateBalanceSurplus(transaction.CreditAccount);
-                                transaction.CreditAccount.BalanceSurplus = balanceSurplus;
+                                var balanceSurplus = AccountService.UpdateBalanceSurplus(transaction.DebitAccount);
+                                transaction.DebitAccount.BalanceSurplus = balanceSurplus;
 
 
                                 _accountService.UpdateAccount(transaction.DebitAccount, false);

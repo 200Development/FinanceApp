@@ -35,6 +35,7 @@ namespace FinanceApp.Services
         {
             DashboardViewModel vm = new DashboardViewModel();
             vm.Accounts = await _accountService.GetAllAccountsAsync();
+            vm.DisposableIncomeAccount = await _accountService.GetDisposableIncomeAccountAsync();
             vm.Metrics = await RefreshStaticMetrics();
 
             return vm;
@@ -72,7 +73,7 @@ namespace FinanceApp.Services
         {
             try
             {
-                var poolAccount = await _accountService.GetPoolAccountAsync();
+                var poolAccount = await _accountService.GetDisposableIncomeAccountAsync();
                 return poolAccount.Balance;
             }
             catch (Exception e)
@@ -270,7 +271,7 @@ namespace FinanceApp.Services
         private async Task<decimal> GetCashBalance()
         {
             var accountBalanceSum = _accountService.GetAllAccountsAsync().Result.Sum(a => a.Balance);
-            var poolAccount = await _accountService.GetPoolAccountAsync();
+            var poolAccount = await _accountService.GetDisposableIncomeAccountAsync();
             accountBalanceSum += poolAccount.Balance;
 
 

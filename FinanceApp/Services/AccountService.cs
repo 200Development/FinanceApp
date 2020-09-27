@@ -128,11 +128,11 @@ namespace FinanceApp.Services
             }
         }
 
-        public async Task<Account> GetPoolAccountAsync()
+        public async Task<Account> GetDisposableIncomeAccountAsync()
         {
             try
             {
-                return await _accountRepository.GetPoolAccount();
+                return await _accountRepository.GetDisposableIncomeAccount();
             }
             catch (SqlException e)
             {
@@ -194,20 +194,20 @@ namespace FinanceApp.Services
             }
         }
 
-        public async Task CheckAndCreatePoolAccountAsync()
+        public async Task CheckAndCreateDisposableIncomeAccountAsync()
         {
             try
             {
                 var accounts = await _accountRepository.GetAllAccountsAsync();
-                if (accounts.Any(a => a.IsPoolAccount)) return;
+                if (accounts.Any(a => a.IsDisposableIncomeAccount)) return;
 
-                var poolAccount = new Account();
-                poolAccount.Name = "Pool";
-                poolAccount.Balance = 0.0m;
-                poolAccount.IsPoolAccount = true;
-                poolAccount.IsEmergencyFund = false;
+                var disposableIncomeAccount = new Account();
+                disposableIncomeAccount.Name = "Disposable Income";
+                disposableIncomeAccount.Balance = 0.0m;
+                disposableIncomeAccount.IsDisposableIncomeAccount = true;
+                disposableIncomeAccount.IsEmergencyFund = false;
 
-                _accountRepository.CreateAccount(poolAccount);
+                _accountRepository.CreateAccount(disposableIncomeAccount);
                 _accountRepository.Save();
             }
             catch (Exception e)
@@ -227,7 +227,7 @@ namespace FinanceApp.Services
                 var efAccount = new Account();
                 efAccount.Name = "Emergency Fund";
                 efAccount.Balance = 0.0m;
-                efAccount.IsPoolAccount = false;
+                efAccount.IsDisposableIncomeAccount = false;
                 efAccount.IsEmergencyFund = true;
 
                 _accountRepository.CreateAccount(efAccount);
@@ -250,7 +250,7 @@ namespace FinanceApp.Services
                 var anAccount = new Account();
                 anAccount.Name = "Add New Account";
                 anAccount.Balance = 0.0m;
-                anAccount.IsPoolAccount = false;
+                anAccount.IsDisposableIncomeAccount = false;
                 anAccount.IsEmergencyFund = false;
                 anAccount.IsAddNewAccount = true;
 
@@ -307,6 +307,49 @@ namespace FinanceApp.Services
             catch (Exception ex)
             {
                 Logger.Instance.Error(ex);
+            }
+        }
+
+        public async Task<bool> UpdateAccountsFromDashboard(IEnumerable<Account> accounts)
+        {
+            try
+            {
+                foreach (var account in accounts)
+                {
+                    if (account.Id <= 0)
+                    {
+                        var poolAccount = await _accountRepository.GetDisposableIncomeAccount();
+                        poolAccount.Balance = account.Balance;
+
+                        _accountRepository.SetEntityStateToModified(poolAccount);
+                    }
+                    else
+                    {
+                        var dbAccount = await _accountRepository.GetAccountByIdAsync(account.Id);
+                        dbAccount.Balance = account.Balance;
+
+                        if (account.Balance > dbAccount.BalanceLimit)
+                            dbAccount.BalanceLimit = account.Balance;
+
+                        dbAccount.BalanceSurplus = UpdateBalanceSurplus(dbAccount);
+
+                        _accountRepository.SetEntityStateToModified(dbAccount);
+                    }
+                }
+                _accountRepository.Save();
+
+
+                return true;
+            }
+            catch (SqlException e)
+            {
+                Logger.Instance.Error(e);
+                return false;
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Error(e);
+                return false;
             }
         }
 

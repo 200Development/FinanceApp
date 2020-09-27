@@ -418,7 +418,7 @@ namespace FinanceApp.Services
                 //If income transaction, debit to pool account, else get selected debit account
                 if (transaction.Type == TransactionTypesEnum.Income)
                 {
-                    transaction.DebitAccount = await _accountService.GetPoolAccountAsync();
+                    transaction.DebitAccount = await _accountService.GetDisposableIncomeAccountAsync();
                     transaction.DebitAccountId = transaction.DebitAccount?.Id;
                 }
                 else if (transaction.DebitAccountId != null)
@@ -490,7 +490,7 @@ namespace FinanceApp.Services
 
                             var originalDebitAccount =
                                 transaction.Type == TransactionTypesEnum.Income
-                                ? await _accountService.GetPoolAccountAsync()
+                                ? await _accountService.GetDisposableIncomeAccountAsync()
                                 : await _accountService.GetAccountByIdAsync(originalTransaction.DebitAccountId ?? 0);
 
                             var originalAmount = originalTransaction.Amount;

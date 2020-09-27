@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FinanceApp.Data;
+using FinanceApp.Data.Models.Entities;
 using FinanceApp.Services;
 using FinanceApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +30,7 @@ namespace FinanceApp.Controllers
             {
                 try
                 {
-                    await _accountService.CheckAndCreatePoolAccountAsync();
+                    await _accountService.CheckAndCreateDisposableIncomeAccountAsync();
                     await _accountService.CheckAndCreateEmergencyFundAsync();
                     await _accountService.CheckAndCreateAddNewAccountAsync();
                 }
@@ -83,6 +85,22 @@ namespace FinanceApp.Controllers
             {
                 Logger.Instance.Error(e);
                 return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> UpdateAccounts([FromBody]List<Account> accounts)
+        {
+            try
+            {
+                return accounts.Count > 0
+                    ? Json(await _accountService.UpdateAccountsFromDashboard(accounts) ? "Success" : "Failed")
+                    : Json("No Accounts received");
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Error(e);
+                return Json("Error: " + e);
             }
         }
     }

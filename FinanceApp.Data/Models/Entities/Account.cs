@@ -13,7 +13,7 @@ namespace FinanceApp.Data.Models.Entities
           RequiredSavings = 0.00m;
           BalanceLimit = 0.00m;
           BalanceSurplus = 0.00m;
-          IsPoolAccount = false;
+          IsDisposableIncomeAccount = false;
           IsEmergencyFund = false;
           IsMandatory = false;
           ExcludeFromSurplus = false;
@@ -47,7 +47,7 @@ namespace FinanceApp.Data.Models.Entities
         public bool ExcludeFromSurplus { get; set; }
 
         [Required, Display(Name = "Pool Account")]
-        public bool IsPoolAccount { get; set; }
+        public bool IsDisposableIncomeAccount { get; set; }
 
         [Required, Display(Name = "Emergency Fund")]
         public bool IsEmergencyFund { get; set; }

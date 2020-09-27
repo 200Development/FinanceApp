@@ -42,9 +42,9 @@ namespace FinanceApp.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Account> GetPoolAccount()
+        public async Task<Account> GetDisposableIncomeAccount()
         {
-            return await FindByCondition(account => account.UserId == _userId && account.IsPoolAccount)
+            return await FindByCondition(account => account.UserId == _userId && account.IsDisposableIncomeAccount)
                 .FirstOrDefaultAsync();
         }
 

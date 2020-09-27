@@ -4,8 +4,12 @@
     ViewBag.Title = "Dashboard";
 }
 
-@*@Styles.Render("~/Content/dashboard.css")*@
+<link rel="stylesheet" href="css/dashboard.css"/>
 
+
+<div class="row">
+    <partial name="_HeaderNavigationPartial"/>
+</div>
 <div class="content">
     <div class="row">
         <div class="col-12">
@@ -97,7 +101,7 @@
                                     Disposable Income
                                     <div>
                                         @Html.Hidden("hiddenDisposableValue")
-                                        <input type="text" name="disposableIncomeValue" id="disposableIncomeValue" value="@Model.Metrics.DisposableIncome.ToString("C")" readonly="readonly" />
+                                        <input type="text" name="disposableIncomeValue_@Model.DisposableIncomeAccount.Id" id="disposableIncomeValue_@Model.DisposableIncomeAccount.Id" value="@Model.Metrics.DisposableIncome.ToString("C")" readonly="readonly" />
                                     </div>
                                     <div><input type="button" class="btn btn-dark text-info" id="updateAccountsButton" value="Save Changes" onclick="updateAccounts(event)" /><label for="updateAccountsButton" id="saveResponseLabel" style="display: block; color:transparent">test</label></div>
                                     <div></div>
@@ -124,6 +128,8 @@
     
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+
+        var updatedAccounts = [];
 
         // Load the Visualization API and the corechart package.
         google.charts.load('current', { 'packages': ['corechart'] });
@@ -185,9 +191,6 @@
             chart.draw(data, options);
         };
 
-
-        var updatedAccounts = [];
-
         function loadAccounts() {
 
             let j = 1;
@@ -238,7 +241,7 @@
             rangeLabel.value = changedRange.value;
 
             if (rangeDefaultValue !== NaN && rangeValue !== NaN) {
-                const disposableIncomeElement = $('#disposableIncomeValue')[0];
+                const disposableIncomeElement = $('#disposableIncomeValue_@Model.DisposableIncomeAccount.Id')[0];
                 const disposableIncomeText = disposableIncomeElement.value.replace('$', '').replace(',', '');
                 const disposableIncomeValue = Number(disposableIncomeText);
                 const delta = rangeValue - rangeDefaultValue;
@@ -283,17 +286,19 @@
             e.preventDefault();
             e.stopPropagation();
             const accounts = [];
-            debugger;
+
             $.each($('.updated'),
-                function(key, value) {
+                function(index, value) {
                     const account = {};
                     const id = value.id.split('_')[1];
                     account.Id = Number(id);
-                    account.Balance = value.valueAsNumber;
+                    if (isNaN(value.valueAsNumber))
+                        account.Balance = Number(value.value);
+                    else
+                        account.Balance = value.valueAsNumber;
 
                     accounts.push(account);
                 });
-
 
             if (accounts.length < 1) {
 
@@ -309,7 +314,7 @@
                     });
             } else {
 
-                const data = JSON.stringify({ 'accounts': accounts });
+                const data = JSON.stringify( accounts );
 
                 $.ajax({
                     url: 'Accounts/UpdateAccounts',
@@ -341,7 +346,6 @@
 
 
         $(document).ready(function() {
-            //drawChart();
             loadAccounts();
         });
 

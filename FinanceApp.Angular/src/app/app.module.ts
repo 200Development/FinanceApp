@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BillsComponent } from './bills/bills.component';
+
 
 @NgModule({
   declarations: [
@@ -14,7 +16,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     LoginComponent,
     NavigationComponent,
     AccountsComponent,
-    DashboardComponent
+    DashboardComponent,
+    BillsComponent
   ],
   imports: [
     BrowserModule,

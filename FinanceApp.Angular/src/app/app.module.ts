@@ -8,6 +8,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BillsComponent } from './bills/bills.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { BillsComponent } from './bills/bills.component';
     NavigationComponent,
     AccountsComponent,
     DashboardComponent,
-    BillsComponent
+    BillsComponent,
+    TransactionsComponent
   ],
   imports: [
     BrowserModule,

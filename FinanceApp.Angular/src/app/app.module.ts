@@ -1,14 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AccountsComponent } from './accounts/accounts.component';
+import { AccountsTableComponent } from './accounts/accounts-table.component'
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BillsComponent } from './bills/bills.component';
+import { BillsTableComponent } from './bills/bills-table.component';
+import { ExpensesTableComponent } from './expenses/expenses-table.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsTableComponent } from './transactions/transactions-table.component';
 
 
 @NgModule({
@@ -17,12 +22,17 @@ import { TransactionsComponent } from './transactions/transactions.component';
     LoginComponent,
     NavigationComponent,
     AccountsComponent,
+    AccountsTableComponent,
     DashboardComponent,
     BillsComponent,
-    TransactionsComponent
+    BillsTableComponent,
+    ExpensesTableComponent,
+    TransactionsComponent,
+    TransactionsTableComponent
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule
   ],
   providers: [],

@@ -16,6 +16,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionsTableComponent } from './transactions/transactions-table.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { LoginComponent } from './login/login.component';
     TransactionsComponent,
     TransactionsTableComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

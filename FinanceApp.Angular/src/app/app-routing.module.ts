@@ -8,10 +8,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { BillsComponent } from './bills/bills.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: 'welcome', component: AppComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'accounts', component: AccountsComponent },

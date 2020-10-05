@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginNavComponent } from './login/login-nav.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { AccountsTableComponent } from './accounts/accounts-table.component'
@@ -15,12 +15,13 @@ import { ExpensesTableComponent } from './expenses/expenses-table.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionsTableComponent } from './transactions/transactions-table.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    LoginNavComponent,
     NavigationComponent,
     AccountsComponent,
     AccountsTableComponent,
@@ -30,7 +31,8 @@ import { HomeComponent } from './home/home.component';
     ExpensesTableComponent,
     TransactionsComponent,
     TransactionsTableComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

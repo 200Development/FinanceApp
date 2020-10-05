@@ -14,6 +14,7 @@ import { BillsTableComponent } from './bills/bills-table.component';
 import { ExpensesTableComponent } from './expenses/expenses-table.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionsTableComponent } from './transactions/transactions-table.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { TransactionsTableComponent } from './transactions/transactions-table.co
     BillsTableComponent,
     ExpensesTableComponent,
     TransactionsComponent,
-    TransactionsTableComponent
+    TransactionsTableComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

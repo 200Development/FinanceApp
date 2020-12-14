@@ -14,7 +14,7 @@ import { NavigationModule } from '../navigation/navigation.module';
   imports: [
     SharedModule,
     AccountRoutingModule,
-    NavigationModule  
+    NavigationModule
   ]
 })
 export class AccountModule { }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 
 
@@ -12,13 +13,15 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    GoogleChartsModule
   ],
   exports: [
     FormsModule,
     CommonModule,
     BrowserModule,
-    RouterModule
+    RouterModule,
+    GoogleChartsModule
   ]
 })
 export class SharedModule { }

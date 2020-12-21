@@ -4,17 +4,19 @@ import { AccountsTableComponent } from './accounts-table.component';
 import { AccountRoutingModule } from './account-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { NavigationModule } from '../navigation/navigation.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     AccountsComponent,
-    AccountsTableComponent
+    AccountsTableComponent,
   ],
   imports: [
     SharedModule,
     AccountRoutingModule,
-    NavigationModule
+    NavigationModule,
+    ReactiveFormsModule
   ]
 })
 export class AccountModule { }

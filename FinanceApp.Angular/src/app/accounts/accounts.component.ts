@@ -14,7 +14,10 @@ export class AccountsComponent{
     ];
     data = [
         [ 'Debt' , 200 ],
-        [ 'Food' , 45 ]
+        [ 'Food' , 45 ],
+        [ 'Insurance' , 235 ],
+        [ 'Vacation', 575 ],
+        [ 'Vehicle', 200 ]
     ];
     options = {
         colors: [

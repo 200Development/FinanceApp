@@ -7,54 +7,31 @@ namespace FinanceApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        
-        public DbSet<Account> Accounts { get; set; } 
-        public DbSet<Bill> Bills { get; set; } 
-        public DbSet<Expense> Expenses { get; set; } 
-        public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<Account> Accounts { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySQL("Server=localhost;Port=3306;Uid=jpFinanceUser;Pwd=kUuT_2hM.oHU7Rkti*hPuUhs9kyzje;Database=jpfinancial;Trusted_Connection=True;MultipleActiveResultSets=true");
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Account>()
-                .Property(p => p.Balance)
-                .HasColumnType("decimal(18,2)");
-            builder.Entity<Account>()
-                .Property(p => p.BalanceLimit)
-                .HasColumnType("decimal(18,2)");
-            builder.Entity<Account>()
-                .Property(p => p.BalanceSurplus)
-                .HasColumnType("decimal(18,2)");
-            builder.Entity<Account>()
-                .Property(p => p.PaycheckContribution)
-                .HasColumnType("decimal(18,2)");
-            builder.Entity<Account>()
-                .Property(p => p.RequiredSavings)
-                .HasColumnType("decimal(18,2)");
-            builder.Entity<Account>()
-                .Property(p => p.SuggestedPaycheckContribution)
-                .HasColumnType("decimal(18,2)");
-            
-
-            builder.Entity<Bill>()
-                .Property(p => p.AmountDue)
-                .HasColumnType("decimal(18,2)");
-            
-            builder.Entity<Expense>()
-                .Property(p => p.Amount)
-                .HasColumnType("decimal(18,2)");
-
-            builder.Entity<Transaction>()
-                .Property(p => p.Amount)
-                .HasColumnType("decimal(18,2)");
-
-
+            builder.Entity<Account>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Balance).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.BalanceLimit).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.BalanceSurplus).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.PaycheckContribution).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.RequiredSavings).HasColumnType("decimal(18,2)");
+                entity.Property(e => e.SuggestedPaycheckContribution).HasColumnType("decimal(18,2)");
+            });
         }
     }
 

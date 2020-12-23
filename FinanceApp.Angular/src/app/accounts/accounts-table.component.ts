@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AccountService } from '../services/account.service';
+import { Account } from './account';
 
 @Component({
     selector: 'accounts-table',
@@ -22,8 +23,23 @@ export class AccountsTableComponent implements OnInit{
     }
 
     onSubmit(){
-        var newAccount = this.newAccountForm.value;
-        console.log("account name: " + newAccount.name);
-        console.log("account balance: " + newAccount.balance);
+        var accountDTO = this.accountToDTO(this.newAccountForm.value);
+        
+        this.accountService.addAccount(accountDTO).subscribe(
+            account =>  console.log("New Account with Id " + account.Id + " was added to database")
+        );
+    }
+
+    accountToDTO(newAccount: any){
+        let accountDTO = new Account();
+        
+        accountDTO.Balance = newAccount.balance;
+        accountDTO.Name = newAccount.name;
+        accountDTO.IsDisposableIncomeAccount = false;
+        accountDTO.IsEmergencyFund = false;
+        accountDTO.IsMandatory = false;
+        accountDTO.IsAddNewAccount = false;
+
+        return accountDTO;
     }
 }

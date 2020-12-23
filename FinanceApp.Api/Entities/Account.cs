@@ -21,7 +21,6 @@ namespace FinanceApp.Api.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         [Required, StringLength(255)]
@@ -30,19 +29,19 @@ namespace FinanceApp.Api.Entities
         [Required, DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         public decimal Balance { get; set; }
 
-        [Required, DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true), Display(Name = "Paycheck Contribution")]
+        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true), Display(Name = "Paycheck Contribution")]
         public decimal PaycheckContribution { get; set; }
 
-        [Required, DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Suggested Paycheck Contribution")]
+        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Suggested Paycheck Contribution")]
         public decimal SuggestedPaycheckContribution { get; set; }
 
-        [Required, DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Required Savings")]
+        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Required Savings")]
         public decimal RequiredSavings { get; set; }
 
-        [Required, DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Surplus/Deficit")]
+        [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Surplus/Deficit")]
         public decimal BalanceSurplus { get; set; }
 
-        [Required, Display(Name = "Exclude From Surplus")]
+        [Display(Name = "Exclude From Surplus")]
         public bool ExcludeFromSurplus { get; set; }
 
         [Required, Display(Name = "Pool Account")]
@@ -57,7 +56,7 @@ namespace FinanceApp.Api.Entities
         [Required, Display(Name = "Mandatory Account?")]
         public bool IsMandatory { get; set; }
 
-        [Required, Display(Name = "Balance Limit"), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Balance Limit"), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public decimal BalanceLimit { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FinanceApp.Api.Entities;
-using FinanceApp.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
 {
@@ -11,13 +11,11 @@ namespace FinanceApp.Api.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly AccountRepository _accountRepository;
-
-
+        private readonly ApplicationDbContext _context;
 
         public AccountsController(ApplicationDbContext context)
         {
-            _accountRepository = new AccountRepository(context);
+            _context = context;
         }
 
 
@@ -33,20 +31,35 @@ namespace FinanceApp.Api.Controllers
             string filterColumn = null,
             string filterQuery = null)
         {
-            return await _accountRepository.GetAllAccountsAsync();
+            return await _context.Accounts.ToListAsync();
 
             
         }
 
+        // GET: api/Accounts/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Account>> GetAccount(long id)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+
+            if (account == null)
+                return NotFound();
+
+            return account;
+        }
+
         // POST: api/Accounts
         [HttpPost]
-        public ActionResult CreateAccount(Account account)
+        public async Task<ActionResult<Account>> CreateAccount([FromBody] Account account)
         {
             try
             {
-                _accountRepository.CreateAccount(account);
+                //account.UserId = _userId;
+                _context.Accounts.Add(account);
+                await _context.SaveChangesAsync();
 
-                return Ok("New Account Added");
+                //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+                return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, account);
             }
             catch (Exception e)
             {

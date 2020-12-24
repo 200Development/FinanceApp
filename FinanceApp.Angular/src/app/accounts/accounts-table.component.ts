@@ -20,13 +20,22 @@ export class AccountsTableComponent implements OnInit{
 
 
     ngOnInit() {
+        this.getAccounts();
+    }
+
+    getAccounts() {
+        this.accountService.getAccounts()
+        .subscribe(accounts => this.accounts = accounts);
     }
 
     onSubmit(){
         var accountDTO = this.accountToDTO(this.newAccountForm.value);
         
         this.accountService.addAccount(accountDTO).subscribe(
-            account =>  console.log("New Account with Id " + account.Id + " was added to database")
+            account =>  {
+                console.log("New Account with Id " + account.Id + " was added to database");
+                this.accounts.push(account);
+            }
         );
     }
 

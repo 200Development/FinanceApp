@@ -1,10 +1,14 @@
-<div class="container-fluid ">
-    <div class="row justify-content-center">
-        <ul class="nav justify-content-center">
-            <li class="nav-item" [routerLink]="['/dashboard']">Dashboard</li>
-            <li class="nav-item" [routerLink]="['/accounts']">Accounts</li>
-            <li class="nav-item" [routerLink]="['/bills']">Bills</li>
-            <li class="nav-item" [routerLink]="['/transactions']">Transactions</li>
-        </ul>
-    </div>
-</div>
+<ul class="nav nav-pills nav-stacked">
+    <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/dashboard']">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/accounts']">Accounts</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/bills']">Bills</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/transactions']">Transactions</a>
+    </li>
+</ul>

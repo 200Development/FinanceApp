@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+.vscode/launch.json
+FinanceApp.Angular/.vscode/launch.json

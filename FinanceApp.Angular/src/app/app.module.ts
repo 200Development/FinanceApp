@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './shared.module';
 import { AppComponent } from './app.component';
 import { LoginModule } from './login/login.module';
 import { DashboardModule } from './dashboard/dashboard.module';

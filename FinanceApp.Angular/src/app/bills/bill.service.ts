@@ -1,30 +1,30 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
-import { Account } from '../accounts/account';
+import { Bill } from '../bills/shared/bill';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
+export class BillService {
 
   constructor(private http: HttpClient) { }
-
-  private accountUrl = 'https://localhost:44313/api/accounts/';
-  headers = new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*' });
+  
+  private billUrl = 'https://localhost:44313/api/bills/';
+  headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
   httpOptions = {
     headers: this.headers,
     crossDomain: true
   };
 
-  getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.accountUrl)
+  getBills(): Observable<Bill[]> {
+    return this.http.get<Bill[]>(this.billUrl);
   };
 
-  addAccount(account: Account): Observable<Account> {
-    console.log("addAccount start");
-    return this.http.post<Account>(this.accountUrl, account, this.httpOptions);
+  addBill(bill: Bill): Observable<Bill> {
+    console.log("addBill start");
+    return this.http.post<Bill>(this.billUrl, bill, this.httpOptions);
   }
 
   public handleError(error: HttpErrorResponse) {

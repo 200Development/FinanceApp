@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../shared.module';
 import { NavigationComponent } from './navigation.component';
 import { NavigationRoutingModule } from './navigation-routing.module';
 

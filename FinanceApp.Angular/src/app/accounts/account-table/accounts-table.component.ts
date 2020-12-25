@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AccountService } from '../services/account.service';
-import { Account } from './account';
+import { AccountService } from '../account.service';
+import { Account } from '../shared/account';
 
 @Component({
     selector: 'accounts-table',

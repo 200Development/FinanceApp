@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BillService } from '../services/bill.service';
-import { Bill } from './bill';
-import { Categories } from '../enums/categories';
-import { Frequencies } from '../enums/frequencies';
+import { BillService } from '../../bills/bill.service';
+import { Bill } from '../shared/bill';
+import { Categories } from '../../enums/categories';
+import { Frequencies } from '../../enums/frequencies';
 
 @Component({
     selector: 'bills-table',

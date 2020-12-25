@@ -25,8 +25,7 @@ namespace FinanceApp.Controllers
             _expenseService = new ExpenseService(context, config, httpContextAccessor);
         }
 
-
-        [System.Web.Mvc.HttpGet]
+        [HttpGet]
         public async Task<IActionResult> Index(string sortOrder)
         {
             try

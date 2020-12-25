@@ -19,9 +19,9 @@ namespace FinanceApp.Api.Controllers
         }
 
 
-        // GET: api/Accounts
-        // GET: api/Accounts/?pageIndex=0&pageSize=10
-        // GET: api/Accounts/?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc
+        // GET: api/accounts
+        // GET: api/accounts/?pageIndex=0&pageSize=10
+        // GET: api/accounts/?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc
         [HttpGet]
         public async Task<IEnumerable<Account>> GetAccounts(
             int pageIndex = 0,
@@ -32,11 +32,9 @@ namespace FinanceApp.Api.Controllers
             string filterQuery = null)
         {
             return await _context.Accounts.ToListAsync();
-
-            
         }
 
-        // GET: api/Accounts/{id}
+        // GET: api/accounts/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(long id)
         {
@@ -48,14 +46,14 @@ namespace FinanceApp.Api.Controllers
             return account;
         }
 
-        // POST: api/Accounts
+        // POST: api/accounts
         [HttpPost]
-        public async Task<ActionResult<Account>> CreateAccount([FromBody] Account account)
+        public async Task<ActionResult<Account>> AddAccount([FromBody] Account account)
         {
             try
             {
                 //account.UserId = _userId;
-                _context.Accounts.Add(account);
+                await _context.Accounts.AddAsync(account);
                 await _context.SaveChangesAsync();
 
                 //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);

@@ -9,10 +9,9 @@ import { Account } from './account';
 })
 export class AccountsTableComponent implements OnInit{
 
-    accounts: Account[];
-
     constructor(private accountService: AccountService) { }
 
+    accounts: Account[];   
     newAccountForm = new FormGroup({
         name: new FormControl(''),
         balance: new FormControl(0)
@@ -27,6 +26,7 @@ export class AccountsTableComponent implements OnInit{
         this.accountService.getAccounts()
         .subscribe(accounts => this.accounts = accounts);
     }
+
 
     onSubmit(){
         var accountDTO = this.accountToDTO(this.newAccountForm.value);

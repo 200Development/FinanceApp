@@ -13,23 +13,23 @@
         </thead>
         <tbody>
             <tr>
-                <td>
+                <td scope="col">
                     <button class="button" type="submit">
                         <i class="fa fa-plus-circle addIcon"></i>
                     </button>
                 </td>
-                <td>
+                <td scope="col">
                     <input formControlName="name" type="text" class="form-control form-control-sm" id="newAccountName">
                 </td>
-                <td>
+                <td scope="col">
                     <input formControlName="balance" type="number" class="form-control form-control-sm"
                         id="newAccountBalance">
                 </td>
             </tr>
             <tr *ngFor="let account of accounts">
-                <td></td>
-                <td>{{account.name}}</td>
-                <td>{{account.balance | currency}}</td>
+                <td scope="col"></td>
+                <td scope="col">{{account.name}}</td>
+                <td scope="col">{{account.balance | currency}}</td>
             </tr>
         </tbody>
         <tfoot></tfoot>

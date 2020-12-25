@@ -5,7 +5,7 @@ import { ExpensesTableComponent } from '../expenses/expenses-table.component';
 import { BillRoutingModule } from './bill-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { NavigationModule } from '../navigation/navigation.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import { NavigationModule } from '../navigation/navigation.module';
   imports: [
     SharedModule,
     BillRoutingModule,
-    NavigationModule
+    NavigationModule,
+    ReactiveFormsModule
   ]
 })
 export class BillModule { }

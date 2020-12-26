@@ -1,9 +1,9 @@
 export class Bill {
-    Id: string;
-    UserId: string;
-    Name: string;
-    DueDate: Date;
-    AmountDue: number;
-    PaymentFrequency: any;
-    Category: any;
+    id: string;
+    userId: string;
+    name: string;
+    dueDate: Date;
+    amountDue: number;
+    paymentFrequency: any;
+    category: any;
 }

@@ -39,11 +39,11 @@ export class AccountBarGraphComponent implements OnInit {
         this.accountService.getAccounts()
             .subscribe(accounts => {
                 this.accounts = accounts;
-                this.data = this.accountsToChartData(); 
+                this.data = this.accountsToArray(); 
         });
     }
 
-    accountsToChartData() {
+    accountsToArray() {
         var columns = [];
         this.accounts.forEach(account => {
             var column = [account.name, account.balance];

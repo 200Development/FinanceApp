@@ -50,7 +50,7 @@ export class BillsTableComponent implements OnInit{
 
         this.billService.addBill(billDTO).subscribe(
             bill => {
-                console.log("New Bill with Id " + bill.Id + " was added to the database");
+                console.log("New Bill with Id " + bill.id + " was added to the database");
                 this.bills.push(bill);
             }
         );
@@ -59,11 +59,11 @@ export class BillsTableComponent implements OnInit{
     billToDTO(newBill: any){
         let billDTO = new Bill();
 
-        billDTO.Name = newBill.name;
-        billDTO.AmountDue = newBill.amountDue;
-        billDTO.DueDate = newBill.dueDate;
-        billDTO.PaymentFrequency = Frequencies[newBill.frequency];
-        billDTO.Category = Categories[newBill.category];
+        billDTO.name = newBill.name;
+        billDTO.amountDue = newBill.amountDue;
+        billDTO.dueDate = newBill.dueDate;
+        billDTO.paymentFrequency = Frequencies[newBill.frequency];
+        billDTO.category = Categories[newBill.category];
 
         return billDTO;
     }

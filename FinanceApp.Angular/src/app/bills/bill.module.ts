@@ -6,13 +6,15 @@ import { BillRoutingModule } from './bill-routing.module';
 import { SharedModule } from '../shared.module';
 import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BillBarGraphComponent } from './bill-graph/bill-bar-graph/bill-bar-graph.component';
 
 
 @NgModule({
   declarations: [
     BillsComponent,
     BillsTableComponent,
-    ExpensesTableComponent
+    ExpensesTableComponent,
+    BillBarGraphComponent
   ],
   imports: [
     SharedModule,

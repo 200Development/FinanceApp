@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../../account.service';
+import { Account } from '../../shared/account';
 
 @Component({
   selector: 'account-bar-graph',
@@ -7,32 +9,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountBarGraphComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private accountService: AccountService) { 
+      
   }
 
-  title = 'Account Balances';
-    type = 'ColumnChart';
-    columnNames = [
-        'Account',
-        'Balance'
-    ];
-    data = [
-        [ 'Debt' , 200 ],
-        [ 'Food' , 45 ],
-        [ 'Insurance' , 235 ],
-        [ 'Vacation', 575 ],
-        [ 'Vehicle', 200 ]
-    ];
-    options = {
-        colors: [
-            '#4b53d0',
-            '#5436da'
-        ],
-        is3D: true,
-        backgroundColor: '#212529'
-    };
-    width: 1200;
-    height: 500;
+  accounts: Account[];
+  columns: any[];
+
+  title: string = 'Account Balances';
+  type: string = 'ColumnChart';
+  columnNames: any[] = [ 'Account', 'Balance' ];
+  data: any[];
+  options: {} = {
+    colors: [
+        '#4b53d0',
+        '#5436da'
+    ],
+    is3D: true,
+    backgroundColor: '#212529'
+  };
+  height: number;
+  width: number;
+
+    ngOnInit(): void {
+        this.getAccounts();
+    }
+
+    getAccounts() {
+        this.accountService.getAccounts()
+            .subscribe(accounts => {
+                this.accounts = accounts;
+                this.data = this.accountsToChartData(); 
+        });
+    }
+
+    accountsToChartData() {
+        var columns = [];
+        this.accounts.forEach(account => {
+            var column = [account.name, account.balance];
+            columns.push(column);
+        });
+
+        return columns;
+    }
 }

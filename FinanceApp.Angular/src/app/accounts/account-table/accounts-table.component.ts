@@ -33,7 +33,7 @@ export class AccountsTableComponent implements OnInit{
         
         this.accountService.addAccount(accountDTO).subscribe(
             account =>  {
-                console.log("New Account with Id " + account.Id + " was added to database");
+                console.log("New Account with Id " + account.id + " was added to database");
                 this.accounts.push(account);
             }
         );
@@ -42,12 +42,12 @@ export class AccountsTableComponent implements OnInit{
     accountToDTO(newAccount: any){
         let accountDTO = new Account();
         
-        accountDTO.Balance = newAccount.balance;
-        accountDTO.Name = newAccount.name;
-        accountDTO.IsDisposableIncomeAccount = false;
-        accountDTO.IsEmergencyFund = false;
-        accountDTO.IsMandatory = false;
-        accountDTO.IsAddNewAccount = false;
+        accountDTO.balance = newAccount.balance;
+        accountDTO.name = newAccount.name;
+        accountDTO.isDisposableIncomeAccount = false;
+        accountDTO.isEmergencyFund = false;
+        accountDTO.isMandatory = false;
+        accountDTO.isAddNewAccount = false;
 
         return accountDTO;
     }

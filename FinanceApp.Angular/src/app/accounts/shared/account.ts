@@ -1,15 +1,15 @@
 export class Account {
-    Id: number;
-    Name: string;
-    Balance: number;
-    PaycheckContribution: number;
-    SuggestedPaycheckContribution: number;
-    RequiredSavings: number;
-    BalanceLimit: number;
-    BalanceSurplus: number;
-    IsDisposableIncomeAccount: boolean;
-    IsAddNewAccount: boolean;
-    IsEmergencyFund: boolean;
-    IsMandatory: boolean;
-    ExcludeFromSurplus: boolean;
+    id: number;
+    name: string;
+    balance: number;
+    paycheckContribution: number;
+    suggestedPaycheckContribution: number;
+    requiredSavings: number;
+    balanceLimit: number;
+    balanceSurplus: number;
+    isDisposableIncomeAccount: boolean;
+    isAddNewAccount: boolean;
+    isEmergencyFund: boolean;
+    isMandatory: boolean;
+    excludeFromSurplus: boolean;
 }

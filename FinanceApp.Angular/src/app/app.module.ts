@@ -12,6 +12,7 @@ import { HomeModule } from './home/home.module';
 import { RegisterModule } from './register/register.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -29,7 +30,9 @@ import { BrowserModule } from '@angular/platform-browser';
     TransactionModule,
     RegisterModule,
     HomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -196,3 +196,5 @@ ul.pagination li a:hover:not(.active)
 .paginationText {
     padding: 0 8px;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

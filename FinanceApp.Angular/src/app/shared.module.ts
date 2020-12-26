@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { GoogleChartsModule } from 'angular-google-charts';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -16,14 +17,18 @@ import { GoogleChartsModule } from 'angular-google-charts';
     CommonModule,
     FormsModule,
     RouterModule,
-    GoogleChartsModule
+    GoogleChartsModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   exports: [
     FormsModule,
     CommonModule,
     BrowserModule,
     RouterModule,
-    GoogleChartsModule
+    GoogleChartsModule,
+    MatButtonModule,
+    MatIconModule,
   ]
 })
 export class SharedModule { }

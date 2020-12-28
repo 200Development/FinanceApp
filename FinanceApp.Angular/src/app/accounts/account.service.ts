@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { Account } from '../accounts/shared/account';
+import { AccountDTO } from './shared/accountDTO';
 
 
 @Injectable({
@@ -12,6 +13,7 @@ export class AccountService {
   constructor(private http: HttpClient) { }
 
   private accountUrl = 'https://localhost:44313/api/accounts/';
+  private accountDtosUrl = 'https://localhost:44313/api/accounts/dto';
   headers = new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*' });
   httpOptions = {
     headers: this.headers,
@@ -22,10 +24,14 @@ export class AccountService {
     return this.http.get<Account[]>(this.accountUrl)
   };
 
+  getAccountDtos(): Observable<AccountDTO[]> {
+    return this.http.get<AccountDTO[]>(this.accountDtosUrl)
+  };
+
   addAccount(account: Account): Observable<Account> {
     console.log("addAccount start");
     return this.http.post<Account>(this.accountUrl, account, this.httpOptions);
-  }
+  };
 
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -42,4 +48,4 @@ export class AccountService {
     return throwError(
       'Something bad happened; please try again later.');
   }
-}
+};

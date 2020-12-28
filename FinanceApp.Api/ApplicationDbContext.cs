@@ -1,4 +1,4 @@
-﻿using FinanceApp.Api.Entities;
+﻿using FinanceApp.Api.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

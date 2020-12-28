@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FinanceApp.Api.Entities;
 using FinanceApp.Api.Enums;
 using FinanceApp.API.Enums;
+using FinanceApp.Api.Models.DTOs;
+using FinanceApp.Api.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -65,7 +66,7 @@ namespace FinanceApp.Api.Controllers
             }
         }
 
-        private Bill MapToBill(BillDTO dto)
+        private Bill MapToBill(BillDto dto)
         {
             var bill = new Bill();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using FinanceApp.Api.Entities;
+using FinanceApp.Api.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Api.Repositories

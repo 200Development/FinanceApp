@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 using FinanceApp.Api.Enums;
 using FinanceApp.API.Enums;
 
-namespace FinanceApp.Api.Entities
+namespace FinanceApp.Api.Models.Entities
 {
     public class Bill 
     {
@@ -27,6 +26,8 @@ namespace FinanceApp.Api.Entities
         [Display(Name = "Due Date")]
         public DateTime DueDate { get; set; }
 
+        public decimal PayDeduction { get; set; }
+
         [Required, DataType(DataType.Currency)]
         [Display(Name = "Amount Due")]
         public decimal AmountDue { get; set; }
@@ -39,9 +40,9 @@ namespace FinanceApp.Api.Entities
         [Required, Display(Name = "Category")]
         public CategoriesEnum Category { get; set; }
 
-        //public int? AccountId { get; set; }
+        public int? AccountId { get; set; }
 
-        //public Account Account { get; set; }
+        public Account Account { get; set; }
     }
 
     public class BillDTO : Bill

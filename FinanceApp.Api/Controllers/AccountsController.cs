@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using FinanceApp.Api.Entities;
+using FinanceApp.Api.Models.DTOs;
+using FinanceApp.Api.Models.Entities;
+using FinanceApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -32,6 +35,31 @@ namespace FinanceApp.Api.Controllers
             string filterQuery = null)
         {
             return await _context.Accounts.ToListAsync();
+        }
+
+        // GET: api/accounts/dto
+        [HttpGet]
+        [Route("dto")]
+        public async Task<IEnumerable<AccountDto>> GetAccountDtos()
+        {
+            var dtos = new List<AccountDto>();
+            var accounts = await _context.Accounts.ToListAsync();
+            var bills = await _context.Bills.ToListAsync();
+            var payDeductionDict = CalculationsService.GetPaycheckContributionsDict(accounts, bills);
+
+            foreach (var account in accounts)
+            {
+                var dto = new AccountDto();
+                dto.Account = account;
+                dto.Bills = await bills.Where(b => b.AccountId == account.Id).ToListAsync();
+                dto.BillSum = dto.Bills.Sum(b => b.AmountDue);
+
+                payDeductionDict.TryGetValue(account.Name, out var payDeduction);
+
+                dto.PayDeduction = payDeduction;
+                dtos.Add(dto);
+            }
+            return dtos;
         }
 
         // GET: api/accounts/{id}

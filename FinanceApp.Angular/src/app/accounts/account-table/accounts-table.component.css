@@ -1,47 +1,144 @@
+/* General */
 table {
     width: 100%;
   }
   
-  tr.example-detail-row {
+  tr.account-row:not(.expanded-row):active {
+    background: #2D3339;
+  }
+  
+  tr.account-row:not(.expanded-row):hover {
+    background: #2D3339;
+  }
+  
+  tr.detail-row {
     height: 0;
   }
   
-  tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
+
+  /* IDs */
+  #account-bills {
+    margin-left: 24px;
+  }
+
+  #assigned-bills-lbl {
+    font-weight: bold;
+    font-size: 22px;
+    margin: 0 0 0 24px;
   }
   
-  tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
+
+  /* CLASSES */
+  .account-bills {
+    margin: 4px 4px 0 28px;
   }
-  
-  .example-element-row td {
-    border-bottom-width: 0;
+
+  .account-bills-total {
+    opacity: 0.5;
   }
-  
-  .example-element-detail {
+
+  .account-detail {
     overflow: hidden;
     display: flex;
+    height: 165px;
   }
-  
-  .example-element-diagram {
-    min-width: 80px;
-    border: 2px solid black;
-    padding: 8px;
+
+  .account-detail-row {
+    height: 85px;
+    width: 125px;
+  }
+
+  .account-diagram {
+    min-width: 120px;
+    padding: 16px 0;
     font-weight: lighter;
-    margin: 8px 0;
+    margin: 16px 0 0 0;
     height: 104px;
   }
   
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
+  .account-payDeduction {
+    font-weight: lighter;
+    font-size: 12px;
     line-height: normal;
   }
-  
-  .example-element-description {
-    padding: 16px;
+
+  .account-row td {
+    border-bottom-width: 0;
+  }
+
+  .bill-card {
+    width: 235px; 
+    height: 125px;
+    box-shadow: -1px 0 3px #38E4AE;
+  }
+
+  .bill-card-body {
+    text-align: center;
+    padding: 4px;
+    min-height: 65px;
+    font-size: 1.0em; 
+    font-weight: normal; 
+    margin: 0 0 0 8px;
+    color: #38E4AE;
   }
   
-  .example-element-description-attribution {
-    opacity: 0.5;
+  .bill-card-footer {
+    text-align: center;
+    padding: 4px;
+    font-size: 1.1em;
+    font-weight: lighter;
+    color: #AFA060;
   }
+
+  .bill-card-header {
+    text-align: center;
+    padding: 4px;
+    font-size: 1.5em;
+    font-weight: normal;
+    color: #AFA060;
+  }
+
+  .bill-card-header-span {
+    margin-left: 4px;
+    padding: 2px;
+    font-weight: 600;
+  }
+
+  .bill-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 8px 0 0 0;
+  }
+  
+  .detail-labels {
+    color: #AFA060;
+    font-weight:600; 
+    text-align: left;
+  }
+
+  .detail-values {
+    color: #38E4AE;
+    text-align: right;
+  }
+
+  .mat-table {
+    background: #212529;
+  }
+
+  .newAccountColumn {
+    padding: 6px;
+  }
+  
+  .newAccountDiv {
+    margin-left: 24px;
+  }
+
+  .text-centered {
+    text-align: center;
+  }
+
+  .vertical-middle {
+    vertical-align: -webkit-baseline-middle;
+  }
+ 
+  

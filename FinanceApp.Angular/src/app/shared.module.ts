@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -18,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     RouterModule,
     GoogleChartsModule,
+    MatTableModule,
     MatButtonModule,
     MatIconModule,
   ],
@@ -27,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserModule,
     RouterModule,
     GoogleChartsModule,
+    MatTableModule,
     MatButtonModule,
     MatIconModule,
   ]

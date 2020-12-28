@@ -3,6 +3,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { FormGroup, FormControl } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { Account } from '../shared/account';
+import { MatTableDataSource } from '@angular/material/table';
+import { AccountDTO } from '../shared/accountDTO';
 
 @Component({
     selector: 'accounts-table',
@@ -20,7 +22,12 @@ export class AccountsTableComponent implements OnInit{
 
     constructor(private accountService: AccountService) { }
 
-    accounts: Account[];   
+    dataSource = new MatTableDataSource<AccountDTO>();   
+    dtos: AccountDTO[];
+    columnProps: string[];
+    columnsToDisplay = ['name','balance'];
+    expandedDto: AccountDTO | null;
+
     newAccountForm = new FormGroup({
         name: new FormControl(''),
         balance: new FormControl(0)
@@ -28,22 +35,23 @@ export class AccountsTableComponent implements OnInit{
 
 
     ngOnInit() {
-        this.getAccounts();
+        this.getAccountDtos();
     }
 
-    getAccounts() {
-        this.accountService.getAccounts()
-        .subscribe(accounts => this.accounts = accounts);
+    getAccountDtos() {
+        this.accountService.getAccountDtos()
+        .subscribe((dto: AccountDTO[]) => {
+            this.dataSource.data = dto;
+        });
     }
-
 
     onSubmit(){
         var accountDTO = this.accountToDTO(this.newAccountForm.value);
         
         this.accountService.addAccount(accountDTO).subscribe(
-            account =>  {
-                console.log("New Account with Id " + account.id + " was added to database");
-                this.accounts.push(account);
+            (account: Account) =>  {
+                console.log("New Account added to database");
+                this.getAccountDtos();
             }
         );
     }

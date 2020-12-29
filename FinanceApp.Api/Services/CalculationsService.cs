@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using FinanceApp.API.Enums;
 using FinanceApp.Api.Models.Entities;
+using Microsoft.VisualBasic;
+using X.PagedList;
 
 namespace FinanceApp.API.Services
 {
@@ -316,11 +318,11 @@ namespace FinanceApp.API.Services
         //    }
         //}
 
-        public static Dictionary<string, decimal> GetPaycheckContributionsDict(List<Account> accounts, List<Bill> bills)
+        public static Dictionary<long?, decimal> GetPayDeductionDict(List<Account> accounts, List<Bill> bills)
         {
             try
             {
-                var accountContribution = new Dictionary<string, decimal>();
+                var accountContribution = new Dictionary<long?, decimal>();
 
                 //Zeros out all accounts req paycheck contributions
                 foreach (var account in accounts)
@@ -341,65 +343,66 @@ namespace FinanceApp.API.Services
                     //TODO: Suggested contribution assumes payday twice a month.  need to update to include other options
                     if (bill.Account == null) continue;
                     var contribution = 0.0m;
+                    
                     switch (bill.PaymentFrequency)
                     {
                         case FrequencyEnum.Annually:
                             contribution = billTotal / 24;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.BiAnnually:
                             contribution = billTotal / 12;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.Quarterly:
                             contribution = billTotal / 6;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.BiMonthly: // every 2 months
                             contribution = billTotal / 4;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.Monthly:
                             contribution = billTotal / 2;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.Weekly:
                             contribution = billTotal * 2;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.BiWeekly:
                             contribution = billTotal;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                         case FrequencyEnum.Daily:
                             break;
                         default:
                             contribution = billTotal / 2;
-                            if (accountContribution.ContainsKey(bill.Account.Name))
-                                accountContribution[bill.Account.Name] += contribution;
+                            if (accountContribution.ContainsKey(bill.AccountId!))
+                                accountContribution[bill.AccountId] += contribution;
                             else
-                                accountContribution.Add(bill.Account.Name, contribution);
+                                accountContribution.Add(bill.AccountId, contribution);
                             break;
                     }
                 }
@@ -485,7 +488,7 @@ namespace FinanceApp.API.Services
             }
         }
 
-        public static decimal? GetAccountPaycheckPercentage(Dictionary<string, decimal> payDeductionDict, decimal payDeduction)
+        public static decimal? GetAccountPaycheckPercentage(Dictionary<long?, decimal> payDeductionDict, decimal payDeduction)
         {
             var totalPaycheckContributions = payDeductionDict.Values.Sum();
             var paycheckContribution = 0.0m;
@@ -495,6 +498,87 @@ namespace FinanceApp.API.Services
 
 
             return paycheckContribution;
+        }
+
+        public static Dictionary<long?, decimal> GetRequiredSavingsDict(Dictionary<long?, decimal> payDeductionDict,
+            IList<Bill> bills)
+        {
+            try
+            {
+                var requiredSavingsDict = new Dictionary<long?, decimal>();
+
+                if (!bills.Any())
+                    return requiredSavingsDict;
+
+                foreach (var dict in payDeductionDict)
+                {
+                    var accountBills = bills.Where(b => b.AccountId == dict.Key).ToList();
+
+                    if (!accountBills.Any()) continue;
+
+                    foreach (var bill in accountBills)
+                    {
+                        var paydaysLeft = GetPaydays(bill);
+                        var pdTest = PayPeriodsTilDue(bill.DueDate);
+
+
+                        if (requiredSavingsDict.ContainsKey(bill.AccountId!)) // null msg suppressed with '!'.  bill requires accountId to be in dictionary
+                            requiredSavingsDict[bill.AccountId] += bill.AmountDue - dict.Value * paydaysLeft;
+                        else
+                            requiredSavingsDict.Add(bill.AccountId, bill.AmountDue - dict.Value * paydaysLeft);
+                    }
+                }
+
+                return requiredSavingsDict;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private static int GetPaydays(Bill bill)
+        {
+            var payFrequency = GetPayFrequency();
+            var nextPayday = GetNextPayday();
+            var dueDate = bill.DueDate;
+            var paychecks = 0;
+
+
+            while (dueDate >= nextPayday)
+            {
+                paychecks++;
+                nextPayday = GetNextPayday(payFrequency, nextPayday);
+            }
+
+            return paychecks;
+        }
+
+        private static FrequencyEnum GetPayFrequency()
+        {
+            return FrequencyEnum.BiWeekly;
+        }
+
+        private static DateTime GetNextPayday()
+        {
+            return DateTime.Today.AddDays(10);
+        }
+
+        private static DateTime GetNextPayday(FrequencyEnum frequency, DateTime lastPayday)
+        {
+            return frequency switch
+            {
+                FrequencyEnum.Annually => lastPayday.AddYears(1),
+                FrequencyEnum.BiAnnually => lastPayday.AddMonths(6),
+                FrequencyEnum.Quarterly => lastPayday.AddMonths(3),
+                FrequencyEnum.Monthly => lastPayday.AddMonths(1),
+                FrequencyEnum.BiMonthly => lastPayday.AddDays(14),// should this be 2 specific days every month?
+                FrequencyEnum.BiWeekly => lastPayday.AddDays(14),
+                FrequencyEnum.Weekly => lastPayday.AddDays(7),
+                FrequencyEnum.Daily => lastPayday.AddDays(1),
+                _ => throw new ArgumentOutOfRangeException(nameof(frequency), frequency, "Frequency is not an option"),
+            };
         }
     }
 }

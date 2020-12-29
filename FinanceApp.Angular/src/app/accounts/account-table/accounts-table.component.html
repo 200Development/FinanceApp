@@ -55,18 +55,26 @@
                         </tr>
                         <tr class="account-detail-table-row">
                             <td class="detail-labels">
-                                Surplus
+                                Due Before Next Paycheck
                             </td>
                             <td class="detail-values">
-                                {{dto.account.balanceSurplus | currency }}
+                                {{dto.expensesBeforeNextPaycheck | currency }}
                             </td>
                         </tr>
                         <tr class="account-detail-table-row">
                             <td class="detail-labels">
-                                Expenses before next payday
+                                Required Savings
                             </td>
                             <td class="detail-values">
-                                {{dto.expensesBeforeNextPaycheck | currency }}
+                                {{dto.requiredSavings | currency }}
+                            </td>
+                        </tr>
+                        <tr class="account-detail-table-row">
+                            <td class="detail-labels">
+                                Balance Surplus
+                            </td>
+                            <td class="detail-values">
+                                {{dto.balanceSurplus | currency }}
                             </td>
                         </tr>
                     </table>

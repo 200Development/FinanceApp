@@ -44,31 +44,54 @@ namespace FinanceApp.Api.Controllers
         {
             var dto = new DTO();
             var accountDtos = new List<AccountDto>();
-            var accounts = await _context.Accounts.ToListAsync();
-            var bills = await _context.Bills.ToListAsync();
-            var payDeductionDict = CalculationsService.GetPaycheckContributionsDict(accounts, bills);
-
-            foreach (var account in accounts)
+            try
             {
-                var newDto = new AccountDto();
-                newDto.Account = account;
-                newDto.Bills = await bills.Where(b => b.AccountId == account.Id).ToListAsync();
-                newDto.BillSum = newDto.Bills.Sum(b => b.AmountDue);
+                var accounts = await _context.Accounts.ToListAsync();
+                var bills = await _context.Bills.ToListAsync();
+                var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, bills);
+                var requiredSavingsDict = CalculationsService.GetRequiredSavingsDict(payDeductionDict, bills);
+                var sumOfAccountBalances = 0.0m;
+                var totalSurplus = 0.0m;
 
-                payDeductionDict.TryGetValue(account.Name, out var payDeduction);
+                foreach (var account in accounts)
+                {
+                    var newDto = new AccountDto();
+                    newDto.Account = account;
+                    newDto.Bills = await bills.Where(b => b.AccountId == account.Id).ToListAsync();
+                    newDto.BillSum = newDto.Bills.Sum(b => b.AmountDue);
 
-                newDto.PayDeduction = payDeduction;
-                newDto.PaycheckPercentage = CalculationsService.GetAccountPaycheckPercentage(payDeductionDict, payDeduction);
-                newDto.ExpensesBeforeNextPaycheck = 63.43m;
-                accountDtos.Add(newDto);
+                    payDeductionDict.TryGetValue(account.Id, out var payDeduction);
+
+                    newDto.PayDeduction = payDeduction;
+                    newDto.PaycheckPercentage = CalculationsService.GetAccountPaycheckPercentage(payDeductionDict, payDeduction);
+                    newDto.ExpensesBeforeNextPaycheck = 63.43m;
+
+                    requiredSavingsDict.TryGetValue(account.Id, out var accountRequiredSavings);
+                    
+                    newDto.RequiredSavings = accountRequiredSavings;
+
+                    var accountSurplus = account.Balance - accountRequiredSavings;
+                    newDto.BalanceSurplus = accountSurplus;
+
+                    totalSurplus += accountSurplus;
+                    sumOfAccountBalances += account.Balance;
+
+
+                    accountDtos.Add(newDto);
+                }
+
+                dto.AccountDtos = accountDtos;
+                dto.SumOfAccountBalances = accounts.Sum(a => a.Balance);
+                dto.TotalSurplus = totalSurplus;
+
+
+                return dto;
             }
-
-            dto.AccountDtos = accountDtos;
-            dto.SumOfAccountBalances = accounts.Sum(a => a.Balance);
-            dto.TotalSurplus = accounts.Sum(a => a.BalanceSurplus);
-
-
-            return dto;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         // GET: api/accounts/{id}

@@ -14,7 +14,7 @@ namespace FinanceApp.Api.Models.Entities
 
 
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string UserId { get; set; }
 
@@ -40,7 +40,7 @@ namespace FinanceApp.Api.Models.Entities
         [Required, Display(Name = "Category")]
         public CategoriesEnum Category { get; set; }
 
-        public int? AccountId { get; set; }
+        public long? AccountId { get; set; }
 
         public Account Account { get; set; }
     }

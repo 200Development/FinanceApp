@@ -19,7 +19,7 @@ namespace FinanceApp.Api.Models.Entities
         }
 
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string UserId { get; set; }
 

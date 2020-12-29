@@ -32,7 +32,7 @@ namespace FinanceApp.Api.Controllers
             string filterColumn = null,
             string filterQuery = null)
         {
-            return await _context.Bills.ToListAsync();
+            return await _context.Bills.Include(b => b.Account).ToListAsync();
         }
 
         // GET: api/bills/{id}

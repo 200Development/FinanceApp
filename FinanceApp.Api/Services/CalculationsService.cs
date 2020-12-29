@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using FinanceApp.API.Enums;
 using FinanceApp.Api.Models.Entities;
-using Microsoft.Extensions.Logging;
 
 namespace FinanceApp.API.Services
 {
@@ -318,7 +316,7 @@ namespace FinanceApp.API.Services
         //    }
         //}
 
-        public static  Dictionary<string, decimal> GetPaycheckContributionsDict(List<Account> accounts, List<Bill> bills)
+        public static Dictionary<string, decimal> GetPaycheckContributionsDict(List<Account> accounts, List<Bill> bills)
         {
             try
             {
@@ -485,6 +483,18 @@ namespace FinanceApp.API.Services
             catch (Exception e)
             {
             }
+        }
+
+        public static decimal? GetAccountPaycheckPercentage(Dictionary<string, decimal> payDeductionDict, decimal payDeduction)
+        {
+            var totalPaycheckContributions = payDeductionDict.Values.Sum();
+            var paycheckContribution = 0.0m;
+
+            if (totalPaycheckContributions != 0)
+                paycheckContribution = (payDeduction / totalPaycheckContributions);
+
+
+            return paycheckContribution;
         }
     }
 }

@@ -37,7 +37,7 @@
             <div class="account-detail" [@detailExpand]="dto == expandedDto ? 'expanded' : 'collapsed'">
                 <div class="account-diagram">
                     <table>
-                        <tr style="margin: 0 0 16px 0">
+                        <tr class="account-detail-table-row">
                             <td class="detail-labels">
                                 Payday deduction
                             </td>
@@ -45,7 +45,7 @@
                                 {{dto.payDeduction | currency }}
                             </td>
                         </tr>
-                        <tr style="margin: 0 0 16px 0">
+                        <tr class="account-detail-table-row">
                             <td class="detail-labels">
                                 Paycheck %
                             </td>
@@ -53,7 +53,7 @@
                                 {{ dto.paycheckPercentage | percent: '2.2-2' }}
                             </td>
                         </tr>
-                        <tr style="margin: 0 0 16px 0">
+                        <tr class="account-detail-table-row">
                             <td class="detail-labels">
                                 Surplus
                             </td>
@@ -61,7 +61,7 @@
                                 {{dto.account.balanceSurplus | currency }}
                             </td>
                         </tr>
-                        <tr style="margin: 0 0 16px 0">
+                        <tr class="account-detail-table-row">
                             <td class="detail-labels">
                                 Expenses before next payday
                             </td>
@@ -103,11 +103,8 @@
                                     
                                 </div>
                                 <div class="card-footer text-centered bill-card-footer">
-                                    <label style="
-                                    font-weight: 500; 
-                                    font-size: 1.0em; 
-                                    margin: 0 4px;">Next due date</label>
-                                    <span style="font-size: 1.0em; font-weight: lighter;">{{bill.dueDate
+                                    <label class="bill-due-date-label">Next due date</label>
+                                    <span class="bill-due-date-span">{{bill.dueDate
                                         | date}} </span>
                                 </div>
                             </div>

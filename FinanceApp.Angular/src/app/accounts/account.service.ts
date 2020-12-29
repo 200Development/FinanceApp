@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { Account } from '../accounts/shared/account';
-import { AccountDTO } from './shared/accountDTO';
+import { AccountDTO, DTO } from './shared/accountDTO';
 
 
 @Injectable({
@@ -24,8 +24,8 @@ export class AccountService {
     return this.http.get<Account[]>(this.accountUrl)
   };
 
-  getAccountDtos(): Observable<AccountDTO[]> {
-    return this.http.get<AccountDTO[]>(this.accountDtosUrl)
+  getAccountDto(): Observable<DTO> {
+    return this.http.get<DTO>(this.accountDtosUrl)
   };
 
   addAccount(account: Account): Observable<Account> {

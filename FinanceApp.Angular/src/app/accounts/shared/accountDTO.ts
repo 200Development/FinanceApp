@@ -7,4 +7,12 @@ export class AccountDTO {
     payDeduction: number;
     expensesBeforeNextPaycheck: number;
     paycheckPercentage: number;
+    balanceSurplus: number;
+    requiredSavings: number;
+}
+
+export class DTO {
+    accountDtos: AccountDTO[];
+    sumOfAccountBalances: number;
+    totalSurplus: number;
 }

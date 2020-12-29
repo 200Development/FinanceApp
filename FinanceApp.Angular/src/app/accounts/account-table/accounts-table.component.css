@@ -48,6 +48,10 @@ table {
     width: 125px;
   }
 
+  .account-detail-table-row {
+    margin: 0 0 16px 0;
+  }
+
   .account-diagram {
     min-width: 120px;
     padding: 16px 0;
@@ -102,6 +106,17 @@ table {
     margin-left: 4px;
     padding: 2px;
     font-weight: 600;
+  }
+
+  .bill-due-date-label {
+    font-weight: 500; 
+    font-size: 1.0em; 
+    margin: 0 4px;
+  }
+  
+  .bill-due-date-span {
+    font-size: 1.0em; 
+    font-weight: lighter;
   }
 
   .bill-list {

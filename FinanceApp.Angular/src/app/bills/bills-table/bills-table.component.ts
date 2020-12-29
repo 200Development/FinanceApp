@@ -17,13 +17,16 @@ export class BillsTableComponent implements OnInit{
     frequencyDisplay: any = {'0': 'Annually', '1': 'Bi-Annually', '2': 'Quarterly', '3': 'Monthly', '4': 'Bi-Monthly', '5': 'Bi-Weekly', '6': 'Weekly', '7': 'Daily'};
     categories = Categories;
     bills: Bill[];
+    accounts: Account[];
+    selectedAccountId: number;
 
     newBillForm = new FormGroup({
         name: new FormControl(''),
         amountDue: new FormControl(0),
         dueDate: new FormControl(),
         frequency: new FormControl(),
-        category: new FormControl()
+        category: new FormControl(),
+        account: new FormControl()
     });
 
     frequencyKeys() : Array<string> {
@@ -35,14 +38,20 @@ export class BillsTableComponent implements OnInit{
         var keys = Object.keys(this.categories);
         return keys.slice(keys.length / 2);
     }
-    
+
     ngOnInit() {
         this.getBills();
+        this.getAccounts();
     }
 
     getBills(){
         this.billService.getBills()
         .subscribe(bills => this.bills = bills);
+    }
+
+    getAccounts(){
+        this.billService.getAccounts()
+        .subscribe(accounts => this.accounts = accounts );
     }
 
     onSubmit(){
@@ -60,11 +69,16 @@ export class BillsTableComponent implements OnInit{
         let billDTO = new Bill();
 
         billDTO.name = newBill.name;
-        billDTO.amountDue = newBill.amountDue;
+        billDTO.amountDue = parseFloat(newBill.amountDue);
         billDTO.dueDate = newBill.dueDate;
         billDTO.paymentFrequency = Frequencies[newBill.frequency];
         billDTO.category = Categories[newBill.category];
+        billDTO.accountId = parseInt(newBill.account);
 
         return billDTO;
     }
+
+    getAccountId(account: number) {
+        this.selectedAccountId = account;
+      }
 }

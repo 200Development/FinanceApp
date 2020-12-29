@@ -4,7 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { Account } from '../shared/account';
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountDTO } from '../shared/accountDTO';
+import { AccountDTO, DTO } from '../shared/accountDTO';
 
 @Component({
     selector: 'accounts-table',
@@ -23,10 +23,10 @@ export class AccountsTableComponent implements OnInit{
     constructor(private accountService: AccountService) { }
 
     dataSource = new MatTableDataSource<AccountDTO>();   
-    dtos: AccountDTO[];
-    columnProps: string[];
     columnsToDisplay = ['name','balance'];
     expandedDto: AccountDTO | null;
+    public totalBalance: number;
+    public totalSurplus: number;
 
     newAccountForm = new FormGroup({
         name: new FormControl(''),
@@ -35,13 +35,15 @@ export class AccountsTableComponent implements OnInit{
 
 
     ngOnInit() {
-        this.getAccountDtos();
+        this.getAccountDto();
     }
 
-    getAccountDtos() {
-        this.accountService.getAccountDtos()
-        .subscribe((dto: AccountDTO[]) => {
-            this.dataSource.data = dto;
+    getAccountDto() {
+        this.accountService.getAccountDto()
+        .subscribe((dto: DTO) => {
+            this.dataSource.data = dto.accountDtos;
+            this.totalBalance = dto.sumOfAccountBalances;
+            this.totalSurplus = dto.totalSurplus;
         });
     }
 
@@ -51,7 +53,7 @@ export class AccountsTableComponent implements OnInit{
         this.accountService.addAccount(accountDTO).subscribe(
             (account: Account) =>  {
                 console.log("New Account added to database");
-                this.getAccountDtos();
+                this.getAccountDto();
             }
         );
     }

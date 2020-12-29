@@ -12,6 +12,7 @@ export class BillService {
   constructor(private http: HttpClient) { }
   
   private billUrl = 'https://localhost:44313/api/bills/';
+  private accountUrl = 'https://localhost:44313/api/accounts/';
   headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
   httpOptions = {
     headers: this.headers,
@@ -21,6 +22,10 @@ export class BillService {
   getBills(): Observable<Bill[]> {
     return this.http.get<Bill[]>(this.billUrl);
   };
+
+  getAccounts(): Observable<Account[]> {
+    return this.http.get<Account[]>(this.accountUrl);
+  }
 
   addBill(bill: Bill): Observable<Bill> {
     console.log("addBill start");

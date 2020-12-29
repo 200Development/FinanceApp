@@ -8,6 +8,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule
   ],
   exports: [
     FormsModule,
@@ -32,6 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule
   ]
 })
 export class SharedModule { }

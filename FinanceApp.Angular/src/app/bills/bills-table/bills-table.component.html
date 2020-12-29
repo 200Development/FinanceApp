@@ -8,6 +8,7 @@
             <th scope="col">Next Due Date</th>
             <th scope="col">Frequency</th>
             <th scope="col">Category</th>
+            <th scope="col">Cash Account</th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +39,12 @@
                     <option *ngFor="let category of categoryKeys()">{{category}}</option>
                 </select>
             </td>
+            <td>
+                <select formControlName="account">
+                    <option disabled>Select Account</option>
+                    <option *ngFor="let account of accounts" value="{{account.id}}">{{account.name}}</option>
+                </select>
+            </td>
         </tr>
         <tr *ngFor="let bill of bills">
             <td></td>
@@ -46,6 +53,7 @@
             <td>{{ bill.dueDate | date }}</td>
             <td>{{ frequencies[bill.paymentFrequency] }}</td>
             <td>{{ categories[bill.category] }}</td>
+            <td>{{ bill.account?.name | titlecase }}</td>
         </tr>
     </tbody>
 </table>

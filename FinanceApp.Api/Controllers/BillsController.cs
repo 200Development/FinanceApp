@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FinanceApp.Api.Enums;
 using FinanceApp.API.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
+using FinanceApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +35,48 @@ namespace FinanceApp.Api.Controllers
             string filterQuery = null)
         {
             return await _context.Bills.Include(b => b.Account).ToListAsync();
+        }
+
+        // GET: api/bills/dto
+        [HttpGet]
+        [Route("dto")]
+        public async Task<DTO> GetBillDto()
+        {
+            var dto = new DTO();
+            var billDtos = new List<BillDTO>();
+
+            try
+            {
+                var bills = await _context.Bills.ToListAsync();
+                var accounts = await _context.Accounts.ToListAsync();
+                var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, bills, "bill");
+
+                foreach (var bill in bills)
+                {
+                    var billDto = new BillDTO();
+                    billDto.Bill = bill;
+                    
+                    decimal payDeduction = payDeductionDict.FirstOrDefault(b => b.Key == bill.Id).Value;
+                    billDto.PayDeduction = payDeduction;
+
+                    decimal payContributionPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
+                    billDto.PaycheckPercentage = payContributionPercentage;
+
+                    billDtos.Add(billDto);
+                }
+
+                dto.BillDtos = billDtos;
+                var costPerPaycheck = payDeductionDict.Sum(b => b.Value);
+                dto.CostOfBillsPerPayPeriod = costPerPaycheck;
+                dto.MonthlyCostOfBills = costPerPaycheck * 26 / 12;
+
+                return dto;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         // GET: api/bills/{id}
@@ -66,15 +110,15 @@ namespace FinanceApp.Api.Controllers
             }
         }
 
-        private Bill MapToBill(BillDto dto)
+        private Bill MapToBill(BillDTO dto)
         {
             var bill = new Bill();
 
-            bill.Name = dto.Name;
-            bill.AmountDue = dto.AmountDue;
-            bill.DueDate = dto.DueDate;
-            bill.PaymentFrequency = dto.PaymentFrequency;
-            bill.Category = dto.Category;
+            bill.Name = dto.Bill.Name;
+            bill.AmountDue = dto.Bill.AmountDue;
+            bill.DueDate = dto.Bill.DueDate;
+            bill.PaymentFrequency = dto.Bill.PaymentFrequency;
+            bill.Category = dto.Bill.Category;
 
 
             return bill;

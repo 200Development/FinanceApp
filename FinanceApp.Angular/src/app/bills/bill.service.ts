@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { DTO } from '../accounts/shared/accountDTO';
 import { Bill } from '../bills/shared/bill';
 
 
@@ -12,6 +13,7 @@ export class BillService {
   constructor(private http: HttpClient) { }
   
   private billUrl = 'https://localhost:44313/api/bills/';
+  private billDtoUrl = 'https://localhost:44313/api/bills/dto'
   private accountUrl = 'https://localhost:44313/api/accounts/';
   headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
   httpOptions = {
@@ -21,6 +23,10 @@ export class BillService {
 
   getBills(): Observable<Bill[]> {
     return this.http.get<Bill[]>(this.billUrl);
+  };
+
+  getBillDto(): Observable<DTO> {
+    return this.http.get<DTO>(this.billDtoUrl);
   };
 
   getAccounts(): Observable<Account[]> {

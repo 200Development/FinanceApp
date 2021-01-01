@@ -43,7 +43,7 @@ namespace FinanceApp.Api.Controllers
         public async Task<DTO> GetAccountDto()
         {
             var dto = new DTO();
-            var accountDtos = new List<AccountDto>();
+            var accountDtos = new List<AccountDTO>();
             try
             {
                 var accounts = await _context.Accounts.ToListAsync();
@@ -55,7 +55,7 @@ namespace FinanceApp.Api.Controllers
 
                 foreach (var account in accounts)
                 {
-                    var newDto = new AccountDto();
+                    var newDto = new AccountDTO();
                     newDto.Account = account;
                     newDto.Bills = await bills.Where(b => b.AccountId == account.Id).ToListAsync();
                     newDto.BillSum = newDto.Bills.Sum(b => b.AmountDue);
@@ -63,7 +63,7 @@ namespace FinanceApp.Api.Controllers
                     payDeductionDict.TryGetValue(account.Id, out var payDeduction);
 
                     newDto.PayDeduction = payDeduction;
-                    newDto.PaycheckPercentage = CalculationsService.GetAccountPaycheckPercentage(payDeductionDict, payDeduction);
+                    newDto.PaycheckPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
                     newDto.ExpensesBeforeNextPaycheck = 63.43m;
 
                     requiredSavingsDict.TryGetValue(account.Id, out var accountRequiredSavings);

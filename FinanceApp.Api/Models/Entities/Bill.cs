@@ -44,10 +44,4 @@ namespace FinanceApp.Api.Models.Entities
 
         public Account Account { get; set; }
     }
-
-    public class BillDTO : Bill
-    {
-        public int? FrequencyId { get; set; }
-        public int? CategoryId { get; set; }
-    }
 }

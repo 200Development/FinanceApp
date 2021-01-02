@@ -7,6 +7,7 @@ import { SharedModule } from '../shared.module';
 import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BillBarGraphComponent } from './bill-graph/bill-bar-graph/bill-bar-graph.component';
+import { AddBillComponent } from './add-bill/add-bill.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { BillBarGraphComponent } from './bill-graph/bill-bar-graph/bill-bar-grap
     BillsComponent,
     BillsTableComponent,
     ExpensesTableComponent,
-    BillBarGraphComponent
+    BillBarGraphComponent,
+    AddBillComponent
   ],
   imports: [
     SharedModule,

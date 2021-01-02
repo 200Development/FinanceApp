@@ -9,6 +9,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 
@@ -24,7 +27,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   exports: [
     FormsModule,
@@ -35,7 +41,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ]
 })
 export class SharedModule { }

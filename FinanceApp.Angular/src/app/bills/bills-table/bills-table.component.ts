@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BillService } from '../../bills/bill.service';
 import { Bill } from '../shared/bill';
 import { Categories } from '../../enums/categories';
 import { Frequencies } from '../../enums/frequencies';
 import { BillDTO, DTO } from 'src/app/accounts/shared/accountDTO';
 import { MatTableDataSource } from '@angular/material/table';
+import { AccountService } from 'src/app/accounts/account.service';
+import { Account } from 'src/app/accounts/shared/account';
 
 @Component({
     selector: 'bills-table',
@@ -22,7 +24,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class BillsTableComponent implements OnInit{
    
-    constructor(private billService: BillService) {}
+    constructor(private billService: BillService, private accountService: AccountService) {}
    
     dataSource = new MatTableDataSource<BillDTO>();
     columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'account'];
@@ -43,15 +45,6 @@ export class BillsTableComponent implements OnInit{
         account: new FormControl()
     });
 
-    frequencyKeys() : Array<string> {
-        var keys = Object.keys(this.frequencies);
-        return keys.slice(keys.length / 2);
-    }
-
-    categoryKeys() : Array<string> {
-        var keys = Object.keys(this.categories);
-        return keys.slice(keys.length / 2);
-    }
 
     ngOnInit() {
         this.getBillDto();
@@ -62,30 +55,6 @@ export class BillsTableComponent implements OnInit{
         .subscribe((dto: DTO) => {
             this.dataSource.data = dto.billDtos;
         });
-    }
-
-    onSubmit(){
-        var billDTO = this.billToDTO(this.newBillForm.value);
-
-        this.billService.addBill(billDTO).subscribe(
-            bill => {
-                console.log("New Bill with Id " + bill.id + " was added to the database");
-                this.bills.push(bill);
-            }
-        );
-    }
-
-    billToDTO(newBill: any){
-        let billDTO = new Bill();
-
-        billDTO.name = newBill.name;
-        billDTO.amountDue = parseFloat(newBill.amountDue);
-        billDTO.dueDate = newBill.dueDate;
-        billDTO.paymentFrequency = Frequencies[newBill.frequency];
-        billDTO.category = Categories[newBill.category];
-        billDTO.accountId = parseInt(newBill.account);
-
-        return billDTO;
     }
 
     getAccountId(account: number) {

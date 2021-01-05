@@ -49,7 +49,7 @@ namespace FinanceApp.Api.Controllers
                 var accounts = await _context.Accounts.ToListAsync();
                 var bills = await _context.Bills.ToListAsync();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, bills);
-                var requiredSavingsDict = CalculationsService.GetRequiredSavingsDict(payDeductionDict, bills);
+                var requiredSavingsDict = CalculationsService.GetAccountRequiredSavingsDict(payDeductionDict, bills);
                 var sumOfAccountBalances = 0.0m;
                 var totalSurplus = 0.0m;
 

@@ -181,7 +181,7 @@ namespace FinanceApp.API.Services
         //    }
         //}
 
-        //public static Dictionary<string, decimal> GetRequiredSavingsDict()
+        //public static Dictionary<string, decimal> GetAccountRequiredSavingsDict()
         //{
         //    try
         //    {
@@ -487,7 +487,13 @@ namespace FinanceApp.API.Services
             return paycheckContribution;
         }
 
-        public static Dictionary<long?, decimal> GetRequiredSavingsDict(Dictionary<long?, decimal> payDeductionDict,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="payDeductionDict"></param>
+        /// <param name="bills"></param>
+        /// <returns></returns>
+        public static Dictionary<long?, decimal> GetAccountRequiredSavingsDict(Dictionary<long?, decimal> payDeductionDict,
             IList<Bill> bills)
         {
             try
@@ -505,7 +511,7 @@ namespace FinanceApp.API.Services
 
                     foreach (var bill in accountBills)
                     {
-                        var paydaysLeft = GetPaydays(bill);
+                        var paydaysLeft = GetPaydaysUntilDue(bill);
                         var pdTest = PayPeriodsTilDue(bill.DueDate);
 
 
@@ -525,7 +531,15 @@ namespace FinanceApp.API.Services
             }
         }
 
-        private static int GetPaydays(Bill bill)
+        public static decimal GetBillRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Bill bill)
+        {
+            var payDeduction = payDeductionDict[bill.Id];
+            var paydaysUntilDue = GetPaydaysUntilDue(bill);
+
+            return bill.AmountDue - payDeduction * paydaysUntilDue;
+        }
+
+        private static int GetPaydaysUntilDue(Bill bill)
         {
             var payFrequency = GetPayFrequency();
             var nextPayday = GetNextPayday();
@@ -549,6 +563,7 @@ namespace FinanceApp.API.Services
 
         private static DateTime GetNextPayday()
         {
+            //TODO: just a filler for now
             return DateTime.Today.AddDays(10);
         }
 
@@ -560,7 +575,7 @@ namespace FinanceApp.API.Services
                 FrequencyEnum.BiAnnually => lastPayday.AddMonths(6),
                 FrequencyEnum.Quarterly => lastPayday.AddMonths(3),
                 FrequencyEnum.Monthly => lastPayday.AddMonths(1),
-                FrequencyEnum.BiMonthly => lastPayday.AddDays(14),// should this be 2 specific days every month?
+                FrequencyEnum.BiMonthly => lastPayday.AddDays(14), // should this be 2 specific days every month?
                 FrequencyEnum.BiWeekly => lastPayday.AddDays(14),
                 FrequencyEnum.Weekly => lastPayday.AddDays(7),
                 FrequencyEnum.Daily => lastPayday.AddDays(1),

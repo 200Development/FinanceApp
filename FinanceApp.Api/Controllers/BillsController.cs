@@ -57,10 +57,10 @@ namespace FinanceApp.Api.Controllers
                     billDto.Bill = bill;
                     
                     decimal payDeduction = payDeductionDict.FirstOrDefault(b => b.Key == bill.Id).Value;
+                   
                     billDto.PayDeduction = payDeduction;
-
-                    decimal payContributionPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
-                    billDto.PaycheckPercentage = payContributionPercentage;
+                    billDto.PaycheckPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
+                    billDto.RequiredSavings = CalculationsService.GetBillRequiredSavings(payDeductionDict, bill);
 
                     billDtos.Add(billDto);
                 }

@@ -20,21 +20,19 @@ export class AddBillComponent implements OnInit {
   categories = Categories;
   bills: Bill[];
   accounts: Account[];
-  newBillForm: FormGroup
+  newBillForm = new FormGroup({
+    nameFormControl: new FormControl(''),
+    amountDueFormControl: new FormControl(0),
+    dueDateFormControl: new FormControl(),
+    accountFormControl: new FormControl('', Validators.required),
+    frequencyFormControl: new FormControl('', Validators.required),
+    categoryFormControl: new FormControl('', Validators.required),
+  });
 
 
  
 
   ngOnInit(): void {
-    this.newBillForm = new FormGroup({
-      name: new FormControl(''),
-      amountDue: new FormControl(0),
-      dueDate: new FormControl(),
-      accountFormControl: new FormControl('', Validators.required),
-      frequencyFormControl: new FormControl('', Validators.required),
-      categoryFormControl: new FormControl('', Validators.required),
-    });
-
     this.getAccounts();
   }
 
@@ -58,8 +56,8 @@ export class AddBillComponent implements OnInit {
 
     this.billService.addBill(billDTO).subscribe(
       bill => {
-        console.log("New Bill with Id " + bill.id + " was added to the database");
         this.bills.push(bill);
+        
       }
     );
   }
@@ -67,12 +65,12 @@ export class AddBillComponent implements OnInit {
   billToDTO(newBill: any) {
     let billDTO = new Bill();
 
-    billDTO.name = newBill.name;
-    billDTO.amountDue = parseFloat(newBill.amountDue);
-    billDTO.dueDate = newBill.dueDate;
-    billDTO.paymentFrequency = Frequencies[newBill.frequency];
-    billDTO.category = Categories[newBill.category];
-    billDTO.accountId = parseInt(newBill.account);
+    billDTO.name = newBill.nameFormControl;
+    billDTO.amountDue = parseFloat(newBill.amountDueFormControl);
+    billDTO.dueDate = newBill.dueDateFormControl;
+    billDTO.paymentFrequency = Frequencies[newBill.frequencyFormControl];
+    billDTO.category = Categories[newBill.categoryFormControl];
+    billDTO.accountId = parseInt(newBill.accountFormControl);
 
     return billDTO;
   }

@@ -26,8 +26,8 @@ export class BillBarGraphComponent implements OnInit {
       is3D: true,
       backgroundColor: '#212529'
   };
-  width: number;
-  height: number;
+  width: number = 1000;
+  height: number = 400;
   
   ngOnInit(): void {
     this.getBills();

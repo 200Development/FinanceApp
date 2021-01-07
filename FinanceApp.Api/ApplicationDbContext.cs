@@ -18,5 +18,7 @@ namespace FinanceApp.Api
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Bill> Bills { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Income> Incomes { get; set; }
     }
 }

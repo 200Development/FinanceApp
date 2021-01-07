@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.cs" />
     <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.Designer.cs" />
+    <Compile Remove="Migrations\20210106061424_addExpenseAndIncomeTables.cs" />
+    <Compile Remove="Migrations\20210106061424_addExpenseAndIncomeTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AccountsComponent } from '../accounts/accounts.component';
 import { TransactionsComponent } from '../transactions/transactions.component';
-import { BillsComponent } from '../bills/bills.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { ExpensePageComponent } from '../expenses/expense-page/expense-page.component';
 
 
 
@@ -13,7 +13,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
     RouterModule.forChild([
       { path: 'dashboard', component: DashboardComponent },
       { path: 'accounts', component: AccountsComponent },
-      { path: 'bills', component: BillsComponent },
+      { path: 'expenses', component: ExpensePageComponent },
       { path: 'transactions', component: TransactionsComponent },
     ])
   ],

@@ -403,6 +403,90 @@ namespace FinanceApp.API.Services
             }
         }
 
+        public static Dictionary<long?, decimal> GetPayDeductionDict(List<Account> accounts, List<Expense> expenses, string returnType)
+        {
+            try
+            {
+                var accountContribution = new Dictionary<long?, decimal>();
+                var billContribution = new Dictionary<long?, decimal>();
+
+
+                //Zeros out all accounts req paycheck contributions
+                foreach (var account in accounts)
+                {
+                    account.PaycheckContribution = 0.0m;
+                }
+
+                //Zeros out all bills req paycheck contributions
+                foreach (var expense in expenses)
+                {
+                    expense.PayDeduction = 0.0m;
+                }
+
+                // update suggested paycheck contributions for bills
+                foreach (var expense in expenses)
+                {
+                    var billTotal = expense.AmountDue;
+
+                    // get the account assigned to the bill
+                    expense.Account = accounts.FirstOrDefault(a => a.Id == expense.AccountId);
+                    if (expense.Account != null && expense.Account.ExcludeFromSurplus) continue;
+
+                    //TODO: Needs to account for all pay frequencies
+                    //TODO: Suggested contribution assumes payday twice a month.  need to update to include other options
+                    if (expense.Account == null) continue;
+                    var contribution = 0.0m;
+
+                    switch (expense.PaymentFrequency)
+                    {
+                        case FrequencyEnum.Annually:
+                            contribution = billTotal / 24;
+                            break;
+                        case FrequencyEnum.BiAnnually:
+                            contribution = billTotal / 12;
+                            break;
+                        case FrequencyEnum.Quarterly:
+                            contribution = billTotal / 6;
+                            break;
+                        case FrequencyEnum.BiMonthly: // every 2 months
+                            contribution = billTotal / 4;
+                            break;
+                        case FrequencyEnum.Monthly:
+                            contribution = billTotal / 2;
+                            break;
+                        case FrequencyEnum.Weekly:
+                            contribution = billTotal * 2;
+                            break;
+                        case FrequencyEnum.BiWeekly:
+                            contribution = billTotal;
+                            break;
+                        case FrequencyEnum.Daily:
+                            break;
+                        default:
+                            contribution = billTotal / 2;
+                            break;
+                    }
+
+                    if (accountContribution.ContainsKey(expense.AccountId!))
+                        accountContribution[expense.AccountId] += contribution;
+                    else
+                        accountContribution.Add(expense.AccountId, contribution);
+
+                    if (billContribution.ContainsKey(expense.Id))
+                        billContribution[expense.Id] += contribution;
+                    else
+                        billContribution.Add(expense.Id, contribution);
+                }
+
+                return returnType.Equals("account") ? accountContribution : billContribution;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Returns how many times the user will get paid before a due date
         /// </summary>
@@ -511,7 +595,7 @@ namespace FinanceApp.API.Services
 
                     foreach (var bill in accountBills)
                     {
-                        var paydaysLeft = GetPaydaysUntilDue(bill);
+                        var paydaysLeft = GetPaydaysUntilDue(bill.DueDate);
                         var pdTest = PayPeriodsTilDue(bill.DueDate);
 
 
@@ -534,16 +618,15 @@ namespace FinanceApp.API.Services
         public static decimal GetBillRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Bill bill)
         {
             var payDeduction = payDeductionDict[bill.Id];
-            var paydaysUntilDue = GetPaydaysUntilDue(bill);
+            var paydaysUntilDue = GetPaydaysUntilDue(bill.DueDate);
 
             return bill.AmountDue - payDeduction * paydaysUntilDue;
         }
 
-        private static int GetPaydaysUntilDue(Bill bill)
+        private static int GetPaydaysUntilDue(DateTime dueDate)
         {
             var payFrequency = GetPayFrequency();
             var nextPayday = GetNextPayday();
-            var dueDate = bill.DueDate;
             var paychecks = 0;
 
 
@@ -581,6 +664,14 @@ namespace FinanceApp.API.Services
                 FrequencyEnum.Daily => lastPayday.AddDays(1),
                 _ => throw new ArgumentOutOfRangeException(nameof(frequency), frequency, "Frequency is not an option"),
             };
+        }
+
+        public static decimal? GetExpenseRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Expense expense)
+        {
+            var payDeduction = payDeductionDict[expense.Id];
+            var paydaysUntilDue = GetPaydaysUntilDue(expense.DueDate);
+
+            return expense.AmountDue - payDeduction * paydaysUntilDue;
         }
     }
 }

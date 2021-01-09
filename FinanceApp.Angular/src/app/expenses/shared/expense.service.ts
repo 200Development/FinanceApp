@@ -1,19 +1,19 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { DTO } from '../accounts/shared/accountDTO';
-import { Bill } from '../bills/shared/bill';
-
+import { DTO } from "src/app/accounts/shared/DTO";
+import { Expense } from './expense';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BillService {
+export class ExpenseService {
 
   constructor(private http: HttpClient) { }
   
+  private expenseUrl = 'https://localhost:44313/api/expenses';
+  private expenseDtoUrl = 'https://localhost:44313/api/expenses/dto';
   private billUrl = 'https://localhost:44313/api/bills/';
-  private billDtoUrl = 'https://localhost:44313/api/bills/dto'
   private accountUrl = 'https://localhost:44313/api/accounts/';
   headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
   httpOptions = {
@@ -21,21 +21,26 @@ export class BillService {
     crossDomain: true
   };
 
-  getBills(): Observable<Bill[]> {
-    return this.http.get<Bill[]>(this.billUrl);
+  getExpenses(): Observable<Expense[]> {
+    return this.http.get<Expense[]>(this.expenseUrl);
   };
 
-  getBillDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.billDtoUrl);
+  getExpenseDto(): Observable<DTO> {
+    return this.http.get<DTO>(this.expenseDtoUrl);
   };
 
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.accountUrl);
   }
 
-  addBill(bill: Bill): Observable<Bill> {
+  addExpense(expense: Expense): Observable<Expense> {
+    console.log("addExpense start");
+    return this.http.post<Expense>(this.expenseUrl, expense, this.httpOptions);
+  }
+
+  addBill(expense: Expense): Observable<Expense> {
     console.log("addBill start");
-    return this.http.post<Bill>(this.billUrl, bill, this.httpOptions);
+    return this.http.post<Expense>(this.billUrl, expense, this.httpOptions);
   }
 
   public handleError(error: HttpErrorResponse) {

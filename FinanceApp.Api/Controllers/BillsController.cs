@@ -101,6 +101,21 @@ namespace FinanceApp.Api.Controllers
                 await _context.Bills.AddAsync(bill);
                 await _context.SaveChangesAsync();
 
+                var expense = new Expense();
+                expense.UserId = bill.UserId;
+                expense.Name = bill.Name;
+                expense.AmountDue = bill.AmountDue;
+                expense.DueDate = bill.DueDate;
+                expense.Category = bill.Category;
+                expense.PaymentFrequency = bill.PaymentFrequency;
+                expense.PayDeduction = bill.PayDeduction;
+                expense.AccountId = bill.AccountId;
+                expense.DatePaid = DateTime.MinValue;
+                expense.Paid = false;
+
+                await _context.Expenses.AddAsync(expense);
+                await _context.SaveChangesAsync();
+
                 return CreatedAtAction(nameof(GetBill), new {id = bill.Id}, bill);
             }
             catch (Exception e)

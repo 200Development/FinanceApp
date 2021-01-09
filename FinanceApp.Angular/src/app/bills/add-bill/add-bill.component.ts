@@ -4,7 +4,7 @@ import { AccountService } from 'src/app/accounts/account.service';
 import { Account } from 'src/app/accounts/shared/account';
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
-import { BillService } from '../bill.service';
+import { BillService } from '../shared/bill.service';
 import { Bill } from '../shared/bill';
 
 @Component({

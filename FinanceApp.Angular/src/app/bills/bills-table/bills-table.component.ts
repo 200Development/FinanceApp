@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BillService } from '../../bills/bill.service';
+import { BillService } from '../shared/bill.service';
 import { Bill } from '../shared/bill';
 import { Categories } from '../../enums/categories';
 import { Frequencies } from '../../enums/frequencies';
-import { BillDTO, DTO } from 'src/app/accounts/shared/accountDTO';
+import { BillDTO } from "src/app/accounts/shared/BillDTO";
+import { DTO } from "src/app/accounts/shared/DTO";
 import { MatTableDataSource } from '@angular/material/table';
 import { AccountService } from 'src/app/accounts/account.service';
 import { Account } from 'src/app/accounts/shared/account';

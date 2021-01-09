@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BillService } from '../../bill.service';
+import { BillService } from '../../shared/bill.service';
 import { Bill } from '../../shared/bill';
 
 @Component({

@@ -4,7 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { Account } from '../shared/account';
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountDTO, DTO } from '../shared/accountDTO';
+import { AccountDTO } from '../shared/accountDTO';
+import { DTO } from "../shared/DTO";
 
 @Component({
     selector: 'accounts-table',

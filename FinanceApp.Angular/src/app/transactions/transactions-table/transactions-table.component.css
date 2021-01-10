@@ -3,11 +3,11 @@ table {
     width: 100%;
   }
   
-  tr.expense-row:not(.expanded-row):active {
+  tr.transaction-row:not(.expanded-row):active {
     background: #2D3339;
   }
   
-  tr.expense-row:not(.expanded-row):hover {
+  tr.transaction-row:not(.expanded-row):hover {
     background: #2D3339;
   }
   
@@ -17,14 +17,14 @@ table {
   
 
   /* IDs */
-  #account-expenses {
+  #account-transactions {
     margin-left: 24px;
   }
   
 
   /* CLASSES */
   
-  .expense-detail {
+  .transaction-detail {
     overflow: hidden;
     display: flex;
     height: 165px;
@@ -34,7 +34,7 @@ table {
     margin: 0 0 16px 0;
   }
 
-  .expense-diagram {
+  .transaction-diagram {
     min-width: 120px;
     padding: 16px 0;
     font-weight: lighter;
@@ -42,7 +42,7 @@ table {
     height: 104px;
   }
   
-  .expense-list {
+  .transaction-list {
     list-style-type: none;
     padding-left: 0;
     margin: 8px 0 0 0;
@@ -63,11 +63,11 @@ table {
     background: #212529;
   }
 
-  .new-expense-column {
+  .new-transaction-column {
     padding: 6px;
   }
   
-  .new-expense-div {
+  .new-transaction-div {
     margin-left: 24px;
   }
 

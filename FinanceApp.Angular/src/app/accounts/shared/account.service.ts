@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
-import { Account } from '../accounts/shared/account';
-import { AccountDTO } from './shared/accountDTO';
-import { DTO } from "./shared/DTO";
+import { Account } from './account';
+import { DTO } from "../../DTOs/dto";
 
 
 @Injectable({

@@ -1,43 +1,39 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { DTO } from "../../DTOs/dto";
-import { Bill } from './bill';
-
+import { DTO } from 'src/app/DTOs/dto';
+import { Transaction } from './transaction';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BillService {
-
+export class TransactionService {
+  
   constructor(private http: HttpClient) { }
   
-  private billUrl = 'https://localhost:44313/api/bills/';
-  private billDtoUrl = 'https://localhost:44313/api/bills/dto'
-  private accountUrl = 'https://localhost:44313/api/accounts/';
+  private transactionUrl = 'https://localhost:44313/api/transactions';
+  private transactionDtoUrl = 'https://localhost:44313/api/transactions/dto';
+
   headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
   httpOptions = {
     headers: this.headers,
     crossDomain: true
   };
 
-  getBills(): Observable<Bill[]> {
-    return this.http.get<Bill[]>(this.billUrl);
+  getTransactions(): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(this.transactionUrl);
   };
 
-  getBillDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.billDtoUrl);
+  getTransactionDTO(): Observable<DTO> {
+    return this.http.get<DTO>(this.transactionDtoUrl);
   };
-
-  getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.accountUrl);
+ 
+  addTransaction(transaction: Transaction): Observable<Transaction> {
+    console.log("addTransaction start");
+    return this.http.post<Transaction>(this.transactionUrl, transaction, this.httpOptions);
   }
 
-  addBill(bill: Bill): Observable<Bill> {
-    console.log("addBill start");
-    return this.http.post<Bill>(this.billUrl, bill, this.httpOptions);
-  }
-
+  
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

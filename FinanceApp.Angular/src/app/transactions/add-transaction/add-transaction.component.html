@@ -1,0 +1,76 @@
+<form [formGroup]="newTransactionForm" (ngSubmit)="addTransaction()">
+    <div class="card">
+        <div class="card-header">
+            New Transaction
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <mat-form-field appearance="fill" class="transaction-field">
+                        <mat-label>Date</mat-label>
+                        <input matInput class="form-control" formControlName="dateFormControl" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="newTransactionForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2 form-group">
+                    <mat-form-field appearance="fill" class="transaction-field">
+                        <mat-label>Payee</mat-label>
+                        <input matInput class="form-control" formControlName="payeeFormControl" placeholder="">
+                        <mat-error *ngIf="newTransactionForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                        <mat-error *ngIf="newTransactionForm.hasError('maxLength')">
+                            Maximum of 50 characters
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2 form-group">
+                    <mat-form-field appearance="fill" class="transaction-field">
+                        <mat-label>Amount</mat-label>
+                        <input matInput class="form-control" formControlName="amountFormControl" placeholder="$0.00">
+                        <mat-error *ngIf="newTransactionForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                        <mat-error *ngIf="newTransactionForm.hasError('min')">
+                            Minimum of $0.01
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2 form-group">
+                    <mat-form-field appearance="fill" class="transaction-field">
+                        <select matNativeControl required class="form-control" formControlName="categoryFormControl">
+                            <option label="-- select category --"></option>
+                            <option *ngFor="let category of categoryKeys()">{{category}}</option>
+                        </select>
+                        <mat-error *ngIf="newTransactionForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2 form-group">
+                    <mat-form-field appearance="fill" class="transaction-field">
+                        <select matNativeControl required class="form-control" formControlName="typeFormControl">
+                            <option label="-- select type --"></option>
+                            <option label="Income" value="Income"></option>
+                            <option label="Expense" value="Expense"></option>
+                        </select>
+                        <mat-error *ngIf="newTransactionForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2 form-group">
+                    <button mat-button class="transaction-field" aria-label="add new transaction button" type="submit">
+                        <mat-icon>add_circle_outline</mat-icon>Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

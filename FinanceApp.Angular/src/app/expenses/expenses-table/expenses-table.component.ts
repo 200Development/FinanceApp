@@ -2,9 +2,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountService } from 'src/app/accounts/account.service';
-import { ExpenseDTO } from "src/app/accounts/shared/ExpenseDTO";
-import { DTO } from "src/app/accounts/shared/DTO";
+import { AccountService } from 'src/app/accounts/shared/account.service';
+import { ExpenseDTO } from "src/app/DTOs/Expense-dto";
+import { DTO } from "src/app/DTOs/dto";
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
 import { Expense } from '../shared/expense';

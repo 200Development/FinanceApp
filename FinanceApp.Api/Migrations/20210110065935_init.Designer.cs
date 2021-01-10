@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210107020440_addExpenseAndIncomeTables")]
-    partial class addExpenseAndIncomeTables
+    [Migration("20210110065935_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -116,14 +116,14 @@ namespace FinanceApp.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<long>("AccountId")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal>("AmountDue")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int?>("BillId")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
-
-                    b.Property<long?>("BillId1")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DatePaid")
                         .HasColumnType("datetime");
@@ -131,15 +131,29 @@ namespace FinanceApp.Api.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime");
 
+                    b.Property<bool>("IsBill")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
+
                     b.Property<bool>("Paid")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal>("PayDeduction")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("PaymentFrequency")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillId1");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Expenses");
                 });
@@ -173,6 +187,35 @@ namespace FinanceApp.Api.Migrations
                     b.ToTable("Incomes");
                 });
 
+            modelBuilder.Entity("FinanceApp.Api.Models.Entities.Transaction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Payee")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("FinanceApp.Api.Models.Entities.Bill", b =>
                 {
                     b.HasOne("FinanceApp.Api.Models.Entities.Account", "Account")
@@ -184,9 +227,11 @@ namespace FinanceApp.Api.Migrations
 
             modelBuilder.Entity("FinanceApp.Api.Models.Entities.Expense", b =>
                 {
-                    b.HasOne("FinanceApp.Api.Models.Entities.Bill", "Bill")
+                    b.HasOne("FinanceApp.Api.Models.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("BillId1");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

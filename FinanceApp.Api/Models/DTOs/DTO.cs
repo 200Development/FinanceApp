@@ -7,6 +7,7 @@ namespace FinanceApp.Api.Models.DTOs
         public IList<AccountDTO> AccountDtos { get; set; }
         public IList<BillDTO> BillDtos { get; set; }
         public IList<ExpenseDTO> ExpenseDtos { get; set; }
+        public IList<TransactionDTO> TransactionDtos { get; set; }
         public decimal? SumOfAccountBalances { get; set; }
         public decimal? CostOfBillsPerPayPeriod { get; set; }
         public decimal? MonthlyCostOfBills { get; set; }

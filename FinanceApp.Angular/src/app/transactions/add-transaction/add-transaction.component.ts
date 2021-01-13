@@ -4,6 +4,8 @@ import { Categories } from 'src/app/enums/categories';
 import { Transaction } from '../shared/transaction';
 import { TransactionService } from '../shared/transaction.service';
 import { TransactionTypes } from 'src/app/enums/transaction-types';
+import { CategoryService } from 'src/app/categories/category.service';
+import { Category } from 'src/app/categories/category';
 
 @Component({
   selector: 'add-transaction',
@@ -12,9 +14,9 @@ import { TransactionTypes } from 'src/app/enums/transaction-types';
 })
 export class AddTransactionComponent implements OnInit {
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService, private categoryService: CategoryService) { }
   
-  categories = Categories;
+  categories: Category[] = [];
   transactions: Transaction[] = [];
   newTransactionForm = new FormGroup({
     dateFormControl: new FormControl('', Validators.required),
@@ -25,32 +27,32 @@ export class AddTransactionComponent implements OnInit {
   });
 
   ngOnInit(): void {
-   
+   this.getCategories();
   }
 
-  categoryKeys(): Array<string> {
-    var keys = Object.keys(this.categories);
-    return keys.slice(keys.length / 2);
+  getCategories() {
+    this.categoryService.getCategories()
+      .subscribe(categories => this.categories = categories);
   }
-  
+
   addTransaction() {
-    var newTransaction = this.mapExpense(this.newTransactionForm.value);
+    var newTransaction = this.mapTransaction(this.newTransactionForm.value);
 
-      this.transactionService.addTransaction(newTransaction).subscribe(
-        transaction => {
-          this.transactions.push(transaction);
-        }
-      );
+    this.transactionService.addTransaction(newTransaction).subscribe(
+      transaction => {
+        this.transactions.push(transaction);
+      }
+    );
   }
 
-  mapExpense(newExpense: any) {
+  mapTransaction(newTransaction: any) {
     let transaction = new Transaction();
 
-    transaction.date = newExpense.dateFormControl;
-    transaction.payee = newExpense.payeeFormControl;
-    transaction.amount = parseFloat(newExpense.amountFormControl);
-    transaction.category = Categories[newExpense.categoryFormControl];
-    transaction.type = TransactionTypes[newExpense.typeFormControl];   
+    transaction.date = newTransaction.dateFormControl;
+    transaction.payee = newTransaction.payeeFormControl;
+    transaction.amount = parseFloat(newTransaction.amountFormControl);
+    transaction.category = Categories[newTransaction.categoryFormControl];
+    transaction.type = TransactionTypes[newTransaction.typeFormControl];   
 
     return transaction;
   }

@@ -6,6 +6,5 @@ export class Bill {
     amountDue: number;
     paymentFrequency: any;
     category: any;
-    accountId: number;
-    account: Account;
+    categoryId: number;
 }

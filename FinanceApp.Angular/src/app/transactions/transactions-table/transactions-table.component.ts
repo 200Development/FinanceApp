@@ -1,9 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Category } from 'src/app/categories/category';
 import { DTO } from 'src/app/DTOs/dto';
 import { TransactionDTO } from 'src/app/DTOs/transaction-dto';
-import { Categories } from 'src/app/enums/categories';
 import { Transaction } from '../shared/transaction';
 import { TransactionService } from '../shared/transaction.service';
 
@@ -25,15 +25,15 @@ export class TransactionsTableComponent implements OnInit{
    
     dataSource = new MatTableDataSource<TransactionDTO>();
     columnsToDisplay = ['date', 'payee', 'debit', 'credit', 'category', 'from', 'to'];
-    categories = Categories;
-    transactions: Transaction[];
+    categories: Category[] = [];
+    transactions: Transaction[] = [];
    
    
     ngOnInit() {
-        this.getExpenseDto();
+        this.getTransactionDto();
     }
 
-    getExpenseDto(){
+    getTransactionDto(){
         this.transactionService.getTransactionDTO()
         .subscribe((dto: DTO) => {
             this.dataSource.data = dto.transactionDtos;

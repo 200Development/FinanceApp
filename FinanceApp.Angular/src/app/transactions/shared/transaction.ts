@@ -7,6 +7,7 @@ export class Transaction {
     date: Date;
     payee: string;
     amount: number;   
+    categoryId: number;
     category: any;
     type: any;
 }

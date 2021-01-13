@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { AccountService } from 'src/app/accounts/shared/account.service';
-import { Account } from 'src/app/accounts/shared/account';
-import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
 import { Expense } from '../shared/expense';
 import { ExpenseService } from '../shared/expense.service';
+import { CategoryService } from 'src/app/categories/category.service';
+import { Category } from 'src/app/categories/category';
 
 @Component({
   selector: 'add-expense',
@@ -15,18 +14,16 @@ import { ExpenseService } from '../shared/expense.service';
 })
 export class AddExpenseComponent implements OnInit {
 
-  constructor(private expenseService: ExpenseService, private accountService: AccountService) { }
+  constructor(private expenseService: ExpenseService, private categoryService: CategoryService) { }
 
   frequencies = Frequencies;
-  categories = Categories;
   expenses: Expense[] = [];
-  accounts: Account[];
+  categories: Category[] = [];
   isBill: boolean = false;
   newExpenseForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     amountDueFormControl: new FormControl(0, [Validators.required, Validators.min(0.01)]),
-    dueDateFormControl: new FormControl('', Validators.required),
-    accountFormControl: new FormControl('', Validators.required),
+    dueDateFormControl: new FormControl('', Validators.required),    
     frequencyFormControl: new FormControl('', Validators.required),
     categoryFormControl: new FormControl('', Validators.required),
   });
@@ -37,7 +34,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAccounts();
+    this.getCategories();
   }
 
   frequencyKeys(): Array<string> {
@@ -45,19 +42,19 @@ export class AddExpenseComponent implements OnInit {
     return keys.slice(keys.length / 2);
   }
 
-  categoryKeys(): Array<string> {
-    var keys = Object.keys(this.categories);
-    return keys.slice(keys.length / 2);
+  getCategories() {
+    this.categoryService.getCategories()
+      .subscribe(categories => this.categories = categories);
   }
 
-  getAccounts() {
-    this.accountService.getAccounts()
-      .subscribe(accounts => this.accounts = accounts);
+  getCategory(id: number){
+    return this.categoryService.getCategory(id);    
   }
-
+ 
   addExpense() {
     var newExpense = this.mapExpense(this.newExpenseForm.value);
 
+    console.log(newExpense);
       this.expenseService.addExpense(newExpense).subscribe(
         expense => {
           this.expenses.push(expense);
@@ -72,9 +69,9 @@ export class AddExpenseComponent implements OnInit {
     expense.amountDue = parseFloat(newExpense.amountDueFormControl);
     expense.dueDate = newExpense.dueDateFormControl;
     expense.paymentFrequency = Frequencies[newExpense.frequencyFormControl];
-    expense.category = Categories[newExpense.categoryFormControl];
-    expense.accountId = parseInt(newExpense.accountFormControl);
+    expense.categoryId = parseInt(newExpense.categoryFormControl);
     expense.isBill = this.isBill;
+    
 
     return expense;
   }

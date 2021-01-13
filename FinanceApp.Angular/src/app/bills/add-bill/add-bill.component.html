@@ -46,27 +46,14 @@
                 </div>
                 <div class="col-md-4 form-group">
                     <mat-form-field appearance="fill" class="bill-field">
-                        <select matNativeControl required class="form-control" formControlName="categoryFormControl">
-                            <option label="--select category --"></option>
-                            <option *ngFor="let category of categoryKeys()">{{category}}</option>
-                        </select>
-                        <mat-error *ngIf="newBillForm.hasError('required')">
-                            This field is required
-                        </mat-error>
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-4 form-group">
-                    <mat-form-field appearance="fill" class="bill-field">
-                        <mat-label>Select cash account (required)</mat-label>
+                        <mat-label>Select category</mat-label>
                         <select matNativeControl required class="form-control" formControlName="accountFormControl">
-                            <option label="--select account --"></option>
-                            <option *ngFor="let account of accounts" value="{{account.id}}">{{account.name}}</option>
+                            <option label="--select category --"></option>
+                            <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
                         </select>
                         <mat-error *ngIf="newBillForm.hasError('required')">
                             This field is required
-                        </mat-error>
-                        <mat-hint>Select which account will cover this bill</mat-hint>
+                        </mat-error>                      
                     </mat-form-field>
                 </div>
             </div>

@@ -29,19 +29,24 @@ export class ExpenseService {
     return this.http.get<DTO>(this.expenseDtoUrl);
   };
 
+  getExpense(id: number): Observable<Expense> {
+    const url = `${this.expenseUrl}/${id}`;
+    return this.http.get<Expense>(url).pipe();
+  };
+
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.accountUrl);
-  }
+  };
 
   addExpense(expense: Expense): Observable<Expense> {
     console.log("addExpense start");
     return this.http.post<Expense>(this.expenseUrl, expense, this.httpOptions);
-  }
+  };
 
   addBill(expense: Expense): Observable<Expense> {
     console.log("addBill start");
     return this.http.post<Expense>(this.billUrl, expense, this.httpOptions);
-  }
+  };
 
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -57,5 +62,5 @@ export class ExpenseService {
     // Return an observable with a user-facing error message.
     return throwError(
       'Something bad happened; please try again later.');
-  }
+  };
 }

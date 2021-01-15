@@ -5,6 +5,11 @@ export class Bill {
     dueDate: Date;
     amountDue: number;
     paymentFrequency: any;
-    category: any;
+    category: Category;
     categoryId: number;
+}
+
+export class Category {
+    id: number;
+    name: string;
 }

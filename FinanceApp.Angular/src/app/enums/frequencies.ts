@@ -1,10 +1,10 @@
 export enum Frequencies {
-    Annually, 
-    BiAnnually,
+    Annually,     
+    'Twice a year',
     Quarterly,
     Monthly,
-    BiMonthly,
-    BiWeekly,
+    'Twice a month',
+    'Every 2 weeks',
     Weekly,
     Daily
 } 

@@ -1,4 +1,5 @@
-namespace FinanceApp.Data.Models.Enums
+﻿
+namespace FinanceApp.Api.Enums
 {
     public enum TransactionTypesEnum
     {

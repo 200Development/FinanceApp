@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { AccountService } from 'src/app/accounts/account.service';
+import { AccountService } from 'src/app/accounts/shared/account.service';
 import { Account } from 'src/app/accounts/shared/account';
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
@@ -23,9 +23,9 @@ export class AddExpenseComponent implements OnInit {
   accounts: Account[];
   isBill: boolean = false;
   newExpenseForm = new FormGroup({
-    nameFormControl: new FormControl(''),
-    amountDueFormControl: new FormControl(0),
-    dueDateFormControl: new FormControl(),
+    nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    amountDueFormControl: new FormControl(0, [Validators.required, Validators.min(0.01)]),
+    dueDateFormControl: new FormControl('', Validators.required),
     accountFormControl: new FormControl('', Validators.required),
     frequencyFormControl: new FormControl('', Validators.required),
     categoryFormControl: new FormControl('', Validators.required),

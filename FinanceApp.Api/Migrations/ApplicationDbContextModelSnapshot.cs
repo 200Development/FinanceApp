@@ -185,6 +185,35 @@ namespace FinanceApp.Api.Migrations
                     b.ToTable("Incomes");
                 });
 
+            modelBuilder.Entity("FinanceApp.Api.Models.Entities.Transaction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Payee")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("FinanceApp.Api.Models.Entities.Bill", b =>
                 {
                     b.HasOne("FinanceApp.Api.Models.Entities.Account", "Account")

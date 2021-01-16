@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AccountService } from '../account.service';
+import { AccountService } from '../shared/account.service';
 import { Account } from '../shared/account';
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountDTO } from '../shared/accountDTO';
-import { DTO } from "../shared/DTO";
+import { AccountDTO } from '../../DTOs/account-dto';
+import { DTO } from "../../DTOs/dto";
 
 @Component({
     selector: 'accounts-table',

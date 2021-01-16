@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { DTO } from "src/app/accounts/shared/DTO";
+import { DTO } from "src/app/DTOs/dto";
 import { Expense } from './expense';
 
 @Injectable({

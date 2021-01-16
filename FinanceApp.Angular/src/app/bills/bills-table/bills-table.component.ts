@@ -5,10 +5,10 @@ import { BillService } from '../shared/bill.service';
 import { Bill } from '../shared/bill';
 import { Categories } from '../../enums/categories';
 import { Frequencies } from '../../enums/frequencies';
-import { BillDTO } from "src/app/accounts/shared/BillDTO";
-import { DTO } from "src/app/accounts/shared/DTO";
+import { BillDTO } from "src/app/DTOs/Bill-dto";
+import { DTO } from "src/app/DTOs/dto";
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountService } from 'src/app/accounts/account.service';
+import { AccountService } from 'src/app/accounts/shared/account.service';
 import { Account } from 'src/app/accounts/shared/account';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from 'src/app/accounts/account.service';
+import { AccountService } from 'src/app/accounts/shared/account.service';
 import { Account } from 'src/app/accounts/shared/account';
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';

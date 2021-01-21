@@ -14,11 +14,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExpensesModule } from './expenses/shared/expenses.module';
+import { IncomeModule } from './incomes/shared/income.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [   
     BrowserModule,
@@ -28,13 +29,13 @@ import { ExpensesModule } from './expenses/shared/expenses.module';
     DashboardModule,
     AccountModule,
     BillModule,
+    IncomeModule,
     TransactionModule,
     RegisterModule,
     HomeModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ExpensesModule,
-   
+    ExpensesModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

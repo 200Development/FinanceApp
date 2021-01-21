@@ -10,9 +10,8 @@ namespace FinanceApp.Api.Models.Entities
           Balance = 0.00m;
           PaycheckContribution = 0.00m;
           SuggestedPaycheckContribution = 0.00m;
-          RequiredSavings = 0.00m;
+          RequiredSavings = 0.00m;  // todo: how to i dynamically set this
           BalanceLimit = 0.00m;
-          BalanceSurplus = 0.00m;
           IsDisposableIncomeAccount = false;
           IsEmergencyFund = false;
           IsMandatory = false;
@@ -40,7 +39,7 @@ namespace FinanceApp.Api.Models.Entities
         public decimal RequiredSavings { get; set; }
 
         [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Surplus/Deficit")]
-        public decimal BalanceSurplus { get; set; }
+        public decimal BalanceSurplus => _ = this.Balance - this.RequiredSavings;
 
         [Display(Name = "Exclude From Surplus")]
         public bool ExcludeFromSurplus { get; set; }

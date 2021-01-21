@@ -20,7 +20,6 @@ namespace FinanceApp.Api.Migrations
                     PaycheckContribution = table.Column<decimal>(nullable: false),
                     SuggestedPaycheckContribution = table.Column<decimal>(nullable: false),
                     RequiredSavings = table.Column<decimal>(nullable: false),
-                    BalanceSurplus = table.Column<decimal>(nullable: false),
                     ExcludeFromSurplus = table.Column<bool>(nullable: false),
                     IsDisposableIncomeAccount = table.Column<bool>(nullable: false),
                     IsEmergencyFund = table.Column<bool>(nullable: false),
@@ -40,7 +39,8 @@ namespace FinanceApp.Api.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: true),
-                    Payer = table.Column<string>(nullable: true),
+                    Payee = table.Column<string>(nullable: true),
+                    NextPayday = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<decimal>(nullable: false),
                     PaymentFrequency = table.Column<int>(nullable: false),
                     FirstMonthlyPayDay = table.Column<int>(nullable: true),

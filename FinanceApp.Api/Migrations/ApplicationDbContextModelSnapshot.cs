@@ -29,9 +29,6 @@ namespace FinanceApp.Api.Migrations
                     b.Property<decimal>("BalanceLimit")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<decimal>("BalanceSurplus")
-                        .HasColumnType("decimal(18, 2)");
-
                     b.Property<bool>("ExcludeFromSurplus")
                         .HasColumnType("tinyint(1)");
 
@@ -168,7 +165,10 @@ namespace FinanceApp.Api.Migrations
                     b.Property<int?>("FirstMonthlyPayDay")
                         .HasColumnType("int");
 
-                    b.Property<string>("Payer")
+                    b.Property<DateTime>("NextPayday")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Payee")
                         .HasColumnType("text");
 
                     b.Property<int>("PaymentFrequency")

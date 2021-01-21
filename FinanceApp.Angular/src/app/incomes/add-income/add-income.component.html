@@ -1,0 +1,81 @@
+ <div id="add-income-container">
+ <form [formGroup]="newIncomeForm" (ngSubmit)="addIncome()">
+        <div class="card">
+            <div class="card-header">
+                New Income
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <mat-form-field appearance="standard" class="income-field">
+                            <mat-label>Payee</mat-label>
+                            <input matInput class="form-control" formControlName="payeeFormControl" placeholder="Payee">
+                            <mat-icon matSuffix></mat-icon>
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <mat-form-field appearance="standard" class="income-field">
+                            <mat-label>Amount</mat-label>
+                            <input matInput class="form-control" formControlName="amountFormControl"
+                                placeholder="$0.00">
+                            <mat-icon matSuffix></mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <mat-form-field appearance="standard" class="income-field">
+                            <mat-label>Next Payday</mat-label>
+                            <input matInput class="form-control" formControlName="nextPaydayFormControl"
+                                [matDatepicker]="picker">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="newIncomeForm.hasError('required')">
+                                This field is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <mat-form-field appearance="standard" class="income-field">
+                            <select matNativeControl required class="form-control"
+                                formControlName="frequencyFormControl">
+                                <option label="--select frequency --"></option>
+                                <option *ngFor="let frequency of frequencyKeys()">{{frequency}}</option>
+                            </select>
+                            <mat-error *ngIf="newIncomeForm.hasError('required')">
+                                This field is required
+                            </mat-error>
+                            <mat-hint></mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <mat-form-field appearance="standard" class="income-field">
+                            <mat-label>1st Monthly Pay Day</mat-label>
+                            <input matInput class="form-control" formControlName="firstMonthlyPayDayFormControl"
+                                placeholder="10">
+                            <mat-icon matSuffix></mat-icon>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <mat-form-field appearance="standard" class="income-field">
+                            <mat-label>2nd Monthly Pay Day</mat-label>
+                            <input matInput class="form-control" formControlName="secondMonthlyPayDayFormControl"
+                                placeholder="25">
+                            <mat-icon matSuffix></mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button mat-button class="income-field" aria-label="add new income button" type="submit">
+                            <mat-icon>add_circle_outline</mat-icon>Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

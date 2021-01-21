@@ -1,19 +1,26 @@
 import { NgModule } from '@angular/core';
-import { DashboardComponent } from './dashboard.component';
+import { DashboardPageComponent } from './dashboard-page.component';
 import { SharedModule } from '../shared.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NavigationModule } from '../navigation/navigation.module';
-
+import { ReactiveFormsModule } from '@angular/forms/';
+import { IncomeModule } from '../incomes/shared/income.module';
+import { AccountModule } from '../accounts/shared/account.module';
 
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardPageComponent
   ],
   imports: [
     SharedModule,
     DashboardRoutingModule,
-    NavigationModule
+    NavigationModule,
+    ReactiveFormsModule,
+    IncomeModule,
+    AccountModule
   ]
 })
-export class DashboardModule { }
+export class DashboardModule { 
+  
+}

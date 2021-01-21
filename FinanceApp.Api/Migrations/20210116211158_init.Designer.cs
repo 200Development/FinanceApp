@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210110065935_init")]
+    [Migration("20210116211158_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,9 +29,6 @@ namespace FinanceApp.Api.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<decimal>("BalanceLimit")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<decimal>("BalanceSurplus")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<bool>("ExcludeFromSurplus")
@@ -170,7 +167,10 @@ namespace FinanceApp.Api.Migrations
                     b.Property<int?>("FirstMonthlyPayDay")
                         .HasColumnType("int");
 
-                    b.Property<string>("Payer")
+                    b.Property<DateTime>("NextPayday")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Payee")
                         .HasColumnType("text");
 
                     b.Property<int>("PaymentFrequency")

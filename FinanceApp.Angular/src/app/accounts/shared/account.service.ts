@@ -21,11 +21,11 @@ export class AccountService {
   };
 
   getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.accountUrl)
+    return this.http.get<Account[]>(this.accountUrl);
   };
 
   getAccountDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.accountDtosUrl)
+    return this.http.get<DTO>(this.accountDtosUrl);
   };
 
   addAccount(account: Account): Observable<Account> {

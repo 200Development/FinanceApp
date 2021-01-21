@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -32,7 +32,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatListModule
   ],
   exports: [
     FormsModule,
@@ -47,7 +48,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatListModule
   ]
 })
 export class SharedModule { }

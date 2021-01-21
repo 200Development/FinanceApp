@@ -1,0 +1,12 @@
+<div id="account-list-div">
+    <mat-list *ngIf="dto != undefined">
+        <div mat-subheader>Folders</div>
+        <mat-list-item *ngFor="let account of dto.accountDtos">
+            <mat-icon mat-list-icon>account</mat-icon>
+            <div mat-line> {{ account.name | titlecase }} </div>
+            <div mat-line> {{ account.balance | currency }} </div>
+            <div mat-line> {{ account.requiredSavings | currency }} </div>
+        </mat-list-item>
+    </mat-list>
+    <label *ngIf="dto == undefined">No accounts yet <br/><button>Add Accounts</button></label>
+</div>

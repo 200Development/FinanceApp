@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AccountPageComponent } from '../account-page.component';
+import { IncomePageComponent } from '../income-page.component';
 
 
 
@@ -8,11 +8,11 @@ import { AccountPageComponent } from '../account-page.component';
   declarations: [],
   imports: [
     RouterModule.forChild([
-      { path: 'accounts', component: AccountPageComponent },
+      { path: 'income', component: IncomePageComponent}
     ])
   ],
   exports: [
     RouterModule
   ]
 })
-export class AccountRoutingModule { }
+export class IncomeRoutingModule { }

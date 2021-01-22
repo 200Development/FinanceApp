@@ -27,10 +27,6 @@ export class AccountListComponent implements OnInit {
     this.accountService.getAccounts()
       .subscribe((accounts: Account[]) =>{
         this.accounts = accounts;
-        //this.dto.accountDtos = [];
-        //this.dto.accountDtos = dto.accountDtos;
-        //this.totalBalance = dto.sumOfAccountBalances;
-        //this.totalSurplus = dto.totalSurplus;
       });
   }
 }

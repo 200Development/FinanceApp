@@ -6,11 +6,13 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms/';
 import { IncomeModule } from '../incomes/shared/income.module';
 import { AccountModule } from '../accounts/shared/account.module';
+import { MetricsComponent } from './metrics/metrics.component';
 
 
 @NgModule({
   declarations: [
-    DashboardPageComponent
+    DashboardPageComponent,
+    MetricsComponent
   ],
   imports: [
     SharedModule,

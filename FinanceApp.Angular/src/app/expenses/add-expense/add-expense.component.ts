@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
-import { AccountService } from 'src/app/accounts/shared/account.service';
+// import { AccountService } from 'src/app/accounts/shared/account.service';
 import { Account } from 'src/app/accounts/shared/account';
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
@@ -15,7 +15,7 @@ import { ExpenseService } from '../shared/expense.service';
 })
 export class AddExpenseComponent implements OnInit {
 
-  constructor(private expenseService: ExpenseService, private accountService: AccountService) { }
+  constructor(private expenseService: ExpenseService) { }
 
   frequencies = Frequencies;
   categories = Categories;
@@ -26,7 +26,7 @@ export class AddExpenseComponent implements OnInit {
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     amountDueFormControl: new FormControl(0, [Validators.required, Validators.min(0.01)]),
     dueDateFormControl: new FormControl('', Validators.required),
-    accountFormControl: new FormControl('', Validators.required),
+    // accountFormControl: new FormControl('', Validators.required),
     frequencyFormControl: new FormControl('', Validators.required),
     categoryFormControl: new FormControl('', Validators.required),
   });
@@ -37,7 +37,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAccounts();
+    // this.getAccounts();
   }
 
   frequencyKeys(): Array<string> {
@@ -50,10 +50,10 @@ export class AddExpenseComponent implements OnInit {
     return keys.slice(keys.length / 2);
   }
 
-  getAccounts() {
-    this.accountService.getAccounts()
-      .subscribe(accounts => this.accounts = accounts);
-  }
+  // getAccounts() {
+  //   this.accountService.getAccounts()
+  //     .subscribe(accounts => this.accounts = accounts);
+  // }
 
   addExpense() {
     var newExpense = this.mapExpense(this.newExpenseForm.value);
@@ -73,7 +73,7 @@ export class AddExpenseComponent implements OnInit {
     expense.dueDate = newExpense.dueDateFormControl;
     expense.paymentFrequency = Frequencies[newExpense.frequencyFormControl];
     expense.category = Categories[newExpense.categoryFormControl];
-    expense.accountId = parseInt(newExpense.accountFormControl);
+    // expense.accountId = parseInt(newExpense.accountFormControl);
     expense.isBill = this.isBill;
 
     return expense;

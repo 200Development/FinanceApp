@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { AccountDTO } from 'src/app/DTOs/account-dto';
 import { DTO } from 'src/app/DTOs/dto';
+import { Account } from '../shared/account';
 import { AccountService } from '../shared/account.service';
 
 @Component({
@@ -10,15 +13,24 @@ import { AccountService } from '../shared/account.service';
 export class AccountListComponent implements OnInit {
 
   dto: DTO;
+  accounts: Account[] = [];
+  // dataSource = new MatTableDataSource<AccountDTO>();   
+  public totalBalance: number;
+  public totalSurplus: number;
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.getDto();
+    this.getAccountDto();
   }
 
-  getDto() {
-    this.accountService.getAccountDto().subscribe(
-      dto => this.dto = dto
-    )
+  getAccountDto() {
+    this.accountService.getAccounts()
+      .subscribe((accounts: Account[]) =>{
+        this.accounts = accounts;
+        //this.dto.accountDtos = [];
+        //this.dto.accountDtos = dto.accountDtos;
+        //this.totalBalance = dto.sumOfAccountBalances;
+        //this.totalSurplus = dto.totalSurplus;
+      });
   }
 }

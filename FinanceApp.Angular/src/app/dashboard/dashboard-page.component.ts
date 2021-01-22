@@ -8,16 +8,16 @@ import { DashboardService } from './shared/dashboard-service.service';
     templateUrl: './dashboard-page.component.html',
     styleUrls: ['./dashboard-page.component.css']
 })
-export class DashboardPageComponent implements OnInit{
+export class DashboardPageComponent {
 
     constructor(private dashboardService: DashboardService){}
 
-    dto: DTO;
+    /* dto: DTO;
     ngOnInit(){
         this.getDto();
     }
 
     getDto() {
         this.dashboardService.getDto().subscribe(dto => this.dto = dto);
-    }
+    } */
 }

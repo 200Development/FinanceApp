@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceApp.Api.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using FinanceApp.API.Services;
@@ -86,6 +87,20 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
+
+                // Add account if one doesn't already exist for the expense category
+                var account = _context.Accounts.FirstOrDefault(a => a.Name == expense.Category.ToString());
+
+                if (account == null)
+                {
+                    account = new Account();
+                    account.Name = expense.Category.ToString();
+
+                    await _context.Accounts.AddAsync(account);
+                    await _context.SaveChangesAsync();
+                }
+
+                expense.AccountId = account.Id;
                 await _context.AddAsync(expense);
                 await _context.SaveChangesAsync();
 
@@ -95,7 +110,7 @@ namespace FinanceApp.Api.Controllers
                     bill.Name = expense.Name;
                     bill.AmountDue = expense.AmountDue;
                     bill.DueDate = expense.DueDate;
-                    bill.AccountId = expense.AccountId;
+                    bill.AccountId = account.Id;
                     bill.Category = expense.Category;
                     bill.PaymentFrequency = expense.PaymentFrequency;
                     bill.PayDeduction = expense.PayDeduction;

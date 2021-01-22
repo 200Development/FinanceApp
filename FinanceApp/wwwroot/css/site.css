@@ -1,71 +1,194 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: #32383E;
+    color: #E1E5EE;
 }
 
-/* Provide sufficient contrast against white background */
+text {
+    fill: #E1E5EE;
+}
+
+/* google chart tooltip */
+path {
+    fill: #32383E;
+    color: #E1E5EE;
+}
+
+.input-group>.form-control {
+    text-align: right;
+}
+
+.table td {
+    vertical-align: unset;
+}
+
+.card {
+    background: #32383E;
+}
+
+.title {
+    padding: 10px;
+}
+
 a {
-  color: #0366d6;
+    color: #E1E5EE;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.nav-item {
+    margin: 5px 10px;
+    padding: 4px;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+#mainNav {
+    height: 35px;
+    -ms-border-radius: 20px;
+    border-radius: 20px;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+#helpDropdown {
+    margin: -2px;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+#navbarDropdown {
+    color: #E1E5EE;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+#selectedDiv {
+    margin-top: 25px;
+    display: flex;
+}
+
+#selectedFooter {
+    margin-top: 10px;
+    display: none;
+}
+
+#selectedCard {
+    margin: 30px 0;
+}
+
+#deleteConfirmationDiv {
+    display: none;
+}
+
+#confirmTransactionDiv {
+    padding: 20px 0;
+}
+
+.dropdown-menu {
+    background: #32383E;
+    padding-left: 4px; 
+}
+
+.table {
+    margin: auto;
+    width: 100% !important;
+}
+
+.addButton {
+    background: transparent;
+    border: 0;
+}
+
+.editButton, 
+.deleteButton, 
+.cancelButton {
+    background: #212529;
+    border: 0;
+    width: 120px;
+    margin-right: 20px;
+}
+
+.addButtonColumn {
+    text-align: center;
+    padding: 15px 0 0 10px;
+   
+}
+
+.addIcon,
+.editIcon,
+.deleteIcon,
+.cancelIcon {
+    color: #508CA4;
+    font-size: 22px;
+}
+
+.card-body {
+    padding: 0;
+}
+
+.selectedInput {
+    display: none;
+}
+
+.selectedInputLabel {
+    margin: 15px 0 5px 0;
+    display: none;
+}
+
+.ct-chart {
+    height: 350px;
+}
+
+
+/*PagedList*/
+.paginationContainer {
+    margin-left: 200px;
+}
+
+.ul.pagination    
+{    
+    display: inline-block;    
+    padding: 0;    
+    margin: 0;    
+}    
+    
+ul.pagination li    
+{    
+    display: inline;    
+}    
+    
+ul.pagination li a    
+{    
+    color: #E1E5EE;    
+    float: left;    
+    padding: 0 16px;    
+    text-decoration: none;    
+    transition: background-color .3s;    
+}    
+    
+ul.pagination li a.active    
+{    
+    background-color: #212529;    
+    color: #E1E5EE;    
+}    
+    
+ul.pagination li a:hover:not(.active)    
+{    
+    background-color: #212529;    
+}
+
+.paginationText {
+    padding: 0 8px;
 }

@@ -1,0 +1,353 @@
+﻿@model FinanceApp.ViewModels.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<link rel="stylesheet" href="css/dashboard.css"/>
+
+
+<div class="row">
+    <partial name="_HeaderNavigationPartial"/>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron-fluid">
+
+                <div class="row">
+                    <div class="col-12" id="graph">
+                        <div id="cashFlowDiv" class="card text-white bg-dark">
+                            <div class="header">
+                                <h4 class="title">Cash Flow</h4>
+                            </div>
+                            <div class="content">
+                                <div id="chartCashFlow" class="ct-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="metricsRow">
+                    <div class="col-8" id="expenseCol">
+                        <div id="expense">
+                            <div class="card text-white bg-dark">
+                                <div class="card-header card-title text-center">Metrics</div>
+                                <div class="card-body" style="display: flex">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-6 expenseContentLabel">Minimum Monthly Expenses</div>
+                                            <div class="col-6 expenseContentValue">@Model.Metrics.MinimumMonthlyExpenses.ToString("C")</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 expenseContentLabel">Due Before Next Paycheck</div>
+                                            <div class="col-6 expenseContentValue">@Model.Metrics.DueBeforeNextPayPeriod.ToString("C")</div>
+                                        </div>
+                                        @*<div class="row">
+                                                <div class="col-6 expenseContentLabel">Targeted Net Worth</div>
+                                                <div class="col-6 expenseContentValue">@Model.Metrics.TargetedNetWorth.ToString("C")</div>
+                                            </div>*@
+                                        <div class="row">
+                                            <div class="col-6 expenseContentLabel">Cash Balance</div>
+                                            <div class="col-6 expenseContentValue">@Model.Metrics.CashBalance.ToString("C")</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row text-center">
+                                            <div class="col-12">
+                                                <div>50-20-30 Rule</div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center">
+                                            <div class="col-12">
+                                                <div>@Model.Metrics.BudgetRuleExpense.ToString("C") / @Model.Metrics.BudgetRuleSavings.ToString("C") / @Model.Metrics.BudgetRuleDiscretionary.ToString("C")</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4" id="incomeCol">
+                        <div id="income">
+                            <div class="card text-white bg-dark">
+                                <div class="card-header card-title text-center">Ratios</div>
+                                <div class="card-body" style="display: flex">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6 expenseContentLabel">Debt-To-Income</div>
+                                            <div class="col-6 expenseContentValue">@Model.Metrics.DebtToIncome.ToString("C")</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 expenseContentLabel">Savings</div>
+                                            <div class="col-6 expenseContentValue">@Model.Metrics.SavingsRate.ToString("P")</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 expenseContentLabel">Emergency Fund (Months)</div>
+                                            <div class="col-6 expenseContentValue">@Model.Metrics.EmergencyFundRatio.ToString("F")</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12" id="disposableIncomeCol">
+                        <div id="disposableIncome">
+                            <div class="card h-100 text-white bg-dark">
+                                <div class="card-header card-title text-center">
+                                    Disposable Income
+                                    <div>
+                                        @Html.Hidden("hiddenDisposableValue")
+                                        <input type="text" name="disposableIncomeValue_@Model.DisposableIncomeAccount.Id" id="disposableIncomeValue_@Model.DisposableIncomeAccount.Id" value="@Model.Metrics.DisposableIncome.ToString("C")" readonly="readonly" style="text-align: center; border: 0; background: transparent; color: #E1E5EE" />
+                                    </div>
+                                    <div><input type="button" class="btn btn-dark text-info" id="updateAccountsButton" value="Save Changes" onclick="updateAccounts(event)" /><label for="updateAccountsButton" id="saveResponseLabel" style="display: block; color:transparent">test</label></div>
+                                    <div></div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4" id="accountCol1"></div>
+                                        <div class="col-4" id="accountCol2"></div>
+                                        <div class="col-4" id="accountCol3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        var updatedAccounts = [];
+
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the bar chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            const cashFlowByMonth = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Metrics.CashFlowByMonth));
+
+            var cashFlowArray = [['Month', 'Cash Flow']];
+
+            $.each(cashFlowByMonth,
+                function(i, v) {
+                    cashFlowArray.push([i,v]);
+                });
+
+            const data = google.visualization.arrayToDataTable(cashFlowArray);
+
+
+            const options = {
+                width: "100%",
+                pointSize: 8,
+                lineWidth: 2,
+                height: "100%",
+                backgroundColor: "transparent",
+                colors: ["#6BFFB8"],
+                tooltip: {
+                    textStyle: {
+                        color: "#E1E5EE",
+                        fontSize: 12
+                    },
+                    showColorCode: false
+                },
+                legend: {
+                    textStyle: {
+                        color: "#E1E5EE",
+                        border: 2,
+                        fontSize: 12
+                    }
+                },
+                chartArea: {
+                    left: 75,
+                    top: 25,
+                    height: "80%"
+                },
+                vAxis: {
+                    gridlines: {
+                        color: "transparent"
+                    }
+                }
+            }
+
+            const chart = new google.visualization.AreaChart(document.getElementById("chartCashFlow"));
+            chart.draw(data, options);
+        };
+
+        function loadAccounts() {
+
+            let j = 1;
+            debugger;
+            const accounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Accounts));
+
+            if (accounts.length > 0) {
+                for (let i = 0; i < accounts.length; i++) {
+                    const account = accounts[i];
+                    const min = account.Balance < account.RequiredSavings ? account.Balance : account.RequiredSavings;
+                    const fixedMin = min.toFixed(2);
+                    const max = @Model.Metrics.DisposableIncome + account.Balance;
+                    const fixedMax = max.toFixed(2);
+                    const balance = account.Balance;
+                    const fixedBalance = balance.toFixed(2);
+
+                    let accountStr = `<div class="col-md-12 rangeDiv">`;
+                    accountStr += `<div class="col-md-4"><label for="account_` + account.Id + `">` + account.Name + `</label></div>`;
+                    accountStr += `<div class="col-md-8"><div class="range">`;
+                    accountStr += `<input type="range" class="bar accountBalanceRanges" step="0.01" value="` + account.Balance + `" min="` + fixedMin + `" max="` + fixedMax + `" id="range_` + account.Id + `" oninput="updateLabels(this, 'accountBalanceRanges')" />`;
+                    accountStr += `<span class="highlight"><output class="rangeLabel" id="rangeLabel_` + account.Id + `">` + fixedBalance + `</output></span></div></div></div>`;
+
+                    $('#accountCol' + j).append(accountStr);
+
+                    // Reset counter to add accounts evenly over 2 columns
+                    j = j === 3 ? 1 : ++j;
+                }
+            } else {
+                $('#accountCol' + j).append('Go Add Some Accounts :)');
+            }
+        };
+
+        function updateLabels(changedRange, rangeClass) {
+
+            // Add class to track changed accounts
+            // TODO: Remove tracking if account is set back to original values to prevent useless update
+
+            if (!$(changedRange).hasClass('updated')) {
+                $(changedRange).addClass('updated');
+            }
+
+            const id = changedRange.id.split('_')[1];
+
+            const rangeLabel = $('#rangeLabel_' + id)[0];
+            const rangeValue = Number(changedRange.value);
+            const rangeDefaultValue = Number(changedRange.defaultValue);
+
+            rangeLabel.value = changedRange.value;
+
+            if (rangeDefaultValue !== NaN && rangeValue !== NaN) {
+                const disposableIncomeElement = $('#disposableIncomeValue_@Model.DisposableIncomeAccount.Id')[0];
+                const disposableIncomeText = disposableIncomeElement.value.replace('$', '').replace(',', '');
+                const disposableIncomeValue = Number(disposableIncomeText);
+                const delta = rangeValue - rangeDefaultValue;
+
+                if (disposableIncomeValue !== NaN) {
+                    const updatedDisposableIncome = disposableIncomeValue - delta;
+                    const updatedDisposableIncomeFixed = updatedDisposableIncome.toFixed(2);
+                    disposableIncomeElement.value = updatedDisposableIncomeFixed;
+                }
+
+                if (!$(disposableIncomeElement).hasClass('updated')) {
+                    $(disposableIncomeElement).addClass('updated');
+                }
+
+                setRangeMaxValues(rangeClass, changedRange, delta);
+
+                // Set updated slider's defaultValue to current value for calculating delta next time through
+                changedRange.defaultValue = changedRange.value;
+            }
+        };
+
+        function setRangeMaxValues(rangeClass, changedRange, delta) {
+
+            const ranges = $('.' + rangeClass);
+
+            ranges.each(function() {
+                const max = Number(this.max);
+
+                if (this.id === changedRange.id) {
+                    this.setAttribute('value', this.value);
+                } else {
+                    if (max !== NaN) {
+                        const newMax = max - delta;
+                        const newMaxFixed = newMax.toFixed(2);
+                        this.max = newMaxFixed.toString();
+                    }
+                }
+            });
+        };
+
+        function updateAccounts(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const accounts = [];
+
+            $.each($('.updated'),
+                function(index, value) {
+                    const account = {};
+                    const id = value.id.split('_')[1];
+                    account.Id = Number(id);
+                    if (isNaN(value.valueAsNumber))
+                        account.Balance = Number(value.value);
+                    else
+                        account.Balance = value.valueAsNumber;
+
+                    accounts.push(account);
+                });
+
+            if (accounts.length < 1) {
+
+                const $label = $('#saveResponseLabel');
+                $label.text('No changes to save');
+                $label.css('color', '#ffef9f');
+                $label.show();
+                $label.fadeOut(2500,
+                    function() {
+                        const $label = $('#saveResponseLabel');
+                        $label.css('color', 'transparent');
+                        $label.css('display', 'block');
+                    });
+            } else {
+
+                const data = JSON.stringify( accounts );
+
+                $.ajax({
+                    url: 'Accounts/UpdateAccounts',
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function(result) {
+                        $('.updated').removeClass('updated');
+
+                        console.log('Success: ' + result);
+                        const $label = $('#saveResponseLabel');
+                        $label.text('Saved');
+                        $label.css('color', '#6BFFB8');
+                        $label.show();
+                        $label.fadeOut(2500,
+                            function() {
+                                const $label = $('#saveResponseLabel');
+                                $label.css('color', 'transparent');
+                                $label.css('display', 'block');
+                            });
+                    },
+                    error: function(error) {
+                        console.log('Error: ' + error);
+                    }
+                });
+            }
+        }
+
+
+        $(document).ready(function() {
+            loadAccounts();
+        });
+
+    </script>
+}

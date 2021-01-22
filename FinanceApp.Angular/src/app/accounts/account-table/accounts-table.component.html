@@ -1,0 +1,133 @@
+<form [formGroup]="newAccountForm" (ngSubmit)="onSubmit()">
+    <div class="newAccountDiv">
+        <div class="row">
+            <div class="newAccountColumn">
+                <button mat-icon-button aria-label="add new account button" type="submit">
+                    <mat-icon>add_circle_outline</mat-icon>
+                </button>
+            </div>
+            <div class="newAccountColumn">
+                <input formControlName="name" type="text" class="form-control form-control-sm" id="newAccountName">
+            </div>
+            <div class="newAccountColumn">
+                <input formControlName="balance" type="number" class="form-control form-control-sm"
+                    id="newAccountBalance">
+            </div>
+        </div>
+    </div>
+</form>
+
+<table mat-table [dataSource]="dataSource.data" multiTemplateDataRows class="mat-elevation-z8">
+
+    <!--Name column-->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let dto"> {{ dto.account.name | titlecase }} </td>
+    </ng-container>
+
+    <!--Balance column-->
+    <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef> Balance </th>
+        <td mat-cell *matCellDef="let dto"> {{ dto.account.balance | currency}} </td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let dto" [attr.colspan]="columnsToDisplay.length">
+            <div class="account-detail" [@detailExpand]="dto == expandedDto ? 'expanded' : 'collapsed'">
+                <div class="account-diagram">
+                    <table>
+                        <tr class="account-detail-table-row">
+                            <td class="detail-labels">
+                                Payday deduction
+                            </td>
+                            <td class="detail-values">
+                                {{dto.payDeduction | currency }}
+                            </td>
+                        </tr>
+                        <tr class="account-detail-table-row">
+                            <td class="detail-labels">
+                                Paycheck %
+                            </td>
+                            <td class="detail-values">
+                                {{ dto.paycheckPercentage | percent: '2.2-2' }}
+                            </td>
+                        </tr>
+                        <tr class="account-detail-table-row">
+                            <td class="detail-labels">
+                                Due Before Next Paycheck
+                            </td>
+                            <td class="detail-values">
+                                {{dto.expensesBeforeNextPaycheck | currency }}
+                            </td>
+                        </tr>
+                        <tr class="account-detail-table-row">
+                            <td class="detail-labels">
+                                Required Savings
+                            </td>
+                            <td class="detail-values">
+                                {{dto.requiredSavings | currency }}
+                            </td>
+                        </tr>
+                        <tr class="account-detail-table-row">
+                            <td class="detail-labels">
+                                Balance Surplus
+                            </td>
+                            <td class="detail-values">
+                                {{dto.balanceSurplus | currency }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="account-bills">
+                    <label id="assigned-bills-lbl">Assigned Bills</label>
+
+                    <div class="row bill-list">
+                        <div *ngFor="let bill of dto.bills" class="col-sm-6">
+                            <div class="card bill-card" >
+                                <div class="card-header text-centered bill-card-header">
+                                    <span class="bill-card-header-span">{{bill.name |
+                                        titlecase}}</span>
+                                </div>
+                                <div class="card-body bill-card-body">
+                                    <table>
+                                        <tr>
+                                            <td class="detail-labels">Amount due</td>
+                                            <td class="detail-values">
+                                                <span class="vertical-middle">
+                                                {{bill.amountDue | currency}}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="detail-labels">Pay deduction</td>
+                                            <td class="detail-values">
+                                                <span class="vertical-middle">
+                                                {{bill.payDeduction | currency}}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    
+                                </div>
+                                <div class="card-footer text-centered bill-card-footer">
+                                    <label class="bill-due-date-label">Next due date</label>
+                                    <span class="bill-due-date-span">{{bill.dueDate
+                                        | date}} </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="account-bills-total">{{ dto.billsSum | currency }}</span>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let dto; columns: columnsToDisplay;" class="account-row"
+        [class.example-expanded-row]="expandedDto === accountDto"
+        (click)="expandedDto = expandedDto === dto ? null : dto">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+</table>

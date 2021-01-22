@@ -4,13 +4,16 @@
     ViewBag.Title = "Accounts";
 }
 
-<link href="~/css/accounts.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/accounts.css" />
 
 
 @using (Html.BeginForm("Create", "Accounts", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
+    <div class="row">
+        <partial name="_HeaderNavigationPartial" />
+    </div>
     <div class="content">
 
         <div class="row">
@@ -84,12 +87,51 @@
     </div>
 }
 
+
 @section scripts {
 
     <!--  Charts Plugin -->
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the bar chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            var accounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Accounts));
+
+            var accountArray = [['Account', 'Balance']];
+            var totalBalance = 0;
+
+            $.each(accounts,
+                function(index, value) {
+                    totalBalance += value.Balance;
+                });
+
+            $.each(accounts,
+                function(index, value) {
+                    accountArray.push([value.Name, value.Balance]);
+                });
+
+            const data = google.visualization.arrayToDataTable(accountArray);
+
+            const options = {
+                title: 'Account Balances',
+                is3D: true,
+                backgroundColor: '#212529'
+            };
+
+            const chart = new google.visualization.ColumnChart(document.getElementById('chartAccounts'));
+            chart.draw(data, options);
+        };
 
         function rowSelected(e) {
             const id = e.target.id.split('_')[1];
@@ -110,7 +152,7 @@
             }
 
             let balance = 0;
-            if(!isNaN(Number(balanceText))) {
+            if (!isNaN(Number(balanceText))) {
                 balance = isNegativeBalance ? Number(balanceText) * -1 : Number(balanceText);
             }
 
@@ -219,80 +261,6 @@
             $('#selectedAccountName').val('');
             $('#selectedAccountBalance').val(0);
             $('#selectedAccountRequiredSavings').val(0);
-        }
-
-        function LoadChart() {
-            const accounts = @Model.Accounts.OrderByDescending(a => a.Balance).Take(8);
-            const dataTable = new window.google.visualization.DataTable();
-            const accountsLength = Object.keys(accounts).length;
-            var accountsArray = new Array(accountsLength);
-
-            //Add each Account from Model to an array to iterate through
-            for (let prop in accounts) {
-                if (Object.prototype.hasOwnProperty.call(accounts, prop)) {
-                    accountsArray.push(accounts[prop]);
-                }
-            }
-
-            //Remove any undefined Accounts
-            accountsArray = accountsArray.filter(function(n) { return n != undefined });
-
-            //Set the graph X (Account) and Y (CurrentBalance) values
-            const data = [['Account', 'Current Balance']];
-
-            //Iterate through Accounts array to add each account to the graph.
-            for (let i = 0; i < accountsArray.length; i++) {
-                if (accountsArray[i]['Balance'] === 0) continue; //Exclude any Accounts with a balance of $0.00
-                data.push([accountsArray[i]['Name'], accountsArray[i]['Balance']]);
-            };
-
-            const numRows = data.length;
-            const numCols = data[0].length;
-
-            dataTable.addColumn('string', data[0][0]);
-
-            for (let i = 1; i < numCols; i++)
-                dataTable.addColumn('number', data[0][1]);
-
-            for (let i = 1; i < numRows; i++)
-                dataTable.addRow(data[i]);
-
-            const options = {
-                width: "100%",
-                pointSize: 8,
-                lineWidth: 2,
-                height: "100%",
-                backgroundColor: "transparent",
-                colors: ["#6BFFB8"],
-                tooltip: {
-                    textStyle: {
-                        color: "black",
-                        fontSize: 12
-                    },
-                    showColorCode: false
-                },
-                legend: {
-                    textStyle: {
-                        color: "#E1E5EE",
-                        border: 2,
-                        fontSize: 12
-                    }
-                },
-                chartArea: {
-                    left: 75,
-                    top: 25,
-                    height: "80%"
-                },
-
-                vAxis: {
-                    gridlines: {
-                        color: "transparent"
-                    }
-                }
-            };
-
-            const chart = new window.google.visualization.ColumnChart(document.getElementById("chartAccounts"));
-            chart.draw(dataTable, options);
         };
 
         function addTableListeners() {
@@ -300,14 +268,9 @@
             $('#editButton').unbind('click').click(saveAccount);
             $('#deleteButton').unbind('click').click(deleteAccount);
             $('#cancelButton').unbind('click').click(closeSelectedAccountDiv);
-        }
-
-        google.charts.load('current',
-            {
-                packages: ['corechart','bar']
-            });
-        google.charts.setOnLoadCallback(LoadChart);
+        };
 
         document.addEventListener("DOMContentLoaded", addTableListeners);
+
     </script>
 }

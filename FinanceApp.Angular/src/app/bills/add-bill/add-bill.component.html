@@ -1,0 +1,69 @@
+<form [formGroup]="newBillForm" (ngSubmit)="addBill()">
+    <div class="card">
+        <div class="card-header">
+            New Bill
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <mat-form-field appearance="fill" class="bill-field">
+                        <mat-label>Name</mat-label>
+                        <input matInput class="form-control" formControlName="nameFormControl" placeholder="Account name">
+                        <mat-icon matSuffix></mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 form-group">
+                    <mat-form-field appearance="fill" class="bill-field">
+                        <mat-label>Amount Due</mat-label>
+                        <input matInput class="form-control" formControlName="amountDueFormControl"  placeholder="$0.00">
+                        <mat-icon matSuffix></mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <mat-form-field appearance="fill" class="bill-field">
+                        <mat-label>Next due date</mat-label>
+                        <input matInput class="form-control" formControlName="dueDateFormControl" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <mat-form-field appearance="fill" class="bill-field">
+                        <select matNativeControl required class="form-control" formControlName="frequencyFormControl">
+                            <option label="--select frequency --"></option>
+                            <option *ngFor="let frequency of frequencyKeys()">{{frequency}}</option>
+                        </select>
+                        <mat-error *ngIf="newBillForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 form-group">
+                    <mat-form-field appearance="fill" class="bill-field">
+                        <mat-label>Select category</mat-label>
+                        <select matNativeControl required class="form-control" formControlName="accountFormControl">
+                            <option label="--select category --"></option>
+                            <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+                        </select>
+                        <mat-error *ngIf="newBillForm.hasError('required')">
+                            This field is required
+                        </mat-error>                      
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button mat-button class="bill-field" aria-label="add new bill button" type="submit">
+                        <mat-icon>add_circle_outline</mat-icon>Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

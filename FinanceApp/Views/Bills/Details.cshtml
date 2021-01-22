@@ -1,0 +1,49 @@
+﻿@model FinanceApp.ViewModels.BillViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bill</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill.AmountDue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill.AmountDue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bill.PaymentFrequency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bill.PaymentFrequency)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

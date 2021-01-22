@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FinanceApp.Data.Base;
 using FinanceApp.Data.Models.Entities;
@@ -6,40 +9,64 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Data.Repositories
 {
+    /// <summary>
+    /// Handles all calls to the Accounts table in the database.  Exposes the signed-in User to create and follow the User - Entity relationship. 
+    /// </summary>
     public class AccountRepository : BaseRepository<Account>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly string _userId;
 
-        public AccountRepository(ApplicationDbContext context) : base(context)
+
+        public AccountRepository(ApplicationDbContext context, string userName) : base(context)
         {
-            _context = context;
+            _userId = GetUserId(userName);
         }
+
 
         public async Task<IEnumerable<Account>> GetAllAccountsAsync()
         {
-            return await FindAll()
+            return await FindByCondition(account => account.UserId == _userId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsByCondition(Expression<Func<Account, bool>> expression)
+        {
+            return await FindByCondition(expression)
+                .Where(account => account.UserId == _userId)
                 .ToListAsync();
         }
 
         public async Task<Account> GetAccountByIdAsync(int id)
         {
-            return await FindByCondition(account => account.Id.Equals(id))
+            return await FindByCondition(account => account.UserId == _userId && account.Id.Equals(id))
                 .FirstOrDefaultAsync();
         }
 
-        public void CreateAccount(Account account)
+        public async Task<Account> GetDisposableIncomeAccount()
         {
-            Create(account);
+            return await FindByCondition(account => account.UserId == _userId && account.IsDisposableIncomeAccount)
+                .FirstOrDefaultAsync();
         }
 
-        public void UpdateAccount(Account account)
+        public async Task<Account> GetEmergencyFundAccount()
         {
-            Update(account);
+            return await FindByCondition(account => account.UserId == _userId && account.IsEmergencyFund)
+                .FirstOrDefaultAsync();
         }
 
-        public void DeleteAccount(Account account)
+        public bool CreateAccount(Account account)
         {
-            Delete(account);
+            try
+            {
+                account.UserId = _userId;
+                Create(account);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

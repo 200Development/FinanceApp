@@ -1,0 +1,9 @@
+﻿Entities
+	Expense: Any one-time or reaccuring cost
+	Bill: A reacurring and scheduled expense
+	Account: The required funds, sorted by type and category of the expenses the account covers 
+	Income: Regularly scheduled deposit
+	Transaction:
+
+Processes
+

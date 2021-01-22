@@ -1,0 +1,200 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "./../node_modules/font-awesome/css/font-awesome.min.css";
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: #32383E;
+    color: #E1E5EE;
+}
+
+text {
+    fill: #E1E5EE;
+}
+
+/* google chart tooltip */
+path {
+    fill: #32383E;
+    color: #E1E5EE;
+}
+
+.input-group>.form-control {
+    text-align: right;
+}
+
+.table td {
+    vertical-align: unset;
+}
+
+.card {
+    background: #32383E;
+}
+
+.title {
+    padding: 10px;
+}
+
+a {
+    color: #E1E5EE;
+}
+
+.nav-item {
+    margin: 5px 10px;
+    padding: 4px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#mainNav {
+    height: 35px;
+    -ms-border-radius: 20px;
+    border-radius: 20px;
+}
+
+#helpDropdown {
+    margin: -2px;
+}
+
+#navbarDropdown {
+    color: #E1E5EE;
+}
+
+#selectedDiv {
+    margin-top: 25px;
+    display: flex;
+}
+
+#selectedFooter {
+    margin-top: 10px;
+    display: none;
+}
+
+#selectedCard {
+    margin: 30px 0;
+}
+
+#deleteConfirmationDiv {
+    display: none;
+}
+
+#confirmTransactionDiv {
+    padding: 20px 0;
+}
+
+.dropdown-menu {
+    background: #32383E;
+    padding-left: 4px; 
+}
+
+.table {
+    margin: auto;
+    width: 100% !important;
+}
+
+.addButton {
+    background: transparent;
+    border: 0;
+}
+
+.editButton, 
+.deleteButton, 
+.cancelButton {
+    background: #212529;
+    border: 0;
+    width: 120px;
+    margin-right: 20px;
+}
+
+.addButtonColumn {
+    text-align: center;
+    padding: 15px 0 0 10px;
+   
+}
+
+.addIcon,
+.editIcon,
+.deleteIcon,
+.cancelIcon {
+    color: #508CA4;
+    font-size: 22px;
+}
+
+.card-body {
+    padding: 0;
+}
+
+.selectedInput {
+    display: none;
+}
+
+.selectedInputLabel {
+    margin: 15px 0 5px 0;
+    display: none;
+}
+
+.ct-chart {
+    height: 350px;
+}
+
+
+/*PagedList*/
+.paginationContainer {
+    margin-left: 200px;
+}
+
+.ul.pagination    
+{    
+    display: inline-block;    
+    padding: 0;    
+    margin: 0;    
+}    
+    
+ul.pagination li    
+{    
+    display: inline;    
+}    
+    
+ul.pagination li a    
+{    
+    color: #E1E5EE;    
+    float: left;    
+    padding: 0 16px;    
+    text-decoration: none;    
+    transition: background-color .3s;    
+}    
+    
+ul.pagination li a.active    
+{    
+    background-color: #212529;    
+    color: #E1E5EE;    
+}    
+    
+ul.pagination li a:hover:not(.active)    
+{    
+    background-color: #212529;    
+}
+
+.paginationText {
+    padding: 0 8px;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

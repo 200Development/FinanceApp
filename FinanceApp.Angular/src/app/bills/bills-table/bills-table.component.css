@@ -1,0 +1,108 @@
+/* General */
+table {
+    width: 100%;
+  }
+  
+  tr.bill-row:not(.expanded-row):active {
+    background: #2D3339;
+  }
+  
+  tr.bill-row:not(.expanded-row):hover {
+    background: #2D3339;
+  }
+  
+  tr.detail-row {
+    height: 0;
+  }
+  
+
+  /* IDs */
+  #account-bills {
+    margin-left: 24px;
+  }
+  
+
+  /* CLASSES */
+  
+  .bill-detail {
+    overflow: hidden;
+    display: flex;
+    height: 165px;
+  }
+
+  .bill-detail-row {
+    height: 85px;
+    width: 125px;
+  }
+
+  .tbl-row-detail {
+    margin: 0 0 16px 0;
+  }
+
+  .bill-diagram {
+    min-width: 120px;
+    padding: 16px 0;
+    font-weight: lighter;
+    margin: 16px 0 0 0;
+    height: 104px;
+  }
+  
+  .bill-payDeduction {
+    font-weight: lighter;
+    font-size: 12px;
+    line-height: normal;
+  }
+
+  .account-row td {
+    border-bottom-width: 0;
+  }
+
+  .bill-due-date-label {
+    font-weight: 500; 
+    font-size: 1.0em; 
+    margin: 0 4px;
+  }
+  
+  .bill-due-date-span {
+    font-size: 1.0em; 
+    font-weight: lighter;
+  }
+
+  .bill-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 8px 0 0 0;
+  }
+  
+  .tbl-td-detail-label {
+    color: #AFA060;
+    font-weight:600; 
+    text-align: left;
+  }
+
+  .tbl-td-detail-value {
+    color: #38E4AE;
+    text-align: right;
+  }
+
+  .mat-table {
+    background: #212529;
+  }
+
+  .newBillColumn {
+    padding: 6px;
+  }
+  
+  .newBillDiv {
+    margin-left: 24px;
+  }
+
+  .text-centered {
+    text-align: center;
+  }
+
+  .vertical-middle {
+    vertical-align: -webkit-baseline-middle;
+  }
+ 
+  

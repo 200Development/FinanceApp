@@ -7,32 +7,30 @@
     <thead>
         <tr>
             <th scope="col"></th>
-            <th scope="col">Name</th>
-            <th scope="col">Balance</th>
-            <th scope="col">Required Savings</th>
+            <th scope="col">
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.Account.Name)</a>
+            </th>
+            <th scope="col">
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]">@Html.DisplayNameFor(model => model.Account.Balance)</a>
+            </th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <th scope="row" class="addButtonColumn"><button class="addButton" type="submit" name="submitButton" value="Add"><i class="fa fa-plus-circle addIcon"></i></button></th>
             <td>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">
-                    @Html.EditorFor(model => model.Account.Name, new { htmlAttributes = new { @class = "form-control" } })
-                </a>
-                @Html.ValidationMessageFor(model => model.Account.Name, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.Account.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Account.Name, "", new { @class = "text-danger" })
             </td>
             <td>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">$</span>
                     </div>
-                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]">
-                        @Html.EditorFor(model => model.Account.Balance, new { htmlAttributes = new { @class = "form-control" } })
-                    </a>
+                    @Html.EditorFor(model => model.Account.Balance, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Account.Balance, "", new { @class = "text-danger" })
                 </div>
             </td>
-            <td></td>
         </tr>
         @if (Model != null && Model.PagedAccounts.Count > 0)
         {
@@ -52,7 +50,7 @@
         else
         {
             <tr>
-                <td colspan="4">No Accounts</td>
+                <td colspan="3">No Accounts</td>
             </tr>
         }
     </tbody>

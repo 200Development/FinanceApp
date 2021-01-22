@@ -1,16 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.cs" />
+    <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.Designer.cs" />
+    <Compile Remove="Migrations\20210106061424_addExpenseAndIncomeTables.cs" />
+    <Compile Remove="Migrations\20210106061424_addExpenseAndIncomeTables.Designer.cs" />
+    <Compile Remove="Migrations\20210110053727_addTransactionsTable.cs" />
+    <Compile Remove="Migrations\20210110053727_addTransactionsTable.Designer.cs" />
+    <Compile Remove="Migrations\20210110065721_fixColumnReferences.cs" />
+    <Compile Remove="Migrations\20210110065721_fixColumnReferences.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.8" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="MySqlConnector" Version="1.2.1" />
     <PackageReference Include="x.pagedlist.mvc.core" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinanceApp.Data\FinanceApp.Data.csproj" />
+    <Folder Include="Entities\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

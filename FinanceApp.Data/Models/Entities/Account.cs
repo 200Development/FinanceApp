@@ -7,14 +7,13 @@ namespace FinanceApp.Data.Models.Entities
     {
          public Account()
         {
-         // UserId = Global.Instance.User != null ? Global.Instance.User.Id : string.Empty;
           Balance = 0.00m;
           PaycheckContribution = 0.00m;
           SuggestedPaycheckContribution = 0.00m;
           RequiredSavings = 0.00m;
           BalanceLimit = 0.00m;
           BalanceSurplus = 0.00m;
-          IsPoolAccount = false;
+          IsDisposableIncomeAccount = false;
           IsEmergencyFund = false;
           IsMandatory = false;
           ExcludeFromSurplus = false;
@@ -48,7 +47,7 @@ namespace FinanceApp.Data.Models.Entities
         public bool ExcludeFromSurplus { get; set; }
 
         [Required, Display(Name = "Pool Account")]
-        public bool IsPoolAccount { get; set; }
+        public bool IsDisposableIncomeAccount { get; set; }
 
         [Required, Display(Name = "Emergency Fund")]
         public bool IsEmergencyFund { get; set; }

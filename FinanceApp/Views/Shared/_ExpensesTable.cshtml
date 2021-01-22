@@ -1,0 +1,92 @@
+﻿@using X.PagedList.Mvc.Core.Common
+@using X.PagedList.Mvc.Core
+@model FinanceApp.ViewModels.BillViewModel
+
+
+
+<table class="table table-striped table-dark" id="expensesTable">
+    <thead>
+        <tr class="header">
+            <th scope="col">Expense</th>
+            <th scope="col">Amount Due</th>
+            <th scope="col">Due Date</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.PagedExpenses.Count > 0)
+    {
+        <tbody>
+            @foreach (var item in Model.PagedExpenses)
+            {
+                var expenseId = "expenseId_" + item.Id;
+                var nameId = "expenseName_" + item.Id;
+                var amountDueId = "expenseAmountDue_" + item.Id;
+                var dueDateId = "expenseDueDate_" + item.Id;
+                var creditAccountId = "expenseCreditAccountId_" + item.Id;
+
+                @Html.Hidden(@creditAccountId, item.CreditAccountId);
+
+                <tr>
+                    <td id="@nameId">@item.Name</td>
+                    <td id="@amountDueId">@item.Amount.ToString("C")</td>
+                    <td id="@dueDateId">@item.Due.ToShortDateString()</td>
+                    <td><button id="@expenseId" class="payBillButtons btn btn-dark btn-sm">Mark as Paid</button></td>
+                </tr>
+            }
+        </tbody>
+    }
+    else
+    {
+        <tbody>
+            <tr>
+                <td colspan="4">No Unpaid Expenses</td>
+            </tr>
+        </tbody>
+    }
+    <tfoot>
+        @if (Model != null && Model.PagedExpenses.Count != 0)
+        {
+            <tr>
+                <td colspan="4">
+                    <div class="fixed-table-pagination" style="display: block;">
+                        <div class="pull-left">
+                            @Html.PagedListPager(Model.PagedExpenses,
+                                                    page => Url.Action("PageExpenses", "Bills", new
+                                                    {
+                                                        page,
+                                                        pageSize = Model.PagedExpenses.PageSize,
+                                                        CurrentPage = Model.PagedExpenses.PageNumber,
+                                                        sortOrder = "",
+                                                        fieldName = "",
+                                                        IsShowControls = false,
+                                                        IsShowFirstLast = false,
+                                                        IsShowPages = true
+                                                    }),
+                                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                                    new PagedListRenderOptions(),
+                                    new AjaxOptions()
+                                    {
+                                        HttpMethod = "GET",
+                                        UpdateTargetId = "expensesTable",
+                                        OnComplete = "addTableListeners"
+                                    }))
+                        </div>
+                        <div class="pull-right pagination-detail header-title pd-tp-bt-10">
+                            <span class="pagination pagination-info">
+                                Page @(Model.PagedExpenses.PageCount < Model.PagedExpenses.PageNumber ? 0 : Model.PagedExpenses.PageNumber) of @Model.PagedExpenses.PageCount
+                                /
+                                @(Model.PagedExpenses.TotalItemCount) items in @(Model.PagedExpenses.PageCount) pages
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tfoot>
+</table>
+
+
+<div class="row">
+    <div class="col-md-12" id="payExpenseDiv"></div>
+</div>
+

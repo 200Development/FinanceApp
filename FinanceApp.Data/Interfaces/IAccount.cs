@@ -11,7 +11,7 @@
         decimal RequiredSavings { get; set; }
         decimal BalanceSurplus { get; set; }
         bool ExcludeFromSurplus { get; set; }
-        bool IsPoolAccount { get; set; }
+        bool IsDisposableIncomeAccount { get; set; }
         bool IsEmergencyFund { get; set; }
         bool IsAddNewAccount { get; set; }
         bool IsMandatory { get; set; }

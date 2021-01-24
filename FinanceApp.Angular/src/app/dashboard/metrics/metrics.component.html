@@ -1,11 +1,11 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" style="margin-bottom: 12px;">
         <div class="card">
             <div class="card-header">
-                Expenses Due Before Next Pay Day
+                Due Before Next Pay Day
             </div>
             <div class="card-body">
-                {{ expensesDueBeforeNextPayDay }}
+                {{ dto.totalExpensesDueBeforeNextPayDay | currency }}
             </div>
         </div>
     </div>
@@ -15,7 +15,7 @@
                 Required Savings
             </div>
             <div class="card-body">
-                {{ requiredSavings }}
+                {{ dto.requiredSavings | currency }}
             </div>
         </div>
     </div>
@@ -24,20 +24,20 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Current Savings
+             {{ dto.month }}, {{ dto.year }} Expenses
             </div>
             <div class="card-body">
-                {{ currentSavings }}
+                {{ totalExpensesThisMonth | currency }}
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Remaining Income This Month
+                Income This Month
             </div>
             <div class="card-body">
-                {{ remainingIncomeThisMonth }}
+                {{ dto.incomeThisMonth | currency }}
             </div>
         </div>
     </div>
@@ -46,15 +46,28 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                Disposable Income
+                Cash Balance
             </div>
             <div class="card-body">
-                {{ disposableIncome }}
+                {{ dto.cashBalance | currency }}
+            </div>
+            <div class="card-footer">
+                <mat-hint>Balance of all savings & checking accounts</mat-hint>
             </div>
         </div>
     </div>
     <div class="col-md-6">
-       
+        <div class="card">
+            <div class="card-header">
+                Accounting Surplus
+            </div>
+            <div class="card-body">
+                {{ dto.accountingBalance | currency }}
+            </div>
+            <div class="card-footer">
+                <mat-hint>Extra $ after future obligations are accounted for</mat-hint>
+            </div>
+        </div>
     </div>
 </div>
 

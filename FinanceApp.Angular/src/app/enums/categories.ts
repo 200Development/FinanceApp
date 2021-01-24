@@ -2,6 +2,7 @@ export enum Categories {
     Auto,
     Charity,
     Clothing,
+    Debt,
     DependentCare,
     Education,
     Electronics,
@@ -11,6 +12,7 @@ export enum Categories {
     Home,
     Insurance,
     Investment,
+    Loan,
     MembershipFee,
     Mortgage,
     Misc,
@@ -21,5 +23,7 @@ export enum Categories {
     Travel,
     Utilities,
     Vacation,
+    Rent,
+    Salary,
     Subscription
 }

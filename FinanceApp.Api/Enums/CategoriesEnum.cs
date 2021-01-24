@@ -7,6 +7,7 @@ namespace FinanceApp.Api.Enums
         Auto,
         Charity,
         Clothing,
+        Debt,
         DependentCare,
         Education,
         Electronics,
@@ -16,6 +17,7 @@ namespace FinanceApp.Api.Enums
         Home,
         Insurance,
         Investment,
+        Loan,
         MembershipFee,
         Mortgage,
         Misc,
@@ -26,6 +28,8 @@ namespace FinanceApp.Api.Enums
         Travel,
         Utilities,
         Vacation,
-        Subscription
+        Rent,
+        Salary,
+        Subscription,
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FinanceApp.Api.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using FinanceApp.API.Services;
@@ -42,7 +41,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet]
         [Route("dto")]
-        public async Task<DTO> GetExpenseDto()
+        public async Task<ActionResult<DTO>> GetExpenseDto()
         {
             var dto = new DTO();
             var expenseDtos = new List<ExpenseDTO>();
@@ -51,6 +50,7 @@ namespace FinanceApp.Api.Controllers
             {
                 var accounts = await _context.Accounts.ToListAsync();
                 var expenses = await _context.Expenses.ToListAsync();
+                var income = _context.Incomes.FirstOrDefault();
                 var unpaidExpenses = await expenses.Where(e => !e.Paid).ToListAsync();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "expenses");
 
@@ -62,7 +62,7 @@ namespace FinanceApp.Api.Controllers
                     expenseDto.Expense = expense;
                     expenseDto.PayDeduction = payDeduction;
                     expenseDto.PaycheckPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
-                    expenseDto.RequiredSavings = CalculationsService.GetExpenseRequiredSavings(payDeductionDict, expense);
+                    expenseDto.RequiredSavings = CalculationsService.GetExpenseRequiredSavings(payDeductionDict, expense, income);
 
                     expenseDtos.Add(expenseDto);
                 }

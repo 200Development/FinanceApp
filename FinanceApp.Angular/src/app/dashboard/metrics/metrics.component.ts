@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DTO } from 'src/app/DTOs/dto';
+import { MetricService } from './metric.service';
 
 @Component({
   selector: 'metrics',
@@ -7,15 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MetricsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private metricService: MetricService) { }
 
-  expensesDueBeforeNextPayDay: number = 231.12;
-  requiredSavings: number = 845.25;
-  currentSavings: number = 1200.34;
-  remainingIncomeThisMonth: number = 2400;
-  disposableIncome: number = this.currentSavings - this.requiredSavings;
- 
+  dto: DTO;
+  totalExpensesThisMonth: number;
   ngOnInit(): void {
+    this.getMetricDto();
   }
 
+  getMetricDto(){
+    this.metricService.getMetricDto()
+    .subscribe((dto: any) => {
+      this.dto = dto;
+      this.totalExpensesThisMonth = dto.costOfDiscretionaryExpensesThisMonth + dto.costOfMandatoryExpensesThisMonth;
+    })
+  }
+ 
 }

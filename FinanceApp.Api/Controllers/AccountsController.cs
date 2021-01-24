@@ -6,6 +6,7 @@ using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using FinanceApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
@@ -34,7 +35,7 @@ namespace FinanceApp.Api.Controllers
             string filterColumn = null,
             string filterQuery = null)
         {
-            return await _context.Accounts.ToListAsync();
+            return await PagedListExtensions.ToListAsync(_context.Accounts);
         }
 
         // GET: api/accounts/dto
@@ -46,10 +47,11 @@ namespace FinanceApp.Api.Controllers
             var accountDtos = new List<AccountDTO>();
             try
             {
-                var accounts = await _context.Accounts.ToListAsync();
-                var bills = await _context.Bills.ToListAsync();
+                var accounts = await PagedListExtensions.ToListAsync(_context.Accounts);
+                var bills = await PagedListExtensions.ToListAsync(_context.Bills);
+                var income = _context.Incomes.FirstOrDefault();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, bills);
-                var requiredSavingsDict = CalculationsService.GetAccountRequiredSavingsDict(payDeductionDict, bills);
+                var requiredSavingsDict = CalculationsService.GetAccountRequiredSavingsDict(payDeductionDict, bills, income);
                 var sumOfAccountBalances = 0.0m;
                 var totalSurplus = 0.0m;
 

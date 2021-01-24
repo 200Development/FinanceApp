@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
-// import { AccountService } from 'src/app/accounts/shared/account.service';
 import { Account } from 'src/app/accounts/shared/account';
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
@@ -13,7 +12,7 @@ import { ExpenseService } from '../shared/expense.service';
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.css']
 })
-export class AddExpenseComponent implements OnInit {
+export class AddExpenseComponent {
 
   constructor(private expenseService: ExpenseService) { }
 
@@ -26,7 +25,6 @@ export class AddExpenseComponent implements OnInit {
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     amountDueFormControl: new FormControl(0, [Validators.required, Validators.min(0.01)]),
     dueDateFormControl: new FormControl('', Validators.required),
-    // accountFormControl: new FormControl('', Validators.required),
     frequencyFormControl: new FormControl('', Validators.required),
     categoryFormControl: new FormControl('', Validators.required),
   });
@@ -34,10 +32,6 @@ export class AddExpenseComponent implements OnInit {
 
   recurringChanged({ source, checked }: { source: MatCheckbox; checked: boolean; }){
     this.isBill = checked;
-  }
-
-  ngOnInit(): void {
-    // this.getAccounts();
   }
 
   frequencyKeys(): Array<string> {
@@ -50,17 +44,14 @@ export class AddExpenseComponent implements OnInit {
     return keys.slice(keys.length / 2);
   }
 
-  // getAccounts() {
-  //   this.accountService.getAccounts()
-  //     .subscribe(accounts => this.accounts = accounts);
-  // }
-
   addExpense() {
+    
     var newExpense = this.mapExpense(this.newExpenseForm.value);
 
       this.expenseService.addExpense(newExpense).subscribe(
         expense => {
           this.expenses.push(expense);
+          this.newExpenseForm.reset();
         }
       );
   }
@@ -73,7 +64,6 @@ export class AddExpenseComponent implements OnInit {
     expense.dueDate = newExpense.dueDateFormControl;
     expense.paymentFrequency = Frequencies[newExpense.frequencyFormControl];
     expense.category = Categories[newExpense.categoryFormControl];
-    // expense.accountId = parseInt(newExpense.accountFormControl);
     expense.isBill = this.isBill;
 
     return expense;

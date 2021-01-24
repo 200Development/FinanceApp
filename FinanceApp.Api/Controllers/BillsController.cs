@@ -49,6 +49,7 @@ namespace FinanceApp.Api.Controllers
             {
                 var bills = await _context.Bills.ToListAsync();
                 var accounts = await _context.Accounts.ToListAsync();
+                var income = await _context.Incomes.FirstOrDefaultAsync();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, bills, "bill");
 
                 foreach (var bill in bills)
@@ -60,7 +61,7 @@ namespace FinanceApp.Api.Controllers
                    
                     billDto.PayDeduction = payDeduction;
                     billDto.PaycheckPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
-                    billDto.RequiredSavings = CalculationsService.GetBillRequiredSavings(payDeductionDict, bill);
+                    billDto.RequiredSavings = CalculationsService.GetBillRequiredSavings(payDeductionDict, bill, income);
 
                     billDtos.Add(billDto);
                 }

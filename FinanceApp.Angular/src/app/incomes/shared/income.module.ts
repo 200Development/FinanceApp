@@ -4,21 +4,20 @@ import { SharedModule } from 'src/app/shared.module';
 import { NavigationModule } from 'src/app/navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IncomeRoutingModule } from './income-routing.module';
+import { IncomePageComponent } from '../income-page.component';
 
 
 
 @NgModule({
   declarations: [
-    AddIncomeComponent
+    AddIncomeComponent,
+    IncomePageComponent,
   ],
   imports: [
     SharedModule,
     NavigationModule,
     IncomeRoutingModule,
     ReactiveFormsModule
-  ],
-  exports: [
-    AddIncomeComponent,
   ]
 })
 export class IncomeModule { }

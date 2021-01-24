@@ -50,8 +50,8 @@ export class AddIncomeComponent implements OnInit {
 
     income.payee = newIncome.payeeFormControl;
     income.amount = parseFloat(newIncome.amountFormControl);
-    income.frequency = Frequencies[newIncome.frequencyFormControl];
-    income.nextDueDate = newIncome.nextDueDateFormControl;
+    income.paymentFrequency = Frequencies[newIncome.frequencyFormControl];
+    income.nextPayday = newIncome.nextDueDateFormControl;
 
     return income;
   }

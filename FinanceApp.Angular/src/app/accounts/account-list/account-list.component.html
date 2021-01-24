@@ -1,11 +1,11 @@
 <div id="account-list-div">
     <mat-list *ngIf="accounts != undefined">
-        <div mat-subheader>Folders</div>
+        <div mat-subheader>Accounts</div>
         <mat-list-item *ngFor="let account of accounts">
             <mat-icon mat-list-icon>account</mat-icon>
-            <div mat-line> {{ account.name | titlecase }} </div>
-            <div mat-line> {{ account.balance | currency }} </div>
-            <div mat-line> {{ account.requiredSavings | currency }} </div>
+            <div mat-line class="account-name"> {{ account.name | titlecase }} </div>
+            <div mat-line> Balance: {{ account.balance | currency }} </div>
+            <div mat-line> Required Savings: {{ account.requiredSavings | currency }} </div>
         </mat-list-item>
     </mat-list>
     <label *ngIf="accounts == undefined">No accounts yet <br/><button>Add Accounts</button></label>

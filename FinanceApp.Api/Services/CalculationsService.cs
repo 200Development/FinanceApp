@@ -352,7 +352,7 @@ namespace FinanceApp.API.Services
                     //TODO: Suggested contribution assumes payday twice a month.  need to update to include other options
                     if (bill.Account == null) continue;
                     var contribution = 0.0m;
-                    
+
                     switch (bill.PaymentFrequency)
                     {
                         case FrequencyEnum.Annually:
@@ -578,7 +578,7 @@ namespace FinanceApp.API.Services
         /// <param name="bills"></param>
         /// <returns></returns>
         public static Dictionary<long?, decimal> GetAccountRequiredSavingsDict(Dictionary<long?, decimal> payDeductionDict,
-            IList<Bill> bills)
+            IList<Bill> bills, Income income)
         {
             try
             {
@@ -595,7 +595,7 @@ namespace FinanceApp.API.Services
 
                     foreach (var bill in accountBills)
                     {
-                        var paydaysLeft = GetPaydaysUntilDue(bill.DueDate);
+                        var paydaysLeft = GetPaydaysUntilDue(bill, income);
                         var pdTest = PayPeriodsTilDue(bill.DueDate);
 
 
@@ -615,22 +615,22 @@ namespace FinanceApp.API.Services
             }
         }
 
-        public static decimal GetBillRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Bill bill)
+        public static decimal GetBillRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Bill bill, Income income)
         {
             var payDeduction = payDeductionDict[bill.Id];
-            var paydaysUntilDue = GetPaydaysUntilDue(bill.DueDate);
+            var paydaysUntilDue = GetPaydaysUntilDue(bill, income);
 
             return bill.AmountDue - payDeduction * paydaysUntilDue;
         }
 
-        private static int GetPaydaysUntilDue(DateTime dueDate)
+        private static int GetPaydaysUntilDue(Bill bill, Income income)
         {
-            var payFrequency = GetPayFrequency();
-            var nextPayday = GetNextPayday();
+            var payFrequency = income.PaymentFrequency;
+            var nextPayday = GetNextPayday(income.PaymentFrequency, GetLastPayday(income));
             var paychecks = 0;
 
 
-            while (dueDate >= nextPayday)
+            while (bill.DueDate >= nextPayday)
             {
                 paychecks++;
                 nextPayday = GetNextPayday(payFrequency, nextPayday);
@@ -639,15 +639,25 @@ namespace FinanceApp.API.Services
             return paychecks;
         }
 
+        private static DateTime GetLastPayday(Income income)
+        {
+            return income.PaymentFrequency switch
+            {
+                FrequencyEnum.Annually => income.NextPayday.AddYears(-1),
+                FrequencyEnum.BiAnnually => income.NextPayday.AddMonths(-6),
+                FrequencyEnum.Quarterly => income.NextPayday.AddMonths(-3),
+                FrequencyEnum.Monthly => income.NextPayday.AddMonths(-1),
+                FrequencyEnum.BiMonthly => income.NextPayday.AddDays(-14),
+                FrequencyEnum.BiWeekly => income.NextPayday.AddDays(-14),
+                FrequencyEnum.Weekly => income.NextPayday.AddDays(-7),
+                FrequencyEnum.Daily => income.NextPayday.AddDays(-1),
+                _ => throw new ArgumentOutOfRangeException(nameof(income.PaymentFrequency), income.PaymentFrequency, "Frequency is not an option")
+            };
+        }
+
         private static FrequencyEnum GetPayFrequency()
         {
             return FrequencyEnum.BiWeekly;
-        }
-
-        private static DateTime GetNextPayday()
-        {
-            //TODO: just a filler for now
-            return DateTime.Today.AddDays(10);
         }
 
         private static DateTime GetNextPayday(FrequencyEnum frequency, DateTime lastPayday)
@@ -662,16 +672,105 @@ namespace FinanceApp.API.Services
                 FrequencyEnum.BiWeekly => lastPayday.AddDays(14),
                 FrequencyEnum.Weekly => lastPayday.AddDays(7),
                 FrequencyEnum.Daily => lastPayday.AddDays(1),
-                _ => throw new ArgumentOutOfRangeException(nameof(frequency), frequency, "Frequency is not an option"),
+                _ => throw new ArgumentOutOfRangeException(nameof(frequency), frequency, "Frequency is not an option")
             };
         }
 
-        public static decimal? GetExpenseRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Expense expense)
+        public static decimal? GetExpenseRequiredSavings(Dictionary<long?, decimal> payDeductionDict, Expense expense, Income income)
         {
             var payDeduction = payDeductionDict[expense.Id];
-            var paydaysUntilDue = GetPaydaysUntilDue(expense.DueDate);
+            var paydaysUntilDue = GetPaydaysUntilDue(expense, income);
 
             return expense.AmountDue - payDeduction * paydaysUntilDue;
         }
+
+        private static int GetPaydaysUntilDue(Expense expense, Income income)
+        {
+            var payFrequency = income.PaymentFrequency;
+            var nextPayday = GetNextPayday(income.PaymentFrequency, GetLastPayday(income));
+            var paychecks = 0;
+
+            while (expense.DueDate > nextPayday)
+            {
+                // don't count payday if it lands on due date because money isn't guaranteed until eod
+                if (expense.DueDate.Date != nextPayday.Date)
+                    paychecks++;
+
+                nextPayday = GetNextPayday(payFrequency, nextPayday);
+            }
+
+            return paychecks;
+        }
+
+        public static decimal? GetCostOfBillsPerPayPeriod()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static decimal? GetCurrentMonthIncome(List<Income> incomes)
+        {
+            var totalAmount = 0.00m;
+            var today = DateTime.Today;
+
+            foreach (var income in incomes)
+            {
+                var payday = income.NextPayday;
+
+                switch (income.PaymentFrequency)
+                {
+                    case FrequencyEnum.Annually:
+                        throw new NotImplementedException();
+                    case FrequencyEnum.BiAnnually:
+                        throw new NotImplementedException();
+                    case FrequencyEnum.Quarterly:
+                        throw new NotImplementedException();
+                    case FrequencyEnum.Monthly:
+                        throw new NotImplementedException();
+                    case FrequencyEnum.BiMonthly:
+                        // Next payday is next month so both current month paydays 
+                        totalAmount += income.Amount * 2;
+                        break;
+                    case FrequencyEnum.BiWeekly:
+                        {
+                            do
+                            {
+                                if (payday.Month == today.Month)
+                                {
+                                    totalAmount += income.Amount;
+                                    payday = payday.AddDays(-14);
+                                }
+                                else if (payday.Month == today.Month + 1)
+                                {
+                                    // go back to previous pay day
+                                    payday = payday.AddDays(-14);
+                                }
+                            } while (payday.Month == today.Month);
+                        }
+                        break;
+                    case FrequencyEnum.Weekly:
+                        do
+                        {
+                            if (payday.Month == today.Month)
+                            {
+                                totalAmount += income.Amount;
+                            }
+                            else if (payday.Month == today.Month + 1)
+                            {
+                                // go back to previous pay day
+                                payday = payday.AddDays(-7);
+                            }
+                        } while (payday.Month == today.Month);
+                        break;
+                    case FrequencyEnum.Daily:
+                        throw new NotImplementedException();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            return totalAmount;
+        }
+
+
     }
 }

@@ -14,6 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MatListModule } from '@angular/material/list';
     MatNativeDateModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule
   ],
   exports: [
     FormsModule,
@@ -49,7 +51,8 @@ import { MatListModule } from '@angular/material/list';
     MatNativeDateModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule
   ]
 })
 export class SharedModule { }

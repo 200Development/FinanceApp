@@ -1,8 +1,10 @@
+<div *ngIf="dto != undefined">
 <div class="row">
     <div class="col-md-6" style="margin-bottom: 12px;">
         <div class="card">
             <div class="card-header">
-                Due Before Next Pay Day
+                Due Before Next Pay Day <br/>
+                {{ dto.nextPayDay | date }}
             </div>
             <div class="card-body">
                 {{ dto.totalExpensesDueBeforeNextPayDay | currency }}
@@ -69,5 +71,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 

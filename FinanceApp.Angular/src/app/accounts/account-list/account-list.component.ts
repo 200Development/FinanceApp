@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { AccountDTO } from 'src/app/DTOs/account-dto';
 import { DTO } from 'src/app/DTOs/dto';
 import { Account } from '../shared/account';
 import { AccountService } from '../shared/account.service';

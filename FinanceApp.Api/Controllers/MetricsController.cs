@@ -34,6 +34,7 @@ namespace FinanceApp.Api.Controllers
             var income = incomes.FirstOrDefault();
             var today = DateTime.Today;
 
+            dto.NextPayDay = income.NextPayday;
             dto.IncomeThisMonth = CalculationsService.GetCurrentMonthIncome(incomes);
             //dto.CostOfBillsPerPayPeriod = CalculationsService.GetCostOfBillsPerPayPeriod();
            
@@ -56,7 +57,7 @@ namespace FinanceApp.Api.Controllers
             dto.RequiredSavings = requiredSavingsForExpenses;
            
             var expensesDueBeforeNextPayDay = await expenses
-                .Where(e => e.DueDate <= income?.NextPayday).ToListAsync();
+                .Where(e => e.DueDate.Date <= income?.NextPayday.Date).ToListAsync();
             dto.ExpensesDueBeforeNextPayDay = expensesDueBeforeNextPayDay;
           
             totalExpensesBeforeNextPayday = expensesDueBeforeNextPayDay.Sum(e => e.AmountDue);

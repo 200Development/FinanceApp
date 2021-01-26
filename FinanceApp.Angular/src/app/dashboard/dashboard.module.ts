@@ -7,12 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms/';
 import { IncomeModule } from '../incomes/shared/income.module';
 import { AccountModule } from '../accounts/shared/account.module';
 import { MetricsComponent } from './metrics/metrics.component';
-
+import { ExpensesDueBeforeNextPaydayListComponent } from './metrics/expenses-due-before-next-payday-list/expenses-due-before-next-payday-list.component';
 
 @NgModule({
   declarations: [
     DashboardPageComponent,
-    MetricsComponent
+    MetricsComponent,
+    ExpensesDueBeforeNextPaydayListComponent
   ],
   imports: [
     SharedModule,

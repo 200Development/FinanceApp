@@ -11,7 +11,7 @@ export class DTO {
     expenseDtos: ExpenseDTO[];
     billDtos: BillDTO[];
     transactionDtos: TransactionDTO[];
-    expensesDueBeforeNextPayDay: Expense[];
+    expensesDueBeforeNextPayDay: any[];
     expensesDueThisMonth: Expense[];
     dashboardDto: DashboardDTO;
     sumOfAccountBalances: number;
@@ -32,4 +32,5 @@ export class DTO {
     accountingBalance: number;
     month: string;
     year: number;
+    nextPayDay: Date;
 }

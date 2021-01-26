@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FinanceApp.Api.Models.Entities;
 
@@ -31,6 +32,7 @@ namespace FinanceApp.Api.Models.DTOs
         public decimal? AccountingBalance { get; set; }
         public string Month { get; set; }
         public int Year { get; set; }
+        public DateTime NextPayDay { get; set; }
     }
 
     public class DashboardDTO

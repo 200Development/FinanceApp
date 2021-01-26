@@ -53,6 +53,7 @@ namespace FinanceApp.Api.Controllers
                 var income = _context.Incomes.FirstOrDefault();
                 var unpaidExpenses = await expenses.Where(e => !e.Paid).ToListAsync();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "expenses");
+                
 
                 foreach (var expense in unpaidExpenses)
                 {
@@ -68,6 +69,8 @@ namespace FinanceApp.Api.Controllers
                 }
 
                 dto.ExpenseDtos = expenseDtos;
+                dto.ExpensesDueBeforeNextPayDay = await _context.Expenses
+                    .Where(e => e.DueDate <= income.NextPayday && e.Paid == false).ToListAsync();
                 var costPerPaycheck = payDeductionDict.Sum(e => e.Value);
                 dto.CostOfExpensesPerPayPeriod = costPerPaycheck;
             }

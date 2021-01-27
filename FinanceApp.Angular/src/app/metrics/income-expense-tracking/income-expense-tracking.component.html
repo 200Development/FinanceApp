@@ -4,21 +4,23 @@
             <h2>Budget - {{ budgetDisplayDate }}</h2>
         </div>
         <div class="card-body">
-            <div class="row">
-                <h3>Income</h3>
-                <mat-progress-bar mode="determinate" value="{{dto.incomePercentage}}"></mat-progress-bar>
-                <label>{{dto.incomeThisMonth | currency}} out of {{dto.expectedMonthlyIncome | currency}} expected monthly income.</label>
-            </div>
-            <div class="row">
-                <h3>Expense</h3>
-                <mat-progress-bar mode="determinate" value="{{dto.expensePercentage}}"></mat-progress-bar>
-                <label>{{dto.expensesThisMonth | currency}} out of {{dto.expectedMonthlyExpenses | currency}} scheduled monthly expenses.</label>
-            </div>
+
+            <h3>Income</h3>
+            <mat-progress-bar mode="determinate" value="{{dto.incomePercentage}}"></mat-progress-bar>
+            <label>{{dto.incomeThisMonth | currency}} out of {{dto.expectedMonthlyIncome | currency}} expected monthly
+                income.</label>
+
+            <h3>Expense</h3>
+            <mat-progress-bar mode="determinate" value="{{dto.expensePercentage}}"></mat-progress-bar>
+            <label>{{dto.expensesThisMonth | currency}} out of {{dto.expectedMonthlyExpenses | currency}} scheduled
+                monthly expenses.</label>
+
         </div>
         <div class="card-footer">
             <h3>Savings</h3>
             <mat-progress-bar mode="determinate" value="{{dto.savingsPercentage}}"></mat-progress-bar>
-            <label>{{dto.savingsThisMonth | currency}} out of {{dto.expectedMonthlySavings | currency}} expected monthly savings.</label>
+            <label>{{dto.savingsThisMonth | currency}} out of {{dto.expectedMonthlySavings | currency}} expected monthly
+                savings.</label>
         </div>
     </div>
 </div>

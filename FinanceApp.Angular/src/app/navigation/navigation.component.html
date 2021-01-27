@@ -1,20 +1,29 @@
-<div>
-    <ul class="nav nav-pills nav-stacked">
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/dashboard']">Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/transactions']">Transactions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/accounts']">Accounts</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/income']">Income</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/expenses']">Expenses</a>
-        </li>
-       
-    </ul>
+<div class="sidenav-content">
+    <a>
+        <mat-icon class="icon" (click)="drawer.toggle()">menu</mat-icon>
+    </a>
 </div>
+
+<mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side">
+
+        <ul class="nav nav-pills nav-stacked">
+            <li class="nav-item">
+                <a class="nav-link text-white" [routerLink]="['/dashboard']">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" [routerLink]="['/transactions']">Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" [routerLink]="['/accounts']">Accounts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" [routerLink]="['/income']">Income</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" [routerLink]="['/expenses']">Expenses</a>
+            </li>
+        </ul>
+
+    </mat-drawer>
+</mat-drawer-container>

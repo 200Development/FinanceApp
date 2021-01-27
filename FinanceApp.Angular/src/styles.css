@@ -64,10 +64,13 @@ textarea {
     max-width: 280px;
 }
 
+
 #mainNav {
     height: 35px;
     -ms-border-radius: 20px;
     border-radius: 20px;
+    box-shadow: 1px 1px 1px 1px#508AA8;
+    margin-bottom: 26px;
 }
 
 #helpDropdown {

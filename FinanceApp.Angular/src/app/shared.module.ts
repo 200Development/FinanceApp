@@ -16,6 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatCheckboxModule,
     MatListModule,
     MatExpansionModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSidenavModule
   ],
   exports: [
     FormsModule,
@@ -55,7 +57,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatCheckboxModule,
     MatListModule,
     MatExpansionModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSidenavModule
   ]
 })
 export class SharedModule { }

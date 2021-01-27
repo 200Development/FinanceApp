@@ -16,9 +16,16 @@ export class DTO {
     dashboardDto: DashboardDTO;
     sumOfAccountBalances: number;
     incomeThisMonth: number;  
+    expectedMonthlyIncome: number;
+    incomePercentage: number;
     costOfBillsPerPayPeriod: number;
     monthlyCostOfBills: number;
-    monthlyCostOfExpenses: number;
+    expensesThisMonth: number;
+    expectedMonthlyExpenses: number;
+    expensePercentage: number;
+    savingsThisMonth: number;
+    savingsPercentage: number;
+    expectedMonthlySavings: number;
     totalSurplus: number;
     costOfExpensesPerPayPeriod: number;
     totalExpensesDueBeforeNextPayDay: number;   

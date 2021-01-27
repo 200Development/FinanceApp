@@ -34,10 +34,34 @@ namespace FinanceApp.Api.Controllers
             var income = incomes.FirstOrDefault();
             var today = DateTime.Today;
 
+            // Next Pay Day
             dto.NextPayDay = income.NextPayday;
-            dto.IncomeThisMonth = CalculationsService.GetCurrentMonthIncome(incomes);
-            //dto.CostOfBillsPerPayPeriod = CalculationsService.GetCostOfBillsPerPayPeriod();
-           
+
+            // Expected Monthly Income
+            var expectedMonthlyIncome = CalculationsService.GetCurrentMonthIncome(incomes);
+            dto.ExpectedMonthlyIncome = expectedMonthlyIncome;
+
+            // Expected Monthly Expenses
+            var expectedMonthlyExpenses = CalculationsService.GetExpectedMonthlyExpenses(expenses);
+            dto.ExpectedMonthlyExpenses = expectedMonthlyExpenses;
+
+            // Expected Monthly Savings
+            dto.ExpectedMonthlySavings = expectedMonthlyIncome - expectedMonthlyExpenses;
+
+
+            var incomeThisMonth = 3456.43m;
+            dto.IncomeThisMonth = incomeThisMonth;
+
+            var expensesThisMonth = 2343.56m;
+            dto.ExpensesThisMonth = expensesThisMonth;
+
+            dto.SavingsThisMonth = incomeThisMonth - expensesThisMonth;
+
+            dto.IncomePercentage = (incomeThisMonth / expectedMonthlyIncome) * 100;
+            dto.ExpensePercentage = (expensesThisMonth / expectedMonthlyExpenses) * 100;
+            dto.SavingsPercentage = (incomeThisMonth + expensesThisMonth) / (expectedMonthlyIncome + expectedMonthlyExpenses) * 100;
+
+            // Cost of Discretionary Expenses This Month
             var discretionaryExpenses = await expenses.Where(e => e.DueDate.Year == today.Year && e.DueDate.Month == today.Month && e.IsBill == false).ToListAsync();
             dto.CostOfDiscretionaryExpensesThisMonth = discretionaryExpenses.Sum(e => e.AmountDue);
 
@@ -46,7 +70,7 @@ namespace FinanceApp.Api.Controllers
             dto.CostOfMandatoryExpensesThisMonth = mandatoryExpenses.Sum(e => e.AmountDue);
 
             var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "expenses");
-            
+
 
             foreach (var expense in expenses.Where(e => e.Paid == false))
             {
@@ -55,17 +79,17 @@ namespace FinanceApp.Api.Controllers
             }
 
             dto.RequiredSavings = requiredSavingsForExpenses;
-           
+
             var expensesDueBeforeNextPayDay = await expenses
                 .Where(e => e.DueDate.Date <= income?.NextPayday.Date).ToListAsync();
             dto.ExpensesDueBeforeNextPayDay = expensesDueBeforeNextPayDay;
-          
+
             totalExpensesBeforeNextPayday = expensesDueBeforeNextPayDay.Sum(e => e.AmountDue);
             dto.TotalExpensesDueBeforeNextPayDay = totalExpensesBeforeNextPayday;
-            
+
             dto.ExpensesDueThisMonth = await _context.Expenses
                 .Where(e => e.DueDate.Year == today.Year && e.DueDate.Month == today.Month).ToListAsync();
-            
+
 
             var cashBalance = accounts.Sum(a => a.Balance);
             dto.CashBalance = cashBalance;

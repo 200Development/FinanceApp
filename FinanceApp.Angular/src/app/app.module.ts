@@ -15,6 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExpensesModule } from './expenses/shared/expenses.module';
 import { IncomeModule } from './incomes/shared/income.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { IncomeModule } from './incomes/shared/income.module';
     HomeModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ExpensesModule, 
+    ExpensesModule,
+    MetricsModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

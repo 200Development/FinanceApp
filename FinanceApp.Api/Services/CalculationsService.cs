@@ -772,5 +772,11 @@ namespace FinanceApp.API.Services
         }
 
 
+        public static decimal? GetExpectedMonthlyExpenses(IEnumerable<Expense> expenses)
+        {
+            var today = DateTime.Today;
+            return expenses.Where(e => e.DueDate.Year == today.Year && e.DueDate.Month == today.Month)
+                .Sum(e => e.AmountDue);
+        }
     }
 }

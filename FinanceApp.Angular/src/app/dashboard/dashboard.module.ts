@@ -6,14 +6,12 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms/';
 import { IncomeModule } from '../incomes/shared/income.module';
 import { AccountModule } from '../accounts/shared/account.module';
-import { MetricsComponent } from './metrics/metrics.component';
-import { ExpensesDueBeforeNextPaydayListComponent } from './metrics/expenses-due-before-next-payday-list/expenses-due-before-next-payday-list.component';
+import { MetricsModule } from '../metrics/metrics.module';
+
 
 @NgModule({
   declarations: [
     DashboardPageComponent,
-    MetricsComponent,
-    ExpensesDueBeforeNextPaydayListComponent
   ],
   imports: [
     SharedModule,
@@ -21,7 +19,8 @@ import { ExpensesDueBeforeNextPaydayListComponent } from './metrics/expenses-due
     NavigationModule,
     ReactiveFormsModule,
     IncomeModule,
-    AccountModule
+    AccountModule,
+    MetricsModule
   ]
 })
 export class DashboardModule { 

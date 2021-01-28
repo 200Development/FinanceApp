@@ -19,7 +19,7 @@ export class AddTransactionComponent implements OnInit {
   newTransactionForm = new FormGroup({
     dateFormControl: new FormControl('', Validators.required),
     payeeFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-    amountFormControl: new FormControl(0, [Validators.required, Validators.min(0.01)]),
+    amountFormControl: new FormControl('', [Validators.required, Validators.min(0.01)]),
     categoryFormControl: new FormControl('', Validators.required),
     typeFormControl: new FormControl('', Validators.required),
   });

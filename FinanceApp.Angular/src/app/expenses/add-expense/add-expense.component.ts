@@ -23,7 +23,7 @@ export class AddExpenseComponent {
   isBill: boolean = false;
   newExpenseForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-    amountDueFormControl: new FormControl(0, [Validators.required, Validators.min(0.01)]),
+    amountDueFormControl: new FormControl('', [Validators.required, Validators.min(0.01)]),
     dueDateFormControl: new FormControl('', Validators.required),
     frequencyFormControl: new FormControl('', Validators.required),
     categoryFormControl: new FormControl('', Validators.required),

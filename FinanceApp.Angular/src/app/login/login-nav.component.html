@@ -1,24 +1,17 @@
-<ul class="navbar-nav">
-    <!-- @if (SignInManager.IsSignedIn(User)) -->
-    <!-- { -->
-    <li class="nav-item">
-        <a class="nav-link text-white" title="Manage">JP FINANCIAL</a>
-    </li>
+<mat-toolbar id="mainNav" style="display: inline-block;">
+    <span>JP FINANCIAL</span>
    
-        <li class="nav-item">
-            <form class="form-inline">
-                <a class="nav-link text-white">Logout</a>
-            </form>
-        </li>
-        <!-- }
-    else
-    { -->
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/register']">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/login']">Login</a>
-        </li>
-        <!-- } -->
-   
-</ul>
+    <div style="float:right">
+        <button mat-icon-button class="icon">
+            Register
+        </button>
+        <span class="spacer"></span>
+        <button mat-icon-button class="icon">
+            Login
+        </button>
+        <span class="spacer"></span>
+        <button mat-icon-button class="icon">
+            Logout
+        </button>
+    </div>
+</mat-toolbar>

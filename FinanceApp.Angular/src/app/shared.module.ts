@@ -17,6 +17,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatListModule,
     MatExpansionModule,
     MatProgressBarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatToolbarModule
   ],
   exports: [
     FormsModule,
@@ -58,7 +60,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatListModule,
     MatExpansionModule,
     MatProgressBarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatToolbarModule
   ]
 })
 export class SharedModule { }

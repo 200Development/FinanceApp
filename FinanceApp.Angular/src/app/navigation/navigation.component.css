@@ -34,6 +34,11 @@
     color: #508AA8;
   }
 
+  .nav-item {
+    padding: 8px 0;
+    margin-bottom: 8px;
+  }
+
   a {     
     display: inline-block;     
     position: relative;    

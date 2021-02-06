@@ -64,10 +64,6 @@ export class AccountsTableComponent implements OnInit{
         
         accountDTO.balance = newAccount.balance;
         accountDTO.name = newAccount.name;
-        accountDTO.isDisposableIncomeAccount = false;
-        accountDTO.isEmergencyFund = false;
-        accountDTO.isMandatory = false;
-        accountDTO.isAddNewAccount = false;
 
         return accountDTO;
     }

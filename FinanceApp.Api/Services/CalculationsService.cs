@@ -346,7 +346,6 @@ namespace FinanceApp.API.Services
 
                     // get the account assigned to the bill
                     bill.Account = accounts.FirstOrDefault(a => a.Id == bill.AccountId);
-                    if (bill.Account != null && bill.Account.ExcludeFromSurplus) continue;
 
                     //TODO: Needs to account for all pay frequencies
                     //TODO: Suggested contribution assumes payday twice a month.  need to update to include other options
@@ -430,7 +429,6 @@ namespace FinanceApp.API.Services
 
                     // get the account assigned to the bill
                     expense.Account = accounts.FirstOrDefault(a => a.Id == expense.AccountId);
-                    if (expense.Account != null && expense.Account.ExcludeFromSurplus) continue;
 
                     //TODO: Needs to account for all pay frequencies
                     //TODO: Suggested contribution assumes payday twice a month.  need to update to include other options
@@ -777,6 +775,23 @@ namespace FinanceApp.API.Services
             var today = DateTime.Today;
             return expenses.Where(e => e.DueDate.Year == today.Year && e.DueDate.Month == today.Month)
                 .Sum(e => e.AmountDue);
+        }
+
+        public static DateTime GetNextFrequencyDate(in DateTime expenseDueDate, FrequencyEnum expensePaymentFrequency)
+        {
+            return expensePaymentFrequency switch
+            {
+                FrequencyEnum.Annually => expenseDueDate.AddDays(364.25),
+                FrequencyEnum.BiAnnually => expenseDueDate.AddMonths(6),
+                FrequencyEnum.Quarterly => expenseDueDate.AddMonths(3),
+                FrequencyEnum.Monthly => expenseDueDate.AddMonths(1),
+                FrequencyEnum.BiMonthly => expenseDueDate.AddDays(14),
+                FrequencyEnum.BiWeekly => expenseDueDate.AddDays(14),
+                FrequencyEnum.Weekly => expenseDueDate.AddDays(7),
+                FrequencyEnum.Daily => expenseDueDate.AddDays(1),
+                _ => throw new ArgumentOutOfRangeException(nameof(expensePaymentFrequency), expensePaymentFrequency,
+                    null)
+            };
         }
     }
 }

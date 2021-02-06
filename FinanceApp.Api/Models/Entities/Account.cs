@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Api.Models.Entities
@@ -12,10 +12,8 @@ namespace FinanceApp.Api.Models.Entities
           SuggestedPaycheckContribution = 0.00m;
           RequiredSavings = 0.00m;  // todo: how to i dynamically set this
           BalanceLimit = 0.00m;
-          IsDisposableIncomeAccount = false;
           IsEmergencyFund = false;
-          IsMandatory = false;
-          ExcludeFromSurplus = false;
+          IsCashAccount = false;
         }
 
         [Key]
@@ -37,26 +35,21 @@ namespace FinanceApp.Api.Models.Entities
 
         [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Required Savings")]
         public decimal RequiredSavings { get; set; }
+        [Display(Name = "Balance Limit"), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+        public decimal BalanceLimit { get; set; }
 
         [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true), Display(Name = "Surplus/Deficit")]
         public decimal BalanceSurplus => _ = this.Balance - this.RequiredSavings;
 
-        [Display(Name = "Exclude From Surplus")]
-        public bool ExcludeFromSurplus { get; set; }
-
-        [Required, Display(Name = "Pool Account")]
-        public bool IsDisposableIncomeAccount { get; set; }
-
-        [Required, Display(Name = "Emergency Fund")]
+        [Required]
+        [Display(Name = "Emergency Fund")]
         public bool IsEmergencyFund { get; set; }
 
-        [Required, Display(Name = "Add New Account")]
-        public bool IsAddNewAccount { get; set; }
-        
-        [Required, Display(Name = "Mandatory Account?")]
-        public bool IsMandatory { get; set; }
-
-        [Display(Name = "Balance Limit"), DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
-        public decimal BalanceLimit { get; set; }
+        /// <summary>
+        /// User created account.  All other Accounts are for tracking expenses
+        /// </summary>
+        [Required]
+        [Display(Name = "Cash Account")]
+        public bool IsCashAccount { get; set; }
     }
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { Account } from './account';
 import { DTO } from "../../DTOs/dto";
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -21,16 +22,22 @@ export class AccountService {
   };
 
   getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.accountUrl);
+    return this.http.get<Account[]>(this.accountUrl).pipe(
+      catchError(this.handleError)
+    );
   };
 
   getAccountDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.accountDtosUrl);
+    return this.http.get<DTO>(this.accountDtosUrl).pipe(
+      catchError(this.handleError)
+    );
   };
 
   addAccount(account: Account): Observable<Account> {
     console.log("addAccount start");
-    return this.http.post<Account>(this.accountUrl, account, this.httpOptions);
+    return this.http.post<Account>(this.accountUrl, account, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
   };
 
   public handleError(error: HttpErrorResponse) {

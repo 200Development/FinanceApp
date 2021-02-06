@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { DTO } from 'src/app/DTOs/dto';
 import { Transaction } from './transaction';
 
@@ -21,16 +22,22 @@ export class TransactionService {
   };
 
   getTransactions(): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(this.transactionUrl);
+    return this.http.get<Transaction[]>(this.transactionUrl).pipe(
+      catchError(this.handleError)
+    );
   };
 
   getTransactionDTO(): Observable<DTO> {
-    return this.http.get<DTO>(this.transactionDtoUrl);
+    return this.http.get<DTO>(this.transactionDtoUrl).pipe(
+      catchError(this.handleError)
+    );
   };
  
   addTransaction(transaction: Transaction): Observable<Transaction> {
     console.log("addTransaction start");
-    return this.http.post<Transaction>(this.transactionUrl, transaction, this.httpOptions);
+    return this.http.post<Transaction>(this.transactionUrl, transaction, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
   }
 
   

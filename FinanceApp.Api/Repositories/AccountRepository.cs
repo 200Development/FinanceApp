@@ -41,12 +41,6 @@ namespace FinanceApp.Api.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Account> GetDisposableIncomeAccount()
-        {
-            return await FindByCondition(account => account.UserId == _userId && account.IsDisposableIncomeAccount)
-                .FirstOrDefaultAsync();
-        }
-
         public async Task<Account> GetEmergencyFundAccount()
         {
             return await FindByCondition(account => account.UserId == _userId && account.IsEmergencyFund)

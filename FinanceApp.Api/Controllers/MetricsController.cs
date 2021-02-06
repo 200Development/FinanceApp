@@ -57,9 +57,9 @@ namespace FinanceApp.Api.Controllers
 
             dto.SavingsThisMonth = incomeThisMonth - expensesThisMonth;
 
-            dto.IncomePercentage = (incomeThisMonth / expectedMonthlyIncome) * 100;
-            dto.ExpensePercentage = (expensesThisMonth / expectedMonthlyExpenses) * 100;
-            dto.SavingsPercentage = (incomeThisMonth + expensesThisMonth) / (expectedMonthlyIncome + expectedMonthlyExpenses) * 100;
+            dto.IncomePercentage = Convert.ToInt32(incomeThisMonth / expectedMonthlyIncome * 100);
+            dto.ExpensePercentage = Convert.ToInt32(expensesThisMonth / expectedMonthlyExpenses * 100);
+            dto.SavingsPercentage = Convert.ToInt32((incomeThisMonth + expensesThisMonth) / (expectedMonthlyIncome + expectedMonthlyExpenses) * 100);
 
             // Cost of Discretionary Expenses This Month
             var discretionaryExpenses = await expenses.Where(e => e.DueDate.Year == today.Year && e.DueDate.Month == today.Month && e.IsBill == false).ToListAsync();

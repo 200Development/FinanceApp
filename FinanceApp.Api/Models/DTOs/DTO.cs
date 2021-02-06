@@ -32,6 +32,7 @@ namespace FinanceApp.Api.Models.DTOs
         public decimal? CurrentSavings { get; set; }
         public decimal? RemainingIncomeThisMonth { get; set; }
         public decimal? DisposableIncome { get; set; }
+        public decimal? CostOfExpensesThisMonth { get; set; }
         public decimal? CostOfDiscretionaryExpensesThisMonth { get; set; }
         public decimal? CostOfMandatoryExpensesThisMonth { get; set; }
         public decimal? CashBalance { get; set; }
@@ -39,6 +40,7 @@ namespace FinanceApp.Api.Models.DTOs
         public string Month { get; set; }
         public int Year { get; set; }
         public DateTime NextPayDay { get; set; }
+        public decimal? SumOfExpensesDueThisMonth { get; set; }
     }
 
     public class DashboardDTO

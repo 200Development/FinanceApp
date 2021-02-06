@@ -115,6 +115,7 @@ namespace FinanceApp.Api.Controllers
             try
             {
                 //account.UserId = _userId;
+                account.IsCashAccount = true;
                 await _context.Accounts.AddAsync(account);
                 await _context.SaveChangesAsync();
 

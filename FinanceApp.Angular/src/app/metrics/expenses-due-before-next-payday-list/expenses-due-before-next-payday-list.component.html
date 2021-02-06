@@ -1,13 +1,19 @@
 <h2>Expenses Due Before Next Payday</h2>
 <div class="row" *ngIf="dto != undefined">
-  <div class="col-md-6" *ngFor="let expense of dto.expensesDueBeforeNextPayDay">
-    
-    <h3 class="expense-name"> {{ expense.name | titlecase }}</h3>
-    <h4> Due: {{ expense.dueDate | date }} <br/>
-         Amount: {{ expense.amountDue | currency }} </h4>
+  <div class="col-md-6 inline-block" *ngFor="let expense of dto.expensesDueBeforeNextPayDay">
+    <div class="row">
+      <h3 class="expense-name"> {{ expense.name | titlecase }}</h3>
+    </div>
+    <div class="row">
+      <div style="float:left">
+        <h4> Due: {{ expense.dueDate | date }} <br />
+          Amount: {{ expense.amountDue | currency }} </h4>
+      </div>
+      <div style="float: right;">
+        <button style="vertical-align:bottom" mat-stroked-button color="primary" (click)="payExpense(expense)">Pay</button>
+      </div>
+    </div>
     <label *ngIf="dto == undefined">No expenses due</label>
   </div>
+  <h5>Total: {{ dto.sumOfExpensesDueThisMonth | currency}}</h5>
 </div>
-
-      
-     

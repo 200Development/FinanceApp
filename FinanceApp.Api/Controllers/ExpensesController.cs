@@ -3,15 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceApp.Api.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using FinanceApp.API.Services;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class ExpensesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,13 +25,13 @@ namespace FinanceApp.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<Expense>> GetExpenses()
+        public async Task<IEnumerable<Expense>> Expenses()
         {
-            return await _context.Expenses.ToListAsync();
+            return await PagedListExtensions.ToListAsync(_context.Expenses);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Expense>> GetExpense(long id)
+        [HttpGet("int/{id:int}")]
+        public async Task<ActionResult<Expense>> Expense(long id)
         {
             var expense = await _context.Expenses.FindAsync(id);
 
@@ -40,16 +42,16 @@ namespace FinanceApp.Api.Controllers
         }
 
         [HttpGet]
-        [Route("dto")]
-        public async Task<ActionResult<DTO>> GetExpenseDto()
+        public async Task<ActionResult<DTO>> DTO()
         {
             var dto = new DTO();
             var expenseDtos = new List<ExpenseDTO>();
+            var today = DateTime.Today;
 
             try
             {
-                var accounts = await _context.Accounts.ToListAsync();
-                var expenses = await _context.Expenses.ToListAsync();
+                var accounts = await PagedListExtensions.ToListAsync(_context.Accounts);
+                var expenses = await PagedListExtensions.ToListAsync(_context.Expenses);
                 var income = _context.Incomes.FirstOrDefault();
                 var unpaidExpenses = await expenses.Where(e => !e.Paid).ToListAsync();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "expenses");
@@ -68,9 +70,17 @@ namespace FinanceApp.Api.Controllers
                     expenseDtos.Add(expenseDto);
                 }
 
+                var expenseTransactionsThisMonth = await PagedListExtensions.ToListAsync(_context.Transactions.Where(t =>
+                        t.Date.Year == today.Year && t.Date.Month == today.Month &&
+                        t.Type == TransactionTypesEnum.Expense));
+
+                dto.CostOfExpensesThisMonth = expenseTransactionsThisMonth.Sum(t => t.Amount);
+
                 dto.ExpenseDtos = expenseDtos;
-                dto.ExpensesDueBeforeNextPayDay = await _context.Expenses
-                    .Where(e => e.DueDate <= income.NextPayday && e.Paid == false).ToListAsync();
+                var expensesDueBeforeNextPayDay = await PagedListExtensions.ToListAsync(_context.Expenses
+                        .Where(e => e.DueDate <= income.NextPayday && e.Paid == false));
+                dto.ExpensesDueBeforeNextPayDay = expensesDueBeforeNextPayDay;
+                dto.SumOfExpensesDueThisMonth = expensesDueBeforeNextPayDay.Sum(e => e.AmountDue);
                 var costPerPaycheck = payDeductionDict.Sum(e => e.Value);
                 dto.CostOfExpensesPerPayPeriod = costPerPaycheck;
             }
@@ -83,7 +93,6 @@ namespace FinanceApp.Api.Controllers
 
             return dto;
         }
-
 
         [HttpPost]
         public async Task<ActionResult<Expense>> AddExpense([FromBody] Expense expense)
@@ -122,11 +131,55 @@ namespace FinanceApp.Api.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                return CreatedAtAction(nameof(GetExpense), new {id = expense.Id}, expense);
+                return CreatedAtAction(nameof(Expense), new {id = expense.Id}, expense);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+        
+        [HttpPut("{id}")]
+        public async Task<ActionResult<bool>> PayExpense(long id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid model object");
+                }
+
+                var expense = await _context.Expenses.SingleOrDefaultAsync(e => e.Id == id);
+
+                expense.Paid = true;
+                expense.DatePaid = DateTime.UtcNow;
+                expense.Account = await _context.Accounts.FindAsync(expense.AccountId);
+
+                await _context.SaveChangesAsync();
+
+                // 
+                if (expense.IsBill && !_context.Expenses.Any(e => e.Name == expense.Name && e.DueDate > DateTime.Today))
+                {
+                    var newExpense = new Expense();
+                    newExpense.Name = expense.Name;
+                    newExpense.AmountDue = expense.AmountDue;
+                    newExpense.AccountId = expense.AccountId;
+                    newExpense.Account = await _context.Accounts.FindAsync(expense.AccountId);
+                    newExpense.DueDate = CalculationsService.GetNextFrequencyDate(expense.DueDate, expense.PaymentFrequency);
+                    newExpense.IsBill = true;
+                    newExpense.PaymentFrequency = expense.PaymentFrequency;
+                    newExpense.Category = expense.Category;
+                    newExpense.PayDeduction = expense.PayDeduction;
+
+                    await _context.Expenses.AddAsync(newExpense);
+                    await _context.SaveChangesAsync();
+                }
+
+                return AcceptedAtRoute(true);
+            }
+            catch (Exception e)
+            {
                 return StatusCode(500, e.Message);
             }
         }

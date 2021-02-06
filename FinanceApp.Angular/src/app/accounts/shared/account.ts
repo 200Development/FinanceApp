@@ -7,9 +7,6 @@ export class Account {
     requiredSavings: number;
     balanceLimit: number;
     balanceSurplus: number;
-    isDisposableIncomeAccount: boolean;
-    isAddNewAccount: boolean;
     isEmergencyFund: boolean;
-    isMandatory: boolean;
-    excludeFromSurplus: boolean;
+    isCashAccount: boolean;expenses
 }

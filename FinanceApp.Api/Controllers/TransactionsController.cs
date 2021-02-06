@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using FinanceApp.Api.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using X.PagedList;
@@ -74,8 +76,34 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
+                // Save new transaction
                 await _context.AddAsync(transaction);
                 await _context.SaveChangesAsync();
+
+                // Create new account for transaction category if one doesn't already exist
+                var account = _context.Accounts.FirstOrDefault(a => a.Name == transaction.Category.ToString());
+                if (account == null)
+                {
+                    account = new Account();
+                    account.IsCashAccount = false;
+                    account.IsEmergencyFund = false;
+                    account.Name = transaction.Category.ToString();
+                    if (transaction.Type == TransactionTypesEnum.Expense)
+                        account.Balance -= transaction.Amount;
+                    else
+                        account.Balance += transaction.Amount;
+
+                    await _context.AddAsync(account);
+                }
+                else
+                {
+                    if (transaction.Type == TransactionTypesEnum.Expense)
+                        account.Balance -= transaction.Amount;
+                    else
+                        account.Balance += transaction.Amount;
+                }
+                await _context.SaveChangesAsync();
+
 
                 return CreatedAtAction(nameof(GetTransaction), new {id = transaction.Id}, transaction);
             }

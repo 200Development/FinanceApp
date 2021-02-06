@@ -13,6 +13,7 @@ export class DTO {
     transactionDtos: TransactionDTO[];
     expensesDueBeforeNextPayDay: any[];
     expensesDueThisMonth: Expense[];
+    sumOfExpensesDueThisMonth: number;
     dashboardDto: DashboardDTO;
     sumOfAccountBalances: number;
     incomeThisMonth: number;  
@@ -33,6 +34,7 @@ export class DTO {
     currentSavings: number;
     remainingIncomeThisMonth: number;
     disposableIncome: number;
+    costOfExpensesThisMonth: number;
     costOfDiscretionaryExpensesThisMonth: number;
     costOfMandatoryExpensesThisMonth: number;
     cashBalance: number;

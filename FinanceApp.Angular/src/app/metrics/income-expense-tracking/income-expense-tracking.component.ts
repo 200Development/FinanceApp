@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressBarMode } from '@angular/material/progress-bar';
 import { DTO } from 'src/app/DTOs/dto';
 import { MetricService } from '../metric.service';
 
@@ -13,6 +15,10 @@ export class IncomeExpenseTrackingComponent implements OnInit {
 
   dto: DTO;
   budgetDisplayDate: string = 'January 2021';
+  incomePercentage: number;
+  expensePercentage: number;
+  savingsPercentage: number;
+  
   ngOnInit(): void {
     this.getDto();
   }
@@ -22,6 +28,9 @@ export class IncomeExpenseTrackingComponent implements OnInit {
     this.metricService.getMetricDto()
     .subscribe((dto: DTO) => {
       this.dto = dto;
+      this.incomePercentage = dto.incomePercentage;
+      this.expensePercentage = dto.expensePercentage;
+      this.savingsPercentage = dto.savingsPercentage;
     })
   }
 }

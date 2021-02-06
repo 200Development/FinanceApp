@@ -1,4 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { DTO } from "src/app/DTOs/dto";
@@ -10,37 +11,56 @@ import { Expense } from './expense';
 export class ExpenseService {
 
   constructor(private http: HttpClient) { }
-  
+
+
   private expenseUrl = 'https://localhost:44313/api/expenses';
+  private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense'
   private expenseDtoUrl = 'https://localhost:44313/api/expenses/dto';
+  private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
   private billUrl = 'https://localhost:44313/api/bills/';
   private accountUrl = 'https://localhost:44313/api/accounts/';
-  headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
+  headers = new HttpHeaders({ 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' });
   httpOptions = {
     headers: this.headers,
     crossDomain: true
   };
+  errorMessage: string;
 
   getExpenses(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.expenseUrl);
+    return this.http.get<Expense[]>(this.expenseUrl).pipe(
+      catchError(this.handleError)
+    );
   };
 
   getExpenseDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.expenseDtoUrl);
+    return this.http.get<DTO>(this.expenseDtoUrl).pipe(
+      catchError(this.handleError)
+    );
   };
 
   getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.accountUrl);
+    return this.http.get<Account[]>(this.accountUrl).pipe(
+      catchError(this.handleError)
+    );
   }
 
   addExpense(expense: Expense): Observable<Expense> {
-    console.log("addExpense start");
-    return this.http.post<Expense>(this.expenseUrl, expense, this.httpOptions);
+    return this.http.post<Expense>(this.addExpenseUrl, expense, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
   }
 
   addBill(expense: Expense): Observable<Expense> {
-    console.log("addBill start");
-    return this.http.post<Expense>(this.billUrl, expense, this.httpOptions);
+    return this.http.post<Expense>(this.billUrl, expense, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  payExpense(id: number): Observable<boolean> {
+    const url = `${this.payExpenseUrl}/${id}`;
+    return this.http.put<boolean>(url, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
   }
 
   public handleError(error: HttpErrorResponse) {

@@ -9,7 +9,7 @@
                     <div class="col-md-4 form-group">
                         <mat-form-field appearance="standard" class="income-field">
                             <mat-label>Payee</mat-label>
-                            <input matInput class="form-control" formControlName="payeeFormControl" placeholder="Payee">
+                            <input matInput class="form-control" type="text" formControlName="payeeFormControl" placeholder="Payee">
                             <mat-error *ngIf="newIncomeForm.hasError('required')">
                                 This field is required
                             </mat-error>
@@ -21,7 +21,7 @@
                     <div class="col-md-4 form-group">
                         <mat-form-field appearance="standard" class="income-field">
                             <mat-label>Amount</mat-label>
-                            <input matInput class="form-control" formControlName="amountFormControl"
+                            <input matInput class="form-control" type="number" formControlName="amountFormControl"
                                 placeholder="$0.00">
                                 <mat-error *ngIf="newIncomeForm.hasError('required')">
                                     This field is required

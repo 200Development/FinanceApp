@@ -176,6 +176,19 @@ namespace FinanceApp.Api.Controllers
                     await _context.SaveChangesAsync();
                 }
 
+                //TODO: Update all database times to UTC
+                var transaction = new Transaction();
+                transaction.Payee = expense.Name;
+                transaction.Date = DateTime.UtcNow;
+                transaction.Amount = expense.AmountDue;
+                transaction.Category = expense.Category;
+                transaction.Type = TransactionTypesEnum.Expense;
+                transaction.UserId = expense.UserId;
+
+                await _context.Transactions.AddAsync(transaction);
+                await _context.SaveChangesAsync();
+                
+
                 return AcceptedAtRoute(true);
             }
             catch (Exception e)

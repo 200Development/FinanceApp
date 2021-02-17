@@ -1,0 +1,32 @@
+<form [formGroup]="newAccountForm" (ngSubmit)="addAccount()">
+    <div class="card">
+        <div class="card-header">
+            New Account
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <mat-form-field class="new-account-form-field">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" formControlName="nameFormControl">
+                    <button mat-button *ngIf="newAccountForm" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                  <mat-form-field class="new-account-form-field">
+                    <mat-label>Balance</mat-label>
+                    <input matInput type="number" formControlName="balanceFormControl">
+                    <button mat-button *ngIf="newAccountForm" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+            </div>           
+            <div class="row">
+                <div class="col-md-12">
+                    <button mat-button class="account-field" aria-label="add new account button" type="submit">
+                        <mat-icon>add_circle_outline</mat-icon>Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

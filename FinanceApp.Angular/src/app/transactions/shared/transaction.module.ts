@@ -23,7 +23,7 @@ import { TransactionsPageComponent } from '../transactions-page/transactions-pag
     ReactiveFormsModule
   ],
   exports: [
-    TransactionsTableComponent,
+    TransactionsPageComponent,
     RouterModule
   ]
 })

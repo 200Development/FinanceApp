@@ -21,6 +21,9 @@ import { MetricsModule } from '../metrics/metrics.module';
     IncomeModule,
     AccountModule,
     MetricsModule
+  ],
+  exports: [
+    DashboardPageComponent
   ]
 })
 export class DashboardModule { 

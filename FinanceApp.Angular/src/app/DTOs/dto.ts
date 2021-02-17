@@ -11,7 +11,7 @@ export class DTO {
     expenseDtos: ExpenseDTO[];
     billDtos: BillDTO[];
     transactionDtos: TransactionDTO[];
-    expensesDueBeforeNextPayDay: any[];
+    expensesBeforeNextPayDay: any[];
     expensesDueThisMonth: Expense[];
     sumOfExpensesDueThisMonth: number;
     dashboardDto: DashboardDTO;

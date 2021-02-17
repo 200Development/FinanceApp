@@ -1,6 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "./../node_modules/font-awesome/css/font-awesome.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
+
+
+#app-body {
+    padding: 30px;
+}
+
+/*
 
 body {
     padding-top: 50px;
@@ -13,7 +22,7 @@ text {
     fill: #E1E5EE;
 }
 
-/* google chart tooltip */
+
 path {
     fill: #32383E;
     color: #E1E5EE;
@@ -44,20 +53,18 @@ a {
     padding: 4px;
 }
 
-/* Set padding to keep content from hitting the edges */
+
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
+
 .dl-horizontal dt {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+
 input,
 select,
 textarea {
@@ -159,7 +166,7 @@ textarea {
 }
 
 
-/*PagedList*/
+
 .paginationContainer {
     margin-left: 200px;
 }
@@ -200,4 +207,4 @@ ul.pagination li a:hover:not(.active)
     padding: 0 8px;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

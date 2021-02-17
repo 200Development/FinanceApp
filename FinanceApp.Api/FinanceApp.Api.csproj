@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\**" />
+    <Content Remove="Entities\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <None Remove="Entities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.cs" />
     <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.Designer.cs" />
     <Compile Remove="Migrations\20210106061424_addExpenseAndIncomeTables.cs" />
@@ -19,6 +26,10 @@
     <Compile Remove="Migrations\20210116205652_addIncome.Designer.cs" />
     <Compile Remove="Migrations\20210116205800_updateIncome.cs" />
     <Compile Remove="Migrations\20210116205800_updateIncome.Designer.cs" />
+    <Compile Remove="Migrations\20210213205707_updateAccounts.cs" />
+    <Compile Remove="Migrations\20210213205707_updateAccounts.Designer.cs" />
+    <Compile Remove="Migrations\20210214222309_new.cs" />
+    <Compile Remove="Migrations\20210214222309_new.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,10 +42,6 @@
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="MySqlConnector" Version="1.2.1" />
     <PackageReference Include="x.pagedlist.mvc.core" Version="8.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Entities\" />
   </ItemGroup>
 
 

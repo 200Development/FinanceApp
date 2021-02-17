@@ -45,7 +45,6 @@ export class AddExpenseComponent {
   }
 
   addExpense() {
-    
     var newExpense = this.mapExpense(this.newExpenseForm.value);
 
       this.expenseService.addExpense(newExpense).subscribe(

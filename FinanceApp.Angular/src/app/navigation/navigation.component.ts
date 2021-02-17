@@ -7,6 +7,10 @@ import { Component } from "@angular/core"
 })
 export class NavigationComponent {
 
-    showFiller = false;
-    
+    links = ['Dashboard', 'Accounts', 'Expenses', 'Transactions', 'Income'];
+    activeLink = this.links[0];
+
+    onClick(element: any) {
+
+    }
 }

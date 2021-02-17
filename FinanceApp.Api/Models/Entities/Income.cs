@@ -8,6 +8,10 @@ namespace FinanceApp.Api.Models.Entities
     {
         public Income()
         {
+            Payer = string.Empty;
+            NextPayday = DateTime.MinValue;
+            Amount = 0.00m;
+            PaymentFrequency = FrequencyEnum.BiWeekly;
             UpdateNextPayday();
         }
 
@@ -16,16 +20,22 @@ namespace FinanceApp.Api.Models.Entities
 
         public string UserId { get; set; }
 
-        public string Payee { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string Payer { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime NextPayday { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime NextPayday { get; private set; }
 
-        [Required, DataType(DataType.Currency)]
+        [Required]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         public decimal Amount { get; set; }
 
+        [Required]
         [EnumDataType(typeof(FrequencyEnum))]
-        [Required, Display(Name = "Pay Frequency")]
+        [Display(Name = "Pay Frequency")]
         public FrequencyEnum PaymentFrequency { get; set; }
 
         public int? FirstMonthlyPayDay { get; set; }

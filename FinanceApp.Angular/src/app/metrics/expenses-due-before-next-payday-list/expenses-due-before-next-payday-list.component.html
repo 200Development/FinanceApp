@@ -1,6 +1,6 @@
-<h2>Expenses Due Before Next Payday</h2>
+<h2>Current Expenses</h2>
 <div class="row" *ngIf="dto != undefined">
-  <div class="col-md-6 inline-block" *ngFor="let expense of dto.expensesDueBeforeNextPayDay">
+  <div class="col-md-6 inline-block" *ngFor="let expense of dto.expensesBeforeNextPayDay">
     <div class="row">
       <h3 class="expense-name"> {{ expense.name | titlecase }}</h3>
     </div>
@@ -15,5 +15,5 @@
     </div>
     <label *ngIf="dto == undefined">No expenses due</label>
   </div>
-  <h5>Total: {{ dto.sumOfExpensesDueThisMonth | currency}}</h5>
+  <h5 *ngIf="dto.expensesBeforeNextPayDay > 0">Total {{ dto.sumOfExpensesDueThisMonth | currency }}</h5>
 </div>

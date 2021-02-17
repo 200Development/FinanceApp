@@ -107,7 +107,7 @@ namespace FinanceApp.Api.Controllers
                 expense.Name = bill.Name;
                 expense.AmountDue = bill.AmountDue;
                 expense.DueDate = bill.DueDate;
-                expense.Category = bill.Category;
+                expense.CategoryId = bill.CategoryId;
                 expense.PaymentFrequency = bill.PaymentFrequency;
                 expense.PayDeduction = bill.PayDeduction;
                 expense.AccountId = bill.AccountId;

@@ -22,7 +22,6 @@ namespace FinanceApp.Api.Controllers
 
         // GET: api/accounts/dto
         [HttpGet]
-        [Route("dto")]
         public async Task<ActionResult<DTO>> GetMetricDto()
         {
             var dto = new DTO();

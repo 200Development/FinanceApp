@@ -8,5 +8,5 @@ export class Account {
     balanceLimit: number;
     balanceSurplus: number;
     isEmergencyFund: boolean;
-    isCashAccount: boolean;expenses
+    isCashAccount: boolean;
 }

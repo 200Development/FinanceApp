@@ -637,7 +637,7 @@ namespace FinanceApp.API.Services
             return paychecks;
         }
 
-        private static DateTime GetLastPayday(Income income)
+        public static DateTime GetLastPayday(Income income)
         {
             return income.PaymentFrequency switch
             {
@@ -684,6 +684,9 @@ namespace FinanceApp.API.Services
 
         private static int GetPaydaysUntilDue(Expense expense, Income income)
         {
+            if (income == null || expense == null)
+                return -1;
+
             var payFrequency = income.PaymentFrequency;
             var nextPayday = GetNextPayday(income.PaymentFrequency, GetLastPayday(income));
             var paychecks = 0;

@@ -22,6 +22,9 @@ import { ExpenseRoutingModule } from './expense-routing.module';
     ExpenseRoutingModule,
     NavigationModule,
     ReactiveFormsModule
+  ],
+  exports: [
+    ExpensePageComponent
   ]
 })
 export class ExpensesModule { }

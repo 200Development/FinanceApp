@@ -38,7 +38,9 @@ namespace FinanceApp.Api.Models.Entities
 
         [EnumDataType(typeof(CategoriesEnum))]
         [Required, Display(Name = "Category")]
-        public CategoriesEnum Category { get; set; }
+        public string Category { get; set; }
+
+        public int CategoryId { get; set; }
 
         public long AccountId { get; set; }
 

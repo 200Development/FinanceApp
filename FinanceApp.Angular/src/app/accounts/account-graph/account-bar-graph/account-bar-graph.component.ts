@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../shared/account.service';
 import { Account } from '../../shared/account';
 
+const ELEMENT_DATA: Account[] = [
+    { name: 'Savings', balance: 1079, requiredSavings: 30, balanceLimit: null, balanceSurplus: 30, paycheckContribution: 15, id: 1, isCashAccount: true, isEmergencyFund: false, suggestedPaycheckContribution: 15 },
+    { name: 'E-Velocity Checking', balance: 79, requiredSavings: 30, balanceLimit: null, balanceSurplus: 30, paycheckContribution: 15, id: 1, isCashAccount: true, isEmergencyFund: false, suggestedPaycheckContribution: 15 },
+    { name: 'Marcus', balance: 5079, requiredSavings: 30, balanceLimit: null, balanceSurplus: 30, paycheckContribution: 15, id: 1, isCashAccount: true, isEmergencyFund: true, suggestedPaycheckContribution: 15 },
+];
+
 @Component({
   selector: 'account-bar-graph',
   templateUrl: './account-bar-graph.component.html',
@@ -28,8 +34,8 @@ export class AccountBarGraphComponent implements OnInit {
     is3D: true,
     backgroundColor: '#212529'
   };
-  height: number;
-  width: number;
+  height: number = 275;
+  width: number = 1200;
 
     ngOnInit(): void {
         this.getAccounts();
@@ -45,7 +51,7 @@ export class AccountBarGraphComponent implements OnInit {
 
     accountsToArray() {
         var columns = [];
-        this.accounts.forEach(account => {
+        ELEMENT_DATA.forEach(account => {
             var column = [account.name, account.balance];
             columns.push(column);
         });

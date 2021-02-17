@@ -77,10 +77,14 @@ namespace FinanceApp.Api.Controllers
                 dto.CostOfExpensesThisMonth = expenseTransactionsThisMonth.Sum(t => t.Amount);
 
                 dto.ExpenseDtos = expenseDtos;
-                var expensesDueBeforeNextPayDay = await PagedListExtensions.ToListAsync(_context.Expenses
-                        .Where(e => e.DueDate <= income.NextPayday && e.Paid == false));
-                dto.ExpensesDueBeforeNextPayDay = expensesDueBeforeNextPayDay;
-                dto.SumOfExpensesDueThisMonth = expensesDueBeforeNextPayDay.Sum(e => e.AmountDue);
+
+                List<Expense> expensesBeforeNextPayDay = income == null ? null : await PagedListExtensions.ToListAsync(_context.Expenses
+                        .Where(
+                            e => e.DueDate <= income.NextPayday 
+                         && e.DueDate >= CalculationsService.GetLastPayday(income)
+                         || e.DueDate <= income.NextPayday && e.Paid == false));
+                dto.ExpensesBeforeNextPayDay = expensesBeforeNextPayDay;
+                dto.SumOfExpensesDueThisMonth = expensesBeforeNextPayDay?.Sum(e => e.AmountDue);
                 var costPerPaycheck = payDeductionDict.Sum(e => e.Value);
                 dto.CostOfExpensesPerPayPeriod = costPerPaycheck;
             }
@@ -123,7 +127,7 @@ namespace FinanceApp.Api.Controllers
                     bill.AmountDue = expense.AmountDue;
                     bill.DueDate = expense.DueDate;
                     bill.AccountId = account.Id;
-                    bill.Category = expense.Category;
+                    bill.CategoryId = expense.CategoryId;
                     bill.PaymentFrequency = expense.PaymentFrequency;
                     bill.PayDeduction = expense.PayDeduction;
 

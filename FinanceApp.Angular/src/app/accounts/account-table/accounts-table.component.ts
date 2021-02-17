@@ -1,70 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { AccountService } from '../shared/account.service';
 import { Account } from '../shared/account';
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountDTO } from '../../DTOs/account-dto';
-import { DTO } from "../../DTOs/dto";
+
+const ELEMENT_DATA: Account[] = [
+    { name: 'Savings', balance: 1079, requiredSavings: 30, balanceLimit: null, balanceSurplus: 30, paycheckContribution: 15, id: 1, isCashAccount: true, isEmergencyFund: false, suggestedPaycheckContribution: 15 },
+    { name: 'E-Velocity Checking', balance: 79, requiredSavings: 30, balanceLimit: null, balanceSurplus: 30, paycheckContribution: 15, id: 1, isCashAccount: true, isEmergencyFund: false, suggestedPaycheckContribution: 15 },
+    { name: 'Marcus', balance: 5079, requiredSavings: 30, balanceLimit: null, balanceSurplus: 30, paycheckContribution: 15, id: 1, isCashAccount: true, isEmergencyFund: true, suggestedPaycheckContribution: 15 },
+];
 
 @Component({
     selector: 'accounts-table',
     templateUrl: './accounts-table.component.html',
-    styleUrls: ['./accounts-table.component.css'],
-    animations: [
-        trigger('detailExpand', [
-            state('collapsed', style({height: '0px', minHeight: '0'})),
-            state('expanded', style({height: '*'})),
-            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-        ]),
-    ]
+    styleUrls: ['./accounts-table.component.css']
 })
-export class AccountsTableComponent implements OnInit{
+export class AccountsTableComponent {
 
     constructor(private accountService: AccountService) { }
 
-    dataSource = new MatTableDataSource<AccountDTO>();   
-    columnsToDisplay = ['name','balance'];
-    expandedDto: AccountDTO | null;
-    public totalBalance: number;
-    public totalSurplus: number;
+    displayedColumns: string[] = ['name', 'balance'];
+    dataSource = new MatTableDataSource(ELEMENT_DATA)
 
-    newAccountForm = new FormGroup({
-        name: new FormControl(''),
-        balance: new FormControl(0)
-    });
-
-
-    ngOnInit() {
-        this.getAccountDto();
-    }
-
-    getAccountDto() {
-        this.accountService.getAccountDto()
-        .subscribe((dto: DTO) => {
-            this.dataSource.data = dto.accountDtos;
-            this.totalBalance = dto.sumOfAccountBalances;
-            this.totalSurplus = dto.totalSurplus;
-        });
-    }
-
-    onSubmit(){
-        var accountDTO = this.accountToDTO(this.newAccountForm.value);
-        
-        this.accountService.addAccount(accountDTO).subscribe(
-            (account: Account) =>  {
-                console.log("New Account added to database");
-                this.getAccountDto();
-            }
-        );
-    }
-
-    accountToDTO(newAccount: any){
-        let accountDTO = new Account();
-        
-        accountDTO.balance = newAccount.balance;
-        accountDTO.name = newAccount.name;
-
-        return accountDTO;
-    }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+      } 
 }

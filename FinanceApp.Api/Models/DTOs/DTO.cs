@@ -10,6 +10,7 @@ namespace FinanceApp.Api.Models.DTOs
         public IList<ExpenseDTO> ExpenseDtos { get; set; }
         public IList<BillDTO> BillDtos { get; set; }
         public IList<TransactionDTO> TransactionDtos { get; set; }
+        public List<Expense> ExpensesBeforeNextPayDay { get; set; }
         public List<Expense> ExpensesDueBeforeNextPayDay { get; set; }
         public IList<Expense> ExpensesDueThisMonth { get; set; }
         public DashboardDTO DashboardDto { get; set; }

@@ -15,7 +15,7 @@ export class ExpenseService {
 
   private expenseUrl = 'https://localhost:44313/api/expenses';
   private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense'
-  private expenseDtoUrl = 'https://localhost:44313/api/expenses/dto';
+  private expenseDtoUrl = 'https://localhost:44313/api/expenses/DTO';
   private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
   private billUrl = 'https://localhost:44313/api/bills/';
   private accountUrl = 'https://localhost:44313/api/accounts/';

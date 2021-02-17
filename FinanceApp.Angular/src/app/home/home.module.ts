@@ -3,6 +3,11 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared.module';
 import { LoginModule } from '../login/login.module';
+import { AccountModule } from '../accounts/shared/account.module';
+import { ExpensesModule } from '../expenses/shared/expenses.module';
+import { TransactionModule } from '../transactions/shared/transaction.module';
+import { IncomeModule } from '../incomes/shared/income.module';
+import { DashboardModule } from '../dashboard/dashboard.module';
 
 
 
@@ -13,7 +18,12 @@ import { LoginModule } from '../login/login.module';
   imports: [
     SharedModule,
     LoginModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    AccountModule,
+    ExpensesModule,
+    TransactionModule,
+    IncomeModule,
+    DashboardModule
   ]
 })
 export class HomeModule { }

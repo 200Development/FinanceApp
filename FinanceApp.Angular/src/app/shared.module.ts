@@ -44,7 +44,6 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatSidenavModule,
     MatToolbarModule,
     MatTabsModule
-
   ],
   exports: [
     FormsModule,

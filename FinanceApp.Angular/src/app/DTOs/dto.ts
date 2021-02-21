@@ -1,6 +1,5 @@
 import { Expense } from "../expenses/shared/expense";
 import { AccountDTO } from "./account-dto";
-import { BillDTO } from "./Bill-dto";
 import { DashboardDTO } from "./dashboard-dto";
 import { ExpenseDTO } from "./Expense-dto";
 import { TransactionDTO } from "./transaction-dto";
@@ -9,7 +8,6 @@ import { TransactionDTO } from "./transaction-dto";
 export class DTO {
     accountDtos: AccountDTO[];
     expenseDtos: ExpenseDTO[];
-    billDtos: BillDTO[];
     transactionDtos: TransactionDTO[];
     expensesBeforeNextPayDay: any[];
     expensesDueThisMonth: Expense[];

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
 
 @Component({
   selector: 'expense-page',

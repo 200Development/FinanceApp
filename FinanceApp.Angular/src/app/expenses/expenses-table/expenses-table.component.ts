@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,14 +12,8 @@ import { ExpenseService } from '../shared/expense.service';
 @Component({
   selector: 'expenses-table',
   templateUrl: './expenses-table.component.html',
-  styleUrls: ['./expenses-table.component.css'],
-  animations: [
-    trigger('detailExpand', [
-        state('collapsed', style({height: '0px', minHeight: '0'})),
-        state('expanded', style({height: '*'})),
-        transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-]
+  styleUrls: ['./expenses-table.component.css'] 
+
 })
 export class ExpensesTableComponent implements OnInit {
 

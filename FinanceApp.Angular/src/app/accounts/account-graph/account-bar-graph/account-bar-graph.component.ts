@@ -28,11 +28,10 @@ export class AccountBarGraphComponent implements OnInit {
   data: any[];
   options: {} = {
     colors: [
-        '#4b53d0',
-        '#5436da'
+        '#6AB547'        
     ],
     is3D: true,
-    backgroundColor: '#212529'
+    backgroundColor: 'transparent'
   };
   height: number = 275;
   width: number = 1200;

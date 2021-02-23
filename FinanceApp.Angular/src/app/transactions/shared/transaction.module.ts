@@ -7,6 +7,7 @@ import { NavigationModule } from '../../navigation/navigation.module';
 import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransactionsPageComponent } from '../transactions-page/transactions-page.component';
+import { CashFlowGraphComponent } from '../cash-flow-graph/cash-flow-graph.component';
 
 
 
@@ -14,7 +15,8 @@ import { TransactionsPageComponent } from '../transactions-page/transactions-pag
   declarations: [
     TransactionsTableComponent,
     AddTransactionComponent,
-    TransactionsPageComponent
+    TransactionsPageComponent,
+    CashFlowGraphComponent
   ],
   imports: [
     SharedModule,
@@ -24,6 +26,7 @@ import { TransactionsPageComponent } from '../transactions-page/transactions-pag
   ],
   exports: [
     TransactionsPageComponent,
+    CashFlowGraphComponent,
     RouterModule
   ]
 })

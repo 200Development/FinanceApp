@@ -4,9 +4,7 @@ import { SharedModule } from '../shared.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms/';
-import { IncomeModule } from '../incomes/shared/income.module';
-import { AccountModule } from '../accounts/shared/account.module';
-import { MetricsModule } from '../metrics/metrics.module';
+import { TransactionModule } from '../transactions/shared/transaction.module';
 
 
 @NgModule({
@@ -18,9 +16,7 @@ import { MetricsModule } from '../metrics/metrics.module';
     DashboardRoutingModule,
     NavigationModule,
     ReactiveFormsModule,
-    IncomeModule,
-    AccountModule,
-    MetricsModule
+    TransactionModule
   ],
   exports: [
     DashboardPageComponent

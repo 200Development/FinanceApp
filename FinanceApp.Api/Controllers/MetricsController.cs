@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanceApp.Api.Enums;
+using FinanceApp.Api.Models;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +11,7 @@ using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class MetricsController : ControllerBase
     {
@@ -20,9 +23,9 @@ namespace FinanceApp.Api.Controllers
         }
 
 
-        // GET: api/accounts/dto
+        // GET: api/metrics/dto
         [HttpGet]
-        public async Task<ActionResult<DTO>> GetMetricDto()
+        public async Task<ActionResult<DTO>> DTO()
         {
             var dto = new DTO();
             var expenses = await _context.Expenses.ToListAsync();
@@ -98,6 +101,71 @@ namespace FinanceApp.Api.Controllers
             dto.Year = today.Year;
 
             return dto;
+        }
+
+        // GET: api/metrics/cash-flow-graph
+        [HttpGet]
+        public async Task<ActionResult<List<CashFlowGraph>>> CashFlowGraph(DateTime beginDate = default, DateTime endDate = default)
+        {
+            var graphData = new List<CashFlowGraph>();
+
+            if (beginDate == default)
+                beginDate = DateTime.Today.AddMonths(-6);
+
+            if (endDate == default)
+                endDate = DateTime.Today;
+
+            var initializeDate = beginDate;
+
+            // Initialize dictionary
+            while (initializeDate <= endDate)
+            {
+                var cashFlowGraph = new CashFlowGraph();
+                var cashFlowData = new CashFlowData();
+
+                initializeDate = initializeDate.AddMonths(1);
+                var key = DateToDictionaryKey(initializeDate);
+
+                cashFlowData.Income = 5632.65m;
+                cashFlowData.Expenses = 3104.75m;
+                cashFlowData.CashFlow = cashFlowData.Income - cashFlowData.Expenses;
+
+                //cashFlowData.Income = decimal.Zero;
+                //cashFlowData.Expenses = decimal.Zero;
+                //cashFlowData.CashFlow = decimal.Zero;
+
+                cashFlowGraph.Date = key;
+                cashFlowGraph.DataPoints = cashFlowData;
+
+                graphData.Add(cashFlowGraph);
+            }
+
+            var transactions = await _context.Transactions.Where(t => t.Date >= beginDate && t.Date <= endDate)
+                .ToListAsync();
+
+            foreach (var transaction in transactions)
+            {
+                var key = DateToDictionaryKey(transaction.Date);
+                var income = transaction.Type == TransactionTypesEnum.Income ? transaction.Amount : decimal.Zero;
+                var expenses = transaction.Type == TransactionTypesEnum.Expense ? (transaction.Amount * -1) : decimal.Zero;
+
+                // Update existing month/year
+                var data = graphData.FirstOrDefault(d => d.Date == key);
+
+                if (data == null) continue;
+                data.DataPoints.Income += income;
+                data.DataPoints.Expenses += expenses;
+            }
+
+
+            return graphData;
+        }
+
+        private string DateToDictionaryKey(DateTime date)
+        {
+            var month = GetMonthName(date.Month);
+
+            return $"{month}/{date.Year}";
         }
 
         private string GetMonthName(int month)

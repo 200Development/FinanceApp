@@ -21,7 +21,7 @@ export class AddIncomeComponent implements OnInit {
     payeeFormControl: new FormControl(''),
     amountFormControl: new FormControl('', [Validators.required, Validators.min(0.01)]),
     frequencyFormControl: new FormControl('', Validators.required),
-    nextPaydayFormControl: new FormControl('', Validators.required),
+    nextPaydayFormControl: new FormControl(new Date(), Validators.required),
     firstMonthlyPayDayFormControl: new FormControl(''),
     secondMonthlyPayDayFormControl: new FormControl(''),
   });

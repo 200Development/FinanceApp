@@ -36,7 +36,7 @@ export class CashFlowGraphComponent implements OnInit {
   columnNames = ['Months', 'Income', 'Expenses', 'Cash Flow'];
   options = {
     // income, expenses, cashflow
-    colors: ['#80CFA9', '#8C271E', '#F96900'], 
+    colors: ['#6AB547', '#9E2A2B', '#F96900'], 
     hAxis: {
       title: ''
     },

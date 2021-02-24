@@ -1,26 +1,9 @@
 <form [formGroup]="newExpenseForm" (ngSubmit)="addExpense()">
     <div class="card">
         <div class="card-header">
-            New Expense
+            Add Expense
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <mat-form-field appearance="standard" class="expense-field">
-                        <mat-label>Name</mat-label>
-                        <input matInput class="form-control" type="text" formControlName="nameFormControl" placeholder="Name of Expense">
-                        <mat-icon matSuffix></mat-icon>
-                        <mat-hint></mat-hint>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6 form-group">
-                    <mat-form-field appearance="standard" class="expense-field">
-                        <mat-label>Amount Due</mat-label>
-                        <input matInput class="form-control" type="number" formControlName="amountDueFormControl"  placeholder="$0.00">
-                        <mat-icon matSuffix></mat-icon>
-                    </mat-form-field>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-6 form-group">
                     <mat-form-field appearance="standard" class="expense-field">
@@ -37,6 +20,23 @@
                     </mat-checkbox>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <mat-form-field appearance="standard" class="expense-field">
+                        <mat-label>Name</mat-label>
+                        <input matInput class="form-control" type="text" formControlName="nameFormControl" placeholder="Name of Expense">
+                        <mat-icon matSuffix></mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 form-group">
+                    <mat-form-field appearance="standard" class="expense-field">
+                        <mat-label>Amount Due</mat-label>
+                        <input matInput class="form-control" type="number" formControlName="amountDueFormControl"  placeholder="$0.00">
+                        <mat-icon matSuffix></mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>          
             <div class="row">
                 <div class="col-md-6 form-group">
                     <mat-form-field appearance="standard" class="expense-field">
@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <button mat-button class="expense-field" aria-label="add new expense button" type="submit">
-                        <mat-icon>add_circle_outline</mat-icon>Save
+                        <mat-icon>add_circle_outline</mat-icon>Add
                     </button>
                 </div>
             </div>

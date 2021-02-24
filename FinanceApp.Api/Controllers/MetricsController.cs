@@ -126,13 +126,13 @@ namespace FinanceApp.Api.Controllers
                 initializeDate = initializeDate.AddMonths(1);
                 var key = DateToDictionaryKey(initializeDate);
 
-                cashFlowData.Income = 5632.65m;
-                cashFlowData.Expenses = 3104.75m;
-                cashFlowData.CashFlow = cashFlowData.Income - cashFlowData.Expenses;
+                //cashFlowData.Income = 5632.65m;
+                //cashFlowData.Expenses = 3104.75m;
+                //cashFlowData.CashFlow = cashFlowData.Income - cashFlowData.Expenses;
 
-                //cashFlowData.Income = decimal.Zero;
-                //cashFlowData.Expenses = decimal.Zero;
-                //cashFlowData.CashFlow = decimal.Zero;
+                cashFlowData.Income = decimal.Zero;
+                cashFlowData.Expenses = decimal.Zero;
+                cashFlowData.CashFlow = decimal.Zero;
 
                 cashFlowGraph.Date = key;
                 cashFlowGraph.DataPoints = cashFlowData;

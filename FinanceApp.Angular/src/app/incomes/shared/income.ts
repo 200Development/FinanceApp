@@ -2,7 +2,7 @@
 export class Income {
     id: number;
     userId: string;
-    payee: string;
+    payer: string;
     amount: number;
     paymentFrequency: any;
     nextPayday: Date;

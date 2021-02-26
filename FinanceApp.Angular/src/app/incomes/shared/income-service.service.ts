@@ -12,7 +12,7 @@ export class IncomeService {
 
   constructor(private http: HttpClient) { }
 
-  private incomeUrl = 'https://localhost:44313/api/incomes/';
+  private incomeUrl = 'https://localhost:44313/api/incomes/AddIncome';
   private incomeDtoUrl = 'https://localhost:44313/api/incomes/dto';
   headers = new HttpHeaders({ 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' });
   httpOptions = {

@@ -36,6 +36,7 @@ export class AddIncomeComponent implements OnInit {
   }
 
   addIncome() {
+    debugger;
     var newIncome = this.mapIncome(this.newIncomeForm.value);
 
     this.incomeService.addIncome(newIncome).subscribe(
@@ -48,10 +49,10 @@ export class AddIncomeComponent implements OnInit {
   mapIncome(newIncome: any) {
     let income = new Income();
 
-    income.payee = newIncome.payeeFormControl;
+    income.payer = newIncome.payeeFormControl;
     income.amount = parseFloat(newIncome.amountFormControl);
     income.paymentFrequency = Frequencies[newIncome.frequencyFormControl];
-    income.nextPayday = newIncome.nextDueDateFormControl;
+    income.nextPayday = new Date(newIncome.nextPaydayFormControl);
 
     return income;
   }

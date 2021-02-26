@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckbox } from '@angular/material/checkbox';
 import { Account } from 'src/app/accounts/shared/account';
-import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
+import { Category } from '../shared/category';
 import { Expense } from '../shared/expense';
 import { ExpenseService } from '../shared/expense.service';
 
@@ -12,17 +11,17 @@ import { ExpenseService } from '../shared/expense.service';
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.css']
 })
-export class AddExpenseComponent {
+export class AddExpenseComponent implements OnInit {
 
   constructor(private expenseService: ExpenseService) { }
 
   frequencies = Frequencies;
-  categories = Categories;
+  categories: Category[] = [];
   expenses: Expense[] = [];
   accounts: Account[];
-  isBill: boolean = false;
   newExpenseForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    isBillFormControl: new FormControl(true),
     amountDueFormControl: new FormControl('', [Validators.required, Validators.min(0.01)]),
     dueDateFormControl: new FormControl(new Date(), Validators.required),
     frequencyFormControl: new FormControl('', Validators.required),
@@ -30,8 +29,8 @@ export class AddExpenseComponent {
   });
 
 
-  recurringChanged({ source, checked }: { source: MatCheckbox; checked: boolean; }){
-    this.isBill = checked;
+  ngOnInit() {
+    this.getCategories();
   }
 
   frequencyKeys(): Array<string> {
@@ -39,20 +38,22 @@ export class AddExpenseComponent {
     return keys.slice(keys.length / 2);
   }
 
-  categoryKeys(): Array<string> {
-    var keys = Object.keys(this.categories);
-    return keys.slice(keys.length / 2);
+  getCategories(): void {
+    this.expenseService.getCategories().subscribe((categories: Category[]) => {
+      this.categories = categories;
+    });
   }
 
   addExpense() {
+    debugger;
     var newExpense = this.mapExpense(this.newExpenseForm.value);
 
-      this.expenseService.addExpense(newExpense).subscribe(
-        expense => {
-          this.expenses.push(expense);
-          this.newExpenseForm.reset();
-        }
-      );
+    this.expenseService.addExpense(newExpense).subscribe(
+      expense => {
+        this.expenses.push(expense);
+        this.newExpenseForm.reset();
+      }
+    );
   }
 
   mapExpense(newExpense: any) {
@@ -60,10 +61,10 @@ export class AddExpenseComponent {
 
     expense.name = newExpense.nameFormControl;
     expense.amountDue = parseFloat(newExpense.amountDueFormControl);
-    expense.dueDate = newExpense.dueDateFormControl;
+    expense.dueDate = new Date(newExpense.dueDateFormControl);
     expense.paymentFrequency = Frequencies[newExpense.frequencyFormControl];
-    expense.category = Categories[newExpense.categoryFormControl];
-    expense.isBill = this.isBill;
+    expense.categoryId = parseInt(newExpense.categoryFormControl);
+    expense.isBill = newExpense.isBillFormControl;
 
     return expense;
   }

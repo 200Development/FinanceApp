@@ -1,0 +1,19 @@
+<table matSort (matSortChange)="sortData($event)">
+    <tr>
+      <th mat-sort-header="name">Expense</th>
+      <th mat-sort-header="due">Due</th>
+      <th mat-sort-header="amount">Amount</th>
+      <th mat-sort-header="paydaysUntilDue"># Paydays Until Due</th>
+      <th mat-sort-header="requiredSavings">Required Savings</th>
+      <td mat-footer-cell *matFooterCellDef> Total </td>
+    </tr>
+  
+    <tr *ngFor="let expense of sortedExpenses">
+      <td>{{ expense.name | titlecase }}</td>
+      <td>{{ expense.due | date }}</td>
+      <td>{{ expense.amount | currency }}</td>
+      <td>{{ expense.paydaysUntilDue }}</td>
+      <td>{{ expense.requiredSavings | currency }}</td>
+    </tr>
+   
+  </table>

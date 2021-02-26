@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { DTO } from "src/app/DTOs/dto";
 import { Expense } from './expense';
+import { AmortizedExpense } from '../amortized-expenses-sort-header/amortized-expenses-sort-header.component';
+import { Category } from './category';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,8 @@ export class ExpenseService {
 
 
   private expenseUrl = 'https://localhost:44313/api/expenses';
+  private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories'
+  private amortizedExpenseUrl = 'https://localhost:44313/api/expenses/AmortizedExpenses';
   private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense'
   private expenseDtoUrl = 'https://localhost:44313/api/expenses/DTO';
   private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
@@ -31,6 +35,18 @@ export class ExpenseService {
       catchError(this.handleError)
     );
   };
+
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.getCategoriesUrl).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  getAmortizedExpenses(): Observable<AmortizedExpense[]> {
+    return this.http.get<AmortizedExpense[]>(this.amortizedExpenseUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   getExpenseDto(): Observable<DTO> {
     return this.http.get<DTO>(this.expenseDtoUrl).pipe(

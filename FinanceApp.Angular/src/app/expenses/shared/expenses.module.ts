@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared.module';
 import { NavigationModule } from 'src/app/navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseRoutingModule } from './expense-routing.module';
+import { AmortizedExpensesSortHeaderComponent } from '../amortized-expenses-sort-header/amortized-expenses-sort-header.component';
 
 
 
@@ -15,7 +16,8 @@ import { ExpenseRoutingModule } from './expense-routing.module';
     ExpensePageComponent,
     ExpensesTableComponent,
     AmountDueGraphComponent,    
-    AddExpenseComponent
+    AddExpenseComponent,
+    AmortizedExpensesSortHeaderComponent
   ],
   imports: [
     SharedModule,
@@ -24,7 +26,8 @@ import { ExpenseRoutingModule } from './expense-routing.module';
     ReactiveFormsModule
   ],
   exports: [
-    ExpensePageComponent
+    ExpensePageComponent,
+    AmortizedExpensesSortHeaderComponent
   ]
 })
 export class ExpensesModule { }

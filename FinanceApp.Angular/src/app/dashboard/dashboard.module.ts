@@ -5,6 +5,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms/';
 import { TransactionModule } from '../transactions/shared/transaction.module';
+import { ExpensesModule } from '../expenses/shared/expenses.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TransactionModule } from '../transactions/shared/transaction.module';
     DashboardRoutingModule,
     NavigationModule,
     ReactiveFormsModule,
-    TransactionModule
+    TransactionModule,
+    ExpensesModule
   ],
   exports: [
     DashboardPageComponent

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinanceApp.Api.Enums;
+using FinanceApp.Api.Models;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using FinanceApp.API.Services;
@@ -28,6 +29,41 @@ namespace FinanceApp.Api.Controllers
         public async Task<IEnumerable<Expense>> Expenses()
         {
             return await PagedListExtensions.ToListAsync(_context.Expenses);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<Category>> GetCategories()
+        {
+            return await _context.Categories.ToListAsync();
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<AmortizedExpenses>> AmortizedExpenses()
+        {
+            var amortizedExpenses = new List<AmortizedExpenses>();
+            var today = DateTime.Today;
+
+            // Get all upcoming expenses and all unpaid past expenses 
+            var expenses = await _context.Expenses.Where(e => e.DueDate <= today && !e.Paid || e.DueDate >= today).ToListAsync();
+            var accounts = await _context.Accounts.ToListAsync();
+            var income = await _context.Incomes.FirstOrDefaultAsync();
+
+            var payDeductionsDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "");
+
+            foreach (var expense in expenses)
+            {
+                var amortizedExpense = new AmortizedExpenses();
+                amortizedExpense.Name = expense.Name;
+                amortizedExpense.Due = expense.DueDate;
+                amortizedExpense.Amount = expense.AmountDue;
+                amortizedExpense.PaydaysUntilDue = CalculationsService.GetPaydaysUntilDue(expense, income);
+                amortizedExpense.RequiredSavings = CalculationsService.GetExpenseRequiredSavings(payDeductionsDict, expense, income) ?? 0.00m;
+
+                amortizedExpenses.Add(amortizedExpense);
+            }
+
+
+            return amortizedExpenses;
         }
 
         [HttpGet("int/{id:int}")]
@@ -55,7 +91,7 @@ namespace FinanceApp.Api.Controllers
                 var income = _context.Incomes.FirstOrDefault();
                 var unpaidExpenses = await expenses.Where(e => !e.Paid).ToListAsync();
                 var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "expenses");
-                
+
 
                 foreach (var expense in unpaidExpenses)
                 {
@@ -80,7 +116,7 @@ namespace FinanceApp.Api.Controllers
 
                 List<Expense> expensesBeforeNextPayDay = income == null ? null : await PagedListExtensions.ToListAsync(_context.Expenses
                         .Where(
-                            e => e.DueDate <= income.NextPayday 
+                            e => e.DueDate <= income.NextPayday
                          && e.DueDate >= CalculationsService.GetLastPayday(income)
                          || e.DueDate <= income.NextPayday && e.Paid == false));
                 dto.ExpensesBeforeNextPayDay = expensesBeforeNextPayDay;
@@ -103,14 +139,15 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-
+                expense.Category = await _context.Categories.FindAsync(expense.CategoryId);
+                
                 // Add account if one doesn't already exist for the expense category
                 var account = _context.Accounts.FirstOrDefault(a => a.Name == expense.Category.ToString());
 
                 if (account == null)
                 {
                     account = new Account();
-                    account.Name = expense.Category.ToString();
+                    account.Name = expense.Category.Name;
 
                     await _context.Accounts.AddAsync(account);
                     await _context.SaveChangesAsync();
@@ -120,22 +157,8 @@ namespace FinanceApp.Api.Controllers
                 await _context.AddAsync(expense);
                 await _context.SaveChangesAsync();
 
-                if (expense.IsBill)
-                {
-                    var bill = new Bill();
-                    bill.Name = expense.Name;
-                    bill.AmountDue = expense.AmountDue;
-                    bill.DueDate = expense.DueDate;
-                    bill.AccountId = account.Id;
-                    bill.CategoryId = expense.CategoryId;
-                    bill.PaymentFrequency = expense.PaymentFrequency;
-                    bill.PayDeduction = expense.PayDeduction;
 
-                    await _context.AddAsync(bill);
-                    await _context.SaveChangesAsync();
-                }
-
-                return CreatedAtAction(nameof(Expense), new {id = expense.Id}, expense);
+                return CreatedAtAction(nameof(Expense), new { id = expense.Id }, expense);
             }
             catch (Exception e)
             {
@@ -143,7 +166,7 @@ namespace FinanceApp.Api.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-        
+
         [HttpPut("{id}")]
         public async Task<ActionResult<bool>> PayExpense(long id)
         {
@@ -191,7 +214,7 @@ namespace FinanceApp.Api.Controllers
 
                 await _context.Transactions.AddAsync(transaction);
                 await _context.SaveChangesAsync();
-                
+
 
                 return AcceptedAtRoute(true);
             }

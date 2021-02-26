@@ -490,7 +490,7 @@ namespace FinanceApp.API.Services
         /// </summary>
         /// <param name="dueDate"></param>
         /// <returns></returns>
-        private static int PayPeriodsTilDue(DateTime? dueDate)
+        public static int PayPeriodsTilDue(DateTime? dueDate)
         {
             try
             {
@@ -682,7 +682,7 @@ namespace FinanceApp.API.Services
             return expense.AmountDue - payDeduction * paydaysUntilDue;
         }
 
-        private static int GetPaydaysUntilDue(Expense expense, Income income)
+        public static int GetPaydaysUntilDue(Expense expense, Income income)
         {
             if (income == null || expense == null)
                 return -1;

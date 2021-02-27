@@ -24,8 +24,8 @@ export class AddAccountComponent {
 
       this.accountService.addAccount(newAccount).subscribe(
         account => {
-          this.accounts.push(account);
           this.newAccountForm.reset();
+          this.accounts.push(account);          
         }
       )
   }

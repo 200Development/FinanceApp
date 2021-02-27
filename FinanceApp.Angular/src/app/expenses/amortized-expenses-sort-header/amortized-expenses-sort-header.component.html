@@ -9,11 +9,11 @@
     </tr>
   
     <tr *ngFor="let expense of sortedExpenses">
-      <td>{{ expense.name | titlecase }}</td>
-      <td>{{ expense.due | date }}</td>
-      <td>{{ expense.amount | currency }}</td>
-      <td>{{ expense.paydaysUntilDue }}</td>
-      <td>{{ expense.requiredSavings | currency }}</td>
+      <td style="min-width: 250px;">{{ expense.name | titlecase }}</td>
+      <td style="min-width: 150px;">{{ expense.due | date }}</td>
+      <td style="min-width: 150px;">{{ expense.amount | currency }}</td>
+      <td style="min-width: 150px; padding-left: 40px;">{{ expense.paydaysUntilDue }}</td>
+      <td style="min-width: 150px;">{{ expense.requiredSavings | currency }}</td>
     </tr>
    
   </table>

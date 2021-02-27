@@ -18,10 +18,7 @@ export class AccountBarGraphComponent implements OnInit {
   constructor(private accountService: AccountService) { 
       
   }
-
-  accounts: Account[];
-  columns: any[];
-
+  
   title: string = 'Account Balances';
   type: string = 'ColumnChart';
   columnNames: any[] = [ 'Account', 'Balance' ];
@@ -37,20 +34,19 @@ export class AccountBarGraphComponent implements OnInit {
   width: number = 1200;
 
     ngOnInit(): void {
-        this.getAccounts();
+        this.getCashAccounts();
     }
 
-    getAccounts() {
-        this.accountService.getAccounts()
-            .subscribe(accounts => {
-                this.accounts = accounts;
-                this.data = this.accountsToArray(); 
+    getCashAccounts() {
+        this.accountService.getCashAccounts()
+            .subscribe(accounts => {                
+                this.data = this.accountsToArray(accounts); 
         });
     }
 
-    accountsToArray() {
+    accountsToArray(accounts: Account[]) {
         var columns = [];
-        ELEMENT_DATA.forEach(account => {
+        accounts.forEach(account => {
             var column = [account.name, account.balance];
             columns.push(column);
         });

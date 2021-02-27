@@ -1,34 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { AccountService } from 'src/app/accounts/shared/account.service';
 import { ExpenseDTO } from "src/app/DTOs/Expense-dto";
 import { DTO } from "src/app/DTOs/dto";
 import { Categories } from 'src/app/enums/categories';
 import { Frequencies } from 'src/app/enums/frequencies';
 import { Expense } from '../shared/expense';
 import { ExpenseService } from '../shared/expense.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'expenses-table',
   templateUrl: './expenses-table.component.html',
-  styleUrls: ['./expenses-table.component.css'], 
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./expenses-table.component.css'] 
 })
 export class ExpensesTableComponent implements OnInit {
 
-  constructor(private expenseService: ExpenseService, private accountService: AccountService) {}
+  constructor(private expenseService: ExpenseService) {}
    
     dataSource = new MatTableDataSource<ExpenseDTO>();
-    columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'account'];
-    expandedDto: ExpenseDTO | null;
+    columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'account'];   
     frequencies = Frequencies;
     frequencyDisplay: any = {'0': 'Annually', '1': 'Bi-Annually', '2': 'Quarterly', '3': 'Monthly', '4': 'Bi-Monthly', '5': 'Bi-Weekly', '6': 'Weekly', '7': 'Daily'};
     categories = Categories;

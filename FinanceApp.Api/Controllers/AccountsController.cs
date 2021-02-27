@@ -11,7 +11,7 @@ using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -27,15 +27,15 @@ namespace FinanceApp.Api.Controllers
         // GET: api/accounts/?pageIndex=0&pageSize=10
         // GET: api/accounts/?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc
         [HttpGet]
-        public async Task<IEnumerable<Account>> GetAccounts(
-            int pageIndex = 0,
-            int pageSize = 10,
-            string sortColumn = null,
-            string sortOrder = null,
-            string filterColumn = null,
-            string filterQuery = null)
+        public async Task<IEnumerable<Account>> Accounts()
         {
             return await PagedListExtensions.ToListAsync(_context.Accounts);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<Account>> CashAccounts()
+        {
+            return await PagedListExtensions.ToListAsync(_context.Accounts.Where(a => a.IsCashAccount));
         }
 
         // GET: api/accounts/dto

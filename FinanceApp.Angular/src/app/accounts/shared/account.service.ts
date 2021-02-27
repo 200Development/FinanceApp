@@ -13,7 +13,9 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  private accountUrl = 'https://localhost:44313/api/accounts/';
+  private accountUrl = 'https://localhost:44313/api/accounts/accounts';
+  private cashAccountUrl = 'https://localhost:44313/api/accounts/cashAccounts';
+  private addAccountUrl = 'https://localhost:44313/api/accounts/addAccount';
   private accountDtosUrl = 'https://localhost:44313/api/accounts/dto';
   headers = new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*' });
   httpOptions = {
@@ -27,6 +29,12 @@ export class AccountService {
     );
   };
 
+  getCashAccounts(): Observable<Account[]> {
+    return this.http.get<Account[]>(this.cashAccountUrl).pipe(
+      catchError(this.handleError)
+    );
+  };
+
   getAccountDto(): Observable<DTO> {
     return this.http.get<DTO>(this.accountDtosUrl).pipe(
       catchError(this.handleError)
@@ -35,7 +43,7 @@ export class AccountService {
 
   addAccount(account: Account): Observable<Account> {
     console.log("addAccount start");
-    return this.http.post<Account>(this.accountUrl, account, this.httpOptions).pipe(
+    return this.http.post<Account>(this.addAccountUrl, account, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   };

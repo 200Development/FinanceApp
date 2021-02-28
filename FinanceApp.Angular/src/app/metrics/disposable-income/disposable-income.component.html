@@ -3,7 +3,30 @@
         <accounts-sort-header></accounts-sort-header>
     </mat-grid-tile>
     <mat-grid-tile colspan="3" rowspan="2">
-        Disposable Income
+        <div id="dashboard-disposable-income-div">
+            <div class="row">
+                <div class="col-sm-6">
+                    Total Cash
+                </div>
+                <div class="col-sm-6">
+                    {{ totalCash | currency }}
+                </div>
+
+                <div class="col-sm-6">
+                    Total Liability
+                </div>
+                <div class="col-sm-6">
+                    {{ totalLiability | currency }}
+                </div>
+               
+                <div class="col-sm-6">
+                    Disposable Income
+                </div>
+                <div class="col-sm-6">
+                    {{ disposableIncome | currency }}
+                </div>
+            </div>
+        </div>
     </mat-grid-tile>
     <mat-grid-tile colspan="7" rowspan="1">
         <amortized-expenses-sort-header></amortized-expenses-sort-header>

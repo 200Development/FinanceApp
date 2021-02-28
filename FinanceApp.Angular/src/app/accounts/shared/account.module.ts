@@ -9,6 +9,7 @@ import { AccountBarGraphComponent } from '../account-graph/account-bar-graph/acc
 import { AccountListComponent } from '../account-list/account-list.component';
 import { AddAccountComponent } from '../add-account/add-account.component';
 import { EditAccountComponent } from '../edit-account/edit-account.component';
+import { AccountsSortHeaderComponent } from '../accounts-sort-header/accounts-sort-header.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { EditAccountComponent } from '../edit-account/edit-account.component';
     EditAccountComponent,
     AccountsTableComponent,
     AccountBarGraphComponent,
-    AccountListComponent
+    AccountListComponent,
+    AccountsSortHeaderComponent,
   ],
   imports: [
     SharedModule,
@@ -28,7 +30,8 @@ import { EditAccountComponent } from '../edit-account/edit-account.component';
   ],
   exports: [
     AccountListComponent,
-    AccountPageComponent
+    AccountPageComponent,
+    AccountsSortHeaderComponent
   ]
 })
 export class AccountModule { }

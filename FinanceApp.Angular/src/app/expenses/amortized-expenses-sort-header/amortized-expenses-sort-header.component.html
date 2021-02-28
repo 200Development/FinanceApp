@@ -5,15 +5,13 @@
       <th mat-sort-header="amount">Amount</th>
       <th mat-sort-header="paydaysUntilDue"># Paydays Until Due</th>
       <th mat-sort-header="requiredSavings">Required Savings</th>
-      <td mat-footer-cell *matFooterCellDef> Total </td>
     </tr>
   
     <tr *ngFor="let expense of sortedExpenses">
-      <td style="min-width: 250px;">{{ expense.name | titlecase }}</td>
+      <td style="min-width: 215px;">{{ expense.name | titlecase }}</td>
       <td style="min-width: 150px;">{{ expense.due | date }}</td>
       <td style="min-width: 150px;">{{ expense.amount | currency }}</td>
       <td style="min-width: 150px; padding-left: 40px;">{{ expense.paydaysUntilDue }}</td>
-      <td style="min-width: 150px;">{{ expense.requiredSavings | currency }}</td>
-    </tr>
-   
-  </table>
+      <td style="min-width: 150px;">{{ expense.requiredSavings | currency }}</td>   
+    </tr>    
+</table>

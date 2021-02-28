@@ -33,6 +33,11 @@ export class AmortizedExpensesSortHeaderComponent {
     });
   }
   
+  /** Gets the total cost of all transactions. */
+  getTotalCost() {
+    return this.expenses.map(t => t.amount).reduce((acc, value) => acc + value, 0);
+  }
+
   sortData(sort: Sort) {
     const data = this.expenses.slice();
     if (!sort.active || sort.direction === '') {
@@ -40,8 +45,8 @@ export class AmortizedExpensesSortHeaderComponent {
       return;
     }
 
-    this.sortedExpenses = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
+  this.sortedExpenses = data.sort((a, b) => {
+    const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'due': return compare(a.due, b.due, isAsc);

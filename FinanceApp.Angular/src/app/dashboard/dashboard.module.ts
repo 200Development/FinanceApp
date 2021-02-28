@@ -6,6 +6,7 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms/';
 import { TransactionModule } from '../transactions/shared/transaction.module';
 import { ExpensesModule } from '../expenses/shared/expenses.module';
+import { MetricsModule } from '../metrics/metrics.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ExpensesModule } from '../expenses/shared/expenses.module';
     NavigationModule,
     ReactiveFormsModule,
     TransactionModule,
-    ExpensesModule
+    ExpensesModule,
+    MetricsModule
   ],
   exports: [
     DashboardPageComponent

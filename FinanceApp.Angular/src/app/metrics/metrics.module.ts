@@ -5,6 +5,9 @@ import { ExpensesDueBeforeNextPaydayListComponent } from './expenses-due-before-
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared.module';
 import { IncomeExpenseTrackingComponent } from './income-expense-tracking/income-expense-tracking.component';
+import { DisposableIncomeComponent } from './disposable-income/disposable-income.component';
+import { AccountModule } from '../accounts/shared/account.module';
+import { ExpensesModule } from '../expenses/shared/expenses.module';
 
 
 
@@ -12,17 +15,21 @@ import { IncomeExpenseTrackingComponent } from './income-expense-tracking/income
   declarations: [
     MetricsComponent,
     ExpensesDueBeforeNextPaydayListComponent,
-    IncomeExpenseTrackingComponent
+    IncomeExpenseTrackingComponent,
+    DisposableIncomeComponent    
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    AccountModule,
+    ExpensesModule
   ],
   exports: [
     MetricsComponent,
     ExpensesDueBeforeNextPaydayListComponent,
-    IncomeExpenseTrackingComponent
+    IncomeExpenseTrackingComponent,
+    DisposableIncomeComponent
   ]
 })
 export class MetricsModule { }

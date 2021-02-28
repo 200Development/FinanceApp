@@ -5,5 +5,5 @@ export class Income {
     payer: string;
     amount: number;
     paymentFrequency: any;
-    nextPayday: Date;
+    nextPayday: any;
 }

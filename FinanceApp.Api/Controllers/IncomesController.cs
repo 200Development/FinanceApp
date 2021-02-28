@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FinanceApp.Api.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
 {
@@ -16,7 +18,13 @@ namespace FinanceApp.Api.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        public async Task<IEnumerable<Income>> Incomes()
+        {
+            return await PagedListExtensions.ToListAsync(_context.Incomes);
+        }
+
+        [HttpGet]
         public async Task<ActionResult<Income>> GetIncome(long id)
         {
             var income = await _context.Incomes.FindAsync(id);

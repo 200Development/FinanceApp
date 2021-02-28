@@ -12,7 +12,8 @@ export class IncomeService {
 
   constructor(private http: HttpClient) { }
 
-  private incomeUrl = 'https://localhost:44313/api/incomes/AddIncome';
+  private getIncomesUrl = 'https://localhost:44313/api/incomes/incomes';
+  private addIncomeUrl = 'https://localhost:44313/api/incomes/AddIncome';
   private incomeDtoUrl = 'https://localhost:44313/api/incomes/dto';
   headers = new HttpHeaders({ 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' });
   httpOptions = {
@@ -21,7 +22,7 @@ export class IncomeService {
   };
 
   getIncomes(): Observable<Income[]> {
-    return this.http.get<Income[]>(this.incomeUrl).pipe(
+    return this.http.get<Income[]>(this.getIncomesUrl).pipe(
       catchError(this.handleError)
     );
   }
@@ -33,7 +34,7 @@ export class IncomeService {
   }
 
   addIncome(income: Income): Observable<Income> {
-    return this.http.post<Income>(this.incomeUrl, income, this.httpOptions).pipe(
+    return this.http.post<Income>(this.addIncomeUrl, income, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }

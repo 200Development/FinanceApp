@@ -5,6 +5,7 @@ import { NavigationModule } from 'src/app/navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IncomeRoutingModule } from './income-routing.module';
 import { IncomePageComponent } from '../income-page.component';
+import { IncomesTableComponent } from '../incomes-table/incomes-table.component';
 
 
 
@@ -12,6 +13,7 @@ import { IncomePageComponent } from '../income-page.component';
   declarations: [
     AddIncomeComponent,
     IncomePageComponent,
+    IncomesTableComponent
   ],
   imports: [
     SharedModule,

@@ -1,7 +1,7 @@
 <table matSort (matSortChange)="sortData($event)">
     <tr>
       <th mat-sort-header="name">Account</th>
-      <th mat-sort-header="due">Balance</th>     
+      <th mat-sort-header="balance">Balance</th>     
     </tr>
   
     <tr *ngFor="let account of sortedAccounts">

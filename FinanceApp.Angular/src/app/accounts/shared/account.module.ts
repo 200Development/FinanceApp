@@ -8,12 +8,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AccountBarGraphComponent } from '../account-graph/account-bar-graph/account-bar-graph.component';
 import { AccountListComponent } from '../account-list/account-list.component';
 import { AddAccountComponent } from '../add-account/add-account.component';
+import { EditAccountComponent } from '../edit-account/edit-account.component';
 
 
 @NgModule({
   declarations: [
     AccountPageComponent,
     AddAccountComponent,
+    EditAccountComponent,
     AccountsTableComponent,
     AccountBarGraphComponent,
     AccountListComponent

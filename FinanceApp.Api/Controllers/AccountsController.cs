@@ -108,7 +108,7 @@ namespace FinanceApp.Api.Controllers
             return account;
         }
 
-        // POST: api/accounts
+        // POST: api/accounts/addAccount
         [HttpPost]
         public async Task<ActionResult<Account>> AddAccount([FromBody] Account account)
         {
@@ -121,6 +121,33 @@ namespace FinanceApp.Api.Controllers
 
                 //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
                 return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, account);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        // POST: api/accounts/editAccount
+        [HttpPut]
+        public async Task<ActionResult<Account>> EditAccount([FromBody] Account account)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest($"Account.Name: {account.Name}, Account.Id: {account.Id} is invalid");
+
+                var dbAccount = await _context.Accounts.FindAsync(account.Id);
+
+                if (dbAccount == null) return BadRequest($"No account with id: {account.Id}");
+
+                dbAccount.Name = account.Name;
+                dbAccount.Balance = account.Balance;
+
+                _context.Entry(dbAccount).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return Ok(account);
             }
             catch (Exception e)
             {

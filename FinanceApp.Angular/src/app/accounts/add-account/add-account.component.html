@@ -18,7 +18,7 @@
                 <div class="col-sm-12 col-md-3">
                     <mat-form-field class="new-account-form-field">
                         <mat-label>Balance</mat-label>
-                        <input matInput type="number" formControlName="balanceFormControl">
+                        <input matInput type="number" step="0.01" formControlName="balanceFormControl">
                         <button mat-button *ngIf="newAccountForm" matSuffix mat-icon-button aria-label="Clear"
                             (click)="value=''">
                             <mat-icon>close</mat-icon>

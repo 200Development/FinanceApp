@@ -16,6 +16,7 @@ export class AccountService {
   private accountUrl = 'https://localhost:44313/api/accounts/accounts';
   private cashAccountUrl = 'https://localhost:44313/api/accounts/cashAccounts';
   private addAccountUrl = 'https://localhost:44313/api/accounts/addAccount';
+  private editAccountUrl = 'https://localhost:44313/api/accounts/editAccount';
   private accountDtosUrl = 'https://localhost:44313/api/accounts/dto';
   headers = new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*' });
   httpOptions = {
@@ -42,11 +43,17 @@ export class AccountService {
   };
 
   addAccount(account: Account): Observable<Account> {
-    console.log("addAccount start");
+    //console.log("addAccount start");
     return this.http.post<Account>(this.addAccountUrl, account, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   };
+
+  editAccount(account: Account): Observable<Account> {
+    return this.http.put<Account>(this.editAccountUrl, account, this.httpOptions).pipe(
+      catchError(this.handleError)
+    )
+  }
 
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

@@ -1,0 +1,40 @@
+<div class="container">
+    <form [formGroup]="editAccountForm" (ngSubmit)="editAccount()">
+        <div class="card">
+            <div class="card-header">
+                Edit Account
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-3">
+                        <mat-form-field class="edit-account-form-field">
+                            <mat-label>Name</mat-label>
+                            <input matInput type="text" formControlName="nameFormControl">
+                            <button mat-button *ngIf="editAccountForm" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="clearName();">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <mat-form-field class="edit-account-form-field">
+                            <mat-label>Balance</mat-label>
+                            <input step="0.01" matInput type="number" formControlName="balanceFormControl">
+                            <button mat-button *ngIf="editAccountForm" matSuffix mat-icon-button aria-label="Clear"
+                                (click)="clearBalance();">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button mat-button class="account-field" aria-label="edit account button" type="submit">
+                            <mat-icon>add_circle_outline</mat-icon>Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

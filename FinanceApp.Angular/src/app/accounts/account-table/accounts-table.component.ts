@@ -13,9 +13,8 @@ export class AccountsTableComponent implements OnInit {
     constructor(private accountService: AccountService) { }
 
     dataSource = new MatTableDataSource<Account>();
-    columnsToDisplay = ['name', 'balance'];
+    columnsToDisplay = ['name', 'balance', 'action'];
     
-
 
     ngOnInit() {
         this.getCashAccounts();

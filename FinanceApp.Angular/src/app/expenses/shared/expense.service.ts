@@ -15,7 +15,7 @@ export class ExpenseService {
   constructor(private http: HttpClient) { }
 
 
-  private expenseUrl = 'https://localhost:44313/api/expenses';
+  private expenseUrl = 'https://localhost:44313/api/expenses/expenses';
   private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories'
   private amortizedExpenseUrl = 'https://localhost:44313/api/expenses/AmortizedExpenses';
   private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense'

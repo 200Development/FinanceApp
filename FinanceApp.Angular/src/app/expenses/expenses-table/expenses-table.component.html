@@ -3,39 +3,33 @@
     <!--Name column-->
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Expense </th>
-        <td mat-cell *matCellDef="let dto"> {{ dto.expense.name | titlecase }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.name | titlecase }} </td>
     </ng-container>
 
     <!--Amount Due column-->
     <ng-container matColumnDef="amountDue">
         <th mat-header-cell *matHeaderCellDef> Amount Due </th>
-        <td mat-cell *matCellDef="let dto"> {{ dto.expense.amountDue | currency }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.amountDue | currency }} </td>
     </ng-container>
 
     <!--Next Due column-->
     <ng-container matColumnDef="dueDate">
         <th mat-header-cell *matHeaderCellDef> Due Date </th>
-        <td mat-cell *matCellDef="let dto"> {{ dto.expense.dueDate | date }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.dueDate }} </td>
     </ng-container>
 
       <!--Frequency column-->
       <ng-container matColumnDef="frequency">
         <th mat-header-cell *matHeaderCellDef> Frequency </th>
-        <td mat-cell *matCellDef="let dto"> {{ dto.expense.paymentFrequency }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.paymentFrequency }} </td>
     </ng-container>
 
      <!--Category column-->
      <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef> Category </th>
-        <td mat-cell *matCellDef="let dto"> {{ dto.expense.category }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.category.name | titlecase }} </td>
     </ng-container>
 
-     <!--Account column-->
-     <ng-container matColumnDef="account">
-        <th mat-header-cell *matHeaderCellDef> Cash Account </th>
-        <td mat-cell *matCellDef="let dto"> {{ dto.expense.account?.name }} </td>
-    </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let dto; columns: columnsToDisplay;"></tr>   
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let expense; columns: columnsToDisplay;"></tr>   
 </table>

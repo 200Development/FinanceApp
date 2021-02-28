@@ -28,7 +28,7 @@ namespace FinanceApp.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<Expense>> Expenses()
         {
-            return await PagedListExtensions.ToListAsync(_context.Expenses);
+            return await PagedListExtensions.ToListAsync(_context.Expenses.Include(e => e.Category));
         }
 
         [HttpGet]

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FinanceApp.Api.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
@@ -24,9 +25,9 @@ namespace FinanceApp.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<Transaction>> GetTransactions()
+        public async Task<IEnumerable<Transaction>> Transactions()
         {
-            return await _context.Transactions.ToListAsync();
+            return await PagedListExtensions.ToListAsync(_context.Transactions.Include(t => t.Category));
         }
 
         [HttpGet("{id}")]
@@ -49,7 +50,7 @@ namespace FinanceApp.Api.Controllers
 
             try
             {
-                var transactions = await _context.Transactions.ToListAsync();
+                var transactions = await PagedListExtensions.ToListAsync(_context.Transactions);
 
                 foreach (var transaction in transactions)
                 {

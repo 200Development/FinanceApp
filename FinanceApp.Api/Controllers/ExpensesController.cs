@@ -34,7 +34,7 @@ namespace FinanceApp.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories.OrderBy(c => c.Name).ToListAsync();
         }
 
         [HttpGet]

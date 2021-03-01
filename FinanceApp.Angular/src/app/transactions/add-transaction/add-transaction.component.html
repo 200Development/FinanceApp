@@ -63,7 +63,9 @@
                     <mat-form-field appearance="standard" class="transaction-field">
                         <select matNativeControl required class="form-control" formControlName="categoryFormControl">
                             <option label="-- select category --"></option>
-                            <option *ngFor="let category of categoryKeys()">{{category}}</option>
+                            <option *ngFor="let category of categories" [value]="category.id">
+                                {{category.name}}
+                            </option>
                         </select>
                         <mat-error *ngIf="newTransactionForm.hasError('required')">
                             This field is required

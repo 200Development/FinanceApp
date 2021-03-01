@@ -45,12 +45,10 @@ export class AddExpenseComponent implements OnInit {
   }
 
   addExpense() {
-    debugger;
     var newExpense = this.mapExpense(this.newExpenseForm.value);
 
     this.expenseService.addExpense(newExpense).subscribe(
-      expense => {
-        this.expenses.push(expense);
+      expense => {      
         this.newExpenseForm.reset();
       }
     );

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 import { ExpensePageComponent } from '../expense-page/expense-page.component';
 
 
@@ -7,7 +8,9 @@ import { ExpensePageComponent } from '../expense-page/expense-page.component';
   declarations: [],
   imports: [
     RouterModule.forChild([
-      { path: 'expenses', component: ExpensePageComponent}
+     { path: 'expenses', component: ExpensePageComponent },
+     { path: 'editExpense', component: EditExpenseComponent }
+
     ])
   ],
   exports: [

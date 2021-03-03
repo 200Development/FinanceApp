@@ -15,10 +15,11 @@ export class ExpenseService {
   constructor(private http: HttpClient) { }
 
 
-  private expenseUrl = 'https://localhost:44313/api/expenses/expenses';
+  private expenseUrl = 'https://localhost:44313/api/expenses/Expenses';
   private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories'
   private amortizedExpenseUrl = 'https://localhost:44313/api/expenses/AmortizedExpenses';
   private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense'
+  private editExpenseUrl = 'https://localhost:44313/api/expenses/EditExpense';
   private expenseDtoUrl = 'https://localhost:44313/api/expenses/DTO';
   private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
   private billUrl = 'https://localhost:44313/api/bills/';
@@ -64,6 +65,12 @@ export class ExpenseService {
     return this.http.post<Expense>(this.addExpenseUrl, expense, this.httpOptions).pipe(
       catchError(this.handleError)
     );
+  }
+
+  editExpense(expense: Expense): Observable<Expense> {
+    return this.http.put<Expense>(this.editExpenseUrl, expense, this.httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
 
   addBill(expense: Expense): Observable<Expense> {

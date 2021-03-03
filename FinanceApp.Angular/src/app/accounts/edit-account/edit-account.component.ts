@@ -51,7 +51,7 @@ export class EditAccountComponent implements OnInit {
   }
 
   mapAccount(account: any) {
-    let modifiedAccount = new Account()
+    let modifiedAccount = new Account();
 
     modifiedAccount.id = this.id;
     modifiedAccount.name = account.nameFormControl;

@@ -13,7 +13,7 @@ export class ExpensesTableComponent implements OnInit {
   constructor(private expenseService: ExpenseService) { }
 
   dataSource = new MatTableDataSource<Expense>();
-  columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category'];
+  columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'action'];
 
   ngOnInit() {
     this.getExpenses();

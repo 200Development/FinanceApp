@@ -8,6 +8,7 @@ import { NavigationModule } from 'src/app/navigation/navigation.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseRoutingModule } from './expense-routing.module';
 import { AmortizedExpensesSortHeaderComponent } from '../amortized-expenses-sort-header/amortized-expenses-sort-header.component';
+import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 
 
 
@@ -17,7 +18,8 @@ import { AmortizedExpensesSortHeaderComponent } from '../amortized-expenses-sort
     ExpensesTableComponent,
     AmountDueGraphComponent,    
     AddExpenseComponent,
-    AmortizedExpensesSortHeaderComponent
+    AmortizedExpensesSortHeaderComponent,
+    EditExpenseComponent
   ],
   imports: [
     SharedModule,

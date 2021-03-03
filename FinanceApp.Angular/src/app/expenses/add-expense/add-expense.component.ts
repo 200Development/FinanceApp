@@ -18,7 +18,6 @@ export class AddExpenseComponent implements OnInit {
   frequencies = Frequencies;
   categories: Category[] = [];
   expenses: Expense[] = [];
-  accounts: Account[];
   newExpenseForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     isBillFormControl: new FormControl(true),

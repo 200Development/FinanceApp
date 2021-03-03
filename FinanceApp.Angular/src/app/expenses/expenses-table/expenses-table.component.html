@@ -15,21 +15,30 @@
     <!--Next Due column-->
     <ng-container matColumnDef="dueDate">
         <th mat-header-cell *matHeaderCellDef> Due Date </th>
-        <td mat-cell *matCellDef="let expense"> {{ expense.dueDate }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.dueDate | date }} </td>
     </ng-container>
 
-      <!--Frequency column-->
-      <ng-container matColumnDef="frequency">
+    <!--Frequency column-->
+    <ng-container matColumnDef="frequency">
         <th mat-header-cell *matHeaderCellDef> Frequency </th>
         <td mat-cell *matCellDef="let expense"> {{ expense.paymentFrequency }} </td>
     </ng-container>
 
-     <!--Category column-->
-     <ng-container matColumnDef="category">
+    <!--Category column-->
+    <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef> Category </th>
         <td mat-cell *matCellDef="let expense"> {{ expense.category.name | titlecase }} </td>
     </ng-container>
 
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let expense" class="action-link">
+            <a [routerLink]="['/editExpense']"
+                [queryParams]="{id: expense.id, name: expense.name, amountDue: expense.amountDue, dueDate: expense.dueDate, frequencyId: expense.paymentFrequency, categoryId: expense.category.id}">Edit</a>
+        </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let expense; columns: columnsToDisplay;"></tr>   
+    <tr mat-row *matRowDef="let expense; columns: columnsToDisplay;"></tr>
 </table>

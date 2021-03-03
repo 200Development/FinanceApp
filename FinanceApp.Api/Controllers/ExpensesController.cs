@@ -167,6 +167,35 @@ namespace FinanceApp.Api.Controllers
             }
         }
 
+        [HttpPut]
+        public async Task<ActionResult<Expense>> EditExpense([FromBody] Expense expense)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest($"Expense.Name: {expense.Name}, Expense.Id: {expense.Id} is invalid");
+
+                var dbExpense = await _context.Expenses.FindAsync(expense.Id);
+
+                if (dbExpense == null) return NoContent();
+
+                dbExpense.Name = expense.Name;
+                dbExpense.AmountDue = expense.AmountDue;
+                dbExpense.DueDate = expense.DueDate;
+                dbExpense.PaymentFrequency = expense.PaymentFrequency;
+                dbExpense.CategoryId = expense.CategoryId;
+
+                _context.Entry(dbExpense).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return Ok(expense);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<bool>> PayExpense(long id)
         {

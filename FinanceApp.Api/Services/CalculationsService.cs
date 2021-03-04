@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using FinanceApp.API.Enums;
 using FinanceApp.Api.Models.Entities;
-using Microsoft.VisualBasic;
-using X.PagedList;
 
 namespace FinanceApp.API.Services
 {
@@ -352,30 +349,30 @@ namespace FinanceApp.API.Services
                     if (bill.Account == null) continue;
                     var contribution = 0.0m;
 
-                    switch (bill.PaymentFrequency)
+                    switch (bill.PaymentFrequency.Name.ToLower())
                     {
-                        case FrequencyEnum.Annually:
+                        case "annually":
                             contribution = billTotal / 24;
                             break;
-                        case FrequencyEnum.BiAnnually:
+                        case "biannually":
                             contribution = billTotal / 12;
                             break;
-                        case FrequencyEnum.Quarterly:
+                        case "quarterly":
                             contribution = billTotal / 6;
                             break;
-                        case FrequencyEnum.BiMonthly: // every 2 months
+                        case "bimonthly": // every 2 months
                             contribution = billTotal / 4;
                             break;
-                        case FrequencyEnum.Monthly:
+                        case "monthly":
                             contribution = billTotal / 2;
                             break;
-                        case FrequencyEnum.Weekly:
+                        case "weekly":
                             contribution = billTotal * 2;
                             break;
-                        case FrequencyEnum.BiWeekly:
+                        case "biweekly":
                             contribution = billTotal;
                             break;
-                        case FrequencyEnum.Daily:
+                        case "daily":
                             break;
                         default:
                             contribution = billTotal / 2;
@@ -435,30 +432,28 @@ namespace FinanceApp.API.Services
                     if (expense.Account == null) continue;
                     var contribution = 0.0m;
 
-                    switch (expense.PaymentFrequency)
+                    switch (expense.PaymentFrequency.Name.ToLower())
                     {
-                        case FrequencyEnum.Annually:
+                        case "annually":
                             contribution = billTotal / 24;
                             break;
-                        case FrequencyEnum.BiAnnually:
+                        case "biannually":
                             contribution = billTotal / 12;
                             break;
-                        case FrequencyEnum.Quarterly:
+                        case "quarterly":
                             contribution = billTotal / 6;
                             break;
-                        case FrequencyEnum.BiMonthly: // every 2 months
+                        case "bimonthly": // every 2 months
                             contribution = billTotal / 4;
                             break;
-                        case FrequencyEnum.Monthly:
+                        case "monthly":
                             contribution = billTotal / 2;
                             break;
-                        case FrequencyEnum.Weekly:
+                        case "weekly":
                             contribution = billTotal * 2;
                             break;
-                        case FrequencyEnum.BiWeekly:
+                        case "biweekly":
                             contribution = billTotal;
-                            break;
-                        case FrequencyEnum.Daily:
                             break;
                         default:
                             contribution = billTotal / 2;
@@ -639,37 +634,37 @@ namespace FinanceApp.API.Services
 
         public static DateTime GetLastPayday(Income income)
         {
-            return income.PaymentFrequency switch
+            return income.PaymentFrequency.Name.ToLower() switch
             {
-                FrequencyEnum.Annually => income.NextPayday.AddYears(-1),
-                FrequencyEnum.BiAnnually => income.NextPayday.AddMonths(-6),
-                FrequencyEnum.Quarterly => income.NextPayday.AddMonths(-3),
-                FrequencyEnum.Monthly => income.NextPayday.AddMonths(-1),
-                FrequencyEnum.BiMonthly => income.NextPayday.AddDays(-14),
-                FrequencyEnum.BiWeekly => income.NextPayday.AddDays(-14),
-                FrequencyEnum.Weekly => income.NextPayday.AddDays(-7),
-                FrequencyEnum.Daily => income.NextPayday.AddDays(-1),
+                "annually" => income.NextPayday.AddYears(-1),
+                "biannually" => income.NextPayday.AddMonths(-6),
+                "quarterly" => income.NextPayday.AddMonths(-3),
+                "monthly" => income.NextPayday.AddMonths(-1),
+                "bimonthly" => income.NextPayday.AddDays(-14),
+                "biweekly" => income.NextPayday.AddDays(-14),
+                "weekly" => income.NextPayday.AddDays(-7),
+                "daily" => income.NextPayday.AddDays(-1),
                 _ => throw new ArgumentOutOfRangeException(nameof(income.PaymentFrequency), income.PaymentFrequency, "Frequency is not an option")
             };
         }
 
-        private static FrequencyEnum GetPayFrequency()
+        private static Freqency GetPayFrequency()
         {
-            return FrequencyEnum.BiWeekly;
+            throw new NotImplementedException();
         }
 
-        private static DateTime GetNextPayday(FrequencyEnum frequency, DateTime lastPayday)
+        private static DateTime GetNextPayday(Freqency frequency, DateTime lastPayday)
         {
-            return frequency switch
+            return frequency.Name.ToLower() switch
             {
-                FrequencyEnum.Annually => lastPayday.AddYears(1),
-                FrequencyEnum.BiAnnually => lastPayday.AddMonths(6),
-                FrequencyEnum.Quarterly => lastPayday.AddMonths(3),
-                FrequencyEnum.Monthly => lastPayday.AddMonths(1),
-                FrequencyEnum.BiMonthly => lastPayday.AddDays(14), // should this be 2 specific days every month?
-                FrequencyEnum.BiWeekly => lastPayday.AddDays(14),
-                FrequencyEnum.Weekly => lastPayday.AddDays(7),
-                FrequencyEnum.Daily => lastPayday.AddDays(1),
+                "annually" => lastPayday.AddYears(1),
+                "biannually" => lastPayday.AddMonths(6),
+                "quarterly" => lastPayday.AddMonths(3),
+                "monthly" => lastPayday.AddMonths(1),
+                "bimonthly" => lastPayday.AddDays(14), // should this be 2 specific days every month?
+                "biweekly" => lastPayday.AddDays(14),
+                "weekly" => lastPayday.AddDays(7),
+                "daily" => lastPayday.AddDays(1),
                 _ => throw new ArgumentOutOfRangeException(nameof(frequency), frequency, "Frequency is not an option")
             };
         }
@@ -717,21 +712,21 @@ namespace FinanceApp.API.Services
             {
                 var payday = income.NextPayday;
 
-                switch (income.PaymentFrequency)
+                switch (income.PaymentFrequency.Name.ToLower())
                 {
-                    case FrequencyEnum.Annually:
+                    case "annually":
                         throw new NotImplementedException();
-                    case FrequencyEnum.BiAnnually:
+                    case "biannually":
                         throw new NotImplementedException();
-                    case FrequencyEnum.Quarterly:
+                    case "quarterly":
                         throw new NotImplementedException();
-                    case FrequencyEnum.Monthly:
+                    case "monthly":
                         throw new NotImplementedException();
-                    case FrequencyEnum.BiMonthly:
+                    case "bimonthly":
                         // Next payday is next month so both current month paydays 
                         totalAmount += income.Amount * 2;
                         break;
-                    case FrequencyEnum.BiWeekly:
+                    case "biweekly":
                         {
                             do
                             {
@@ -748,7 +743,7 @@ namespace FinanceApp.API.Services
                             } while (payday.Month == today.Month);
                         }
                         break;
-                    case FrequencyEnum.Weekly:
+                    case "weekly":
                         do
                         {
                             if (payday.Month == today.Month)
@@ -762,8 +757,6 @@ namespace FinanceApp.API.Services
                             }
                         } while (payday.Month == today.Month);
                         break;
-                    case FrequencyEnum.Daily:
-                        throw new NotImplementedException();
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -780,18 +773,16 @@ namespace FinanceApp.API.Services
                 .Sum(e => e.AmountDue);
         }
 
-        public static DateTime GetNextFrequencyDate(in DateTime expenseDueDate, FrequencyEnum expensePaymentFrequency)
+        public static DateTime GetNextFrequencyDate(in DateTime expenseDueDate, Freqency expensePaymentFrequency)
         {
-            return expensePaymentFrequency switch
+            return expensePaymentFrequency.Name.ToLower() switch
             {
-                FrequencyEnum.Annually => expenseDueDate.AddDays(364.25),
-                FrequencyEnum.BiAnnually => expenseDueDate.AddMonths(6),
-                FrequencyEnum.Quarterly => expenseDueDate.AddMonths(3),
-                FrequencyEnum.Monthly => expenseDueDate.AddMonths(1),
-                FrequencyEnum.BiMonthly => expenseDueDate.AddDays(14),
-                FrequencyEnum.BiWeekly => expenseDueDate.AddDays(14),
-                FrequencyEnum.Weekly => expenseDueDate.AddDays(7),
-                FrequencyEnum.Daily => expenseDueDate.AddDays(1),
+                "annually" => expenseDueDate.AddDays(364.25),
+                "biannually" => expenseDueDate.AddMonths(6),
+                "quarterly" => expenseDueDate.AddMonths(3),
+                "monthly" => expenseDueDate.AddMonths(1),
+                "biweekly" => expenseDueDate.AddDays(14),
+                "weekly" => expenseDueDate.AddDays(7),
                 _ => throw new ArgumentOutOfRangeException(nameof(expensePaymentFrequency), expensePaymentFrequency,
                     null)
             };

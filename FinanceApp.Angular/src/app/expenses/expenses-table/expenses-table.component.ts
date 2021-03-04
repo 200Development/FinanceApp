@@ -21,6 +21,7 @@ export class ExpensesTableComponent implements OnInit {
 
   getExpenses() {
     this.expenseService.getExpenses().subscribe((expenses: Expense[]) => {
+    debugger;
       this.dataSource.data = expenses;
     });
   }

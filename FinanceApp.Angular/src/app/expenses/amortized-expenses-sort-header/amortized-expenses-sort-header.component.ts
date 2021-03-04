@@ -8,6 +8,7 @@ export class AmortizedExpense {
   amount: number;
   paydaysUntilDue: number;
   requiredSavings: number;
+  paymentFrequencyId: number;
 }
 
 @Component({

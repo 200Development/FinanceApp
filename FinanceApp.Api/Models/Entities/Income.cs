@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using FinanceApp.API.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceApp.Api.Models.Entities
 {
@@ -11,7 +11,7 @@ namespace FinanceApp.Api.Models.Entities
             Payer = string.Empty;
             NextPayday = DateTime.MinValue;
             Amount = 0.00m;
-            PaymentFrequency = FrequencyEnum.BiWeekly;
+            PaymentFrequency = null;
             UpdateNextPayday();
         }
 
@@ -34,9 +34,10 @@ namespace FinanceApp.Api.Models.Entities
         public decimal Amount { get; set; }
 
         [Required]
-        [EnumDataType(typeof(FrequencyEnum))]
+        [ForeignKey("Frequency")]
         [Display(Name = "Pay Frequency")]
-        public FrequencyEnum PaymentFrequency { get; set; }
+        public int PaymentFrequencyId { get; set; }
+        public Freqency PaymentFrequency { get; set; }
 
         public int? FirstMonthlyPayDay { get; set; }
 
@@ -48,21 +49,21 @@ namespace FinanceApp.Api.Models.Entities
 
             if (this.NextPayday >= today)
             {
-                switch (PaymentFrequency)
+                switch (PaymentFrequency.Name.ToLower())
                 {
-                    case FrequencyEnum.Annually:
+                    case "annually":
                         this.NextPayday = this.NextPayday.AddYears(1);
                         break;
-                    case FrequencyEnum.BiAnnually:
+                    case "biannually":
                         this.NextPayday = this.NextPayday.AddMonths(6);
                         break;
-                    case FrequencyEnum.Quarterly:
+                    case "quarterly":
                         this.NextPayday = this.NextPayday.AddMonths(3);
                         break;
-                    case FrequencyEnum.Monthly:
+                    case "monthly":
                         this.NextPayday = this.NextPayday.AddMonths(1);
                         break;
-                    case FrequencyEnum.BiMonthly:
+                    case "bimonthly":
                         if (today.Day >= this.SecondMonthlyPayDay)
                         {
                             var month = today.AddMonths(1).Month;
@@ -87,7 +88,7 @@ namespace FinanceApp.Api.Models.Entities
                             this.NextPayday = new DateTime(today.Year, today.Month, this.SecondMonthlyPayDay.Value);
                         }
                         break;
-                    case FrequencyEnum.BiWeekly:
+                    case "biweekly":
                         if (today >= this.NextPayday)
                         {
                             var payday = this.NextPayday;
@@ -104,7 +105,7 @@ namespace FinanceApp.Api.Models.Entities
                             this.NextPayday = payday;
                         }
                         break;
-                    case FrequencyEnum.Weekly:
+                    case "weekly":
                         if (today >= this.NextPayday)
                         {
                             var payday = this.NextPayday;
@@ -120,8 +121,6 @@ namespace FinanceApp.Api.Models.Entities
                             this.NextPayday = payday;
                         }
                         break;
-                    case FrequencyEnum.Daily:
-                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -130,16 +129,16 @@ namespace FinanceApp.Api.Models.Entities
 
         public decimal GetMonthlyIncome()
         {
-            return this.PaymentFrequency switch
+            return this.PaymentFrequency.Name.ToLower() switch
             {
-                FrequencyEnum.Annually => this.Amount / 12,
-                FrequencyEnum.BiAnnually => this.Amount / 6,
-                FrequencyEnum.Quarterly => this.Amount / 3,
-                FrequencyEnum.Monthly => this.Amount,
-                FrequencyEnum.BiMonthly => this.Amount * 2,
-                FrequencyEnum.BiWeekly => this.Amount * 2,// TODO: Refactor to account for the 2 extra paychecks per year
-                FrequencyEnum.Weekly => this.Amount * 52 / 12,
-                FrequencyEnum.Daily => this.Amount * 364.25m / 12,
+                "annually" => this.Amount / 12,
+                "biannually" => this.Amount / 6,
+                "quarterly" => this.Amount / 3,
+                "monthly" => this.Amount,
+                "bimonthly" => this.Amount * 2,
+                "biweekly" => this.Amount * 2,// TODO: Refactor to account for the 2 extra paychecks per year
+                "weekly" => this.Amount * 52 / 12,
+                "daily" => this.Amount * 364.25m / 12,
                 _ => throw new ArgumentOutOfRangeException(),
             };
         }
@@ -149,17 +148,17 @@ namespace FinanceApp.Api.Models.Entities
             var today = DateTime.Today;
             var nextPayday = this.NextPayday;
 
-            switch (this.PaymentFrequency)
+            switch (this.PaymentFrequency.Name.ToLower())
             {
-                case FrequencyEnum.Annually:
+                case "annually":
                     throw new ArgumentOutOfRangeException();
-                case FrequencyEnum.BiAnnually:
+                case "biannually":
                     throw new ArgumentOutOfRangeException();
-                case FrequencyEnum.Quarterly:
+                case "quarterly":
                     throw new ArgumentOutOfRangeException();
-                case FrequencyEnum.Monthly:
+                case "monthly":
                     throw new ArgumentOutOfRangeException();
-                case FrequencyEnum.BiMonthly:
+                case "bimonthly":
                     var secondMonthlyPayDay = this.SecondMonthlyPayDay;
                     if (secondMonthlyPayDay != null && today < new DateTime(today.Year, today.Month, secondMonthlyPayDay.Value))
                     {
@@ -171,25 +170,22 @@ namespace FinanceApp.Api.Models.Entities
                     }
 
                     return 0.0m;
-                case FrequencyEnum.BiWeekly:
+                case "biweekly":
 
-                    if (today.Month == nextPayday.Month)
-                        if (today.Month == nextPayday.AddDays(14).Month)
-                        {
-                            if (today.Month == nextPayday.AddDays(28).Month)
-                                return Amount * 3;
+                    if (today.Month != nextPayday.Month) return 0.0m;
+                    if (today.Month == nextPayday.AddDays(14).Month)
+                    {
+                        if (today.Month == nextPayday.AddDays(28).Month)
+                            return Amount * 3;
 
-                            return Amount * 2;
-                        }
-                        else
-                        {
-                            return Amount;
-                        }
+                        return Amount * 2;
+                    }
+                    else
+                    {
+                        return Amount;
+                    }
 
-                    return 0.0m;
-                case FrequencyEnum.Weekly:
-                    throw new ArgumentOutOfRangeException();
-                case FrequencyEnum.Daily:
+                case "weekly":
                     throw new ArgumentOutOfRangeException();
                 default:
                     throw new ArgumentOutOfRangeException();

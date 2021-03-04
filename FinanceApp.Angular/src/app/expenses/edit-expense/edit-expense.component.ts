@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExpenseService } from '../shared/expense.service';
 import { Location } from '@angular/common';
-import { Frequencies } from 'src/app/enums/frequencies';
 import { Category } from '../shared/category';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Expense } from '../shared/expense';
+import { Frequency } from '../shared/frequency';
 
 @Component({
   selector: 'edit-expense',
@@ -18,7 +18,7 @@ export class EditExpenseComponent implements OnInit {
 
   id: number;
   expense: any;
-  frequencies = Frequencies;
+  frequencies: Frequency[] = [];
   categories: Category[] = [];
   editExpenseForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
@@ -31,7 +31,8 @@ export class EditExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    
+    this.getFrequencies();
+
 
     this.route.queryParams
       .subscribe(expense => {
@@ -48,10 +49,11 @@ export class EditExpenseComponent implements OnInit {
       }
       );
   };
-  
-  frequencyKeys(): Array<string> {
-    var keys = Object.keys(this.frequencies);
-    return keys.slice(keys.length / 2);
+
+  getFrequencies(): void {
+    this.expenseService.getFrequencies().subscribe((frequencies: Frequency[]) => {
+      this.frequencies = frequencies;
+    });
   }
 
   getCategories(): void {
@@ -61,7 +63,6 @@ export class EditExpenseComponent implements OnInit {
   }
 
   editExpense() {
-    debugger;
     var newExpense = this.mapExpense(this.editExpenseForm.value);
 
     this.expenseService.editExpense(newExpense).subscribe(
@@ -73,12 +74,12 @@ export class EditExpenseComponent implements OnInit {
 
   mapExpense(expense: any) {
     let modifiedExpense = new Expense();
-debugger;
+
     modifiedExpense.id = this.id;
     modifiedExpense.name = expense.nameFormControl;
     modifiedExpense.amountDue = parseFloat(expense.amountDueFormControl);
     modifiedExpense.dueDate = new Date(expense.dueDateFormControl);
-    modifiedExpense.paymentFrequency = Frequencies[expense.frequencyFormControl];
+    modifiedExpense.paymentFrequencyId = parseInt(expense.frequencyFormControl);
     modifiedExpense.categoryId = parseInt(expense.categoryFormControl);
 
     return modifiedExpense;

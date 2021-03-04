@@ -6,6 +6,7 @@ import { DTO } from "src/app/DTOs/dto";
 import { Expense } from './expense';
 import { AmortizedExpense } from '../amortized-expenses-sort-header/amortized-expenses-sort-header.component';
 import { Category } from './category';
+import { Frequency } from './frequency';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,12 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) { }
 
-
+f
   private expenseUrl = 'https://localhost:44313/api/expenses/Expenses';
-  private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories'
+  private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories';
+  private getFrequenciesUrl = 'https://localhost:44313/api/expenses/GetFrequencies';
   private amortizedExpenseUrl = 'https://localhost:44313/api/expenses/AmortizedExpenses';
-  private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense'
+  private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense';
   private editExpenseUrl = 'https://localhost:44313/api/expenses/EditExpense';
   private expenseDtoUrl = 'https://localhost:44313/api/expenses/DTO';
   private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
@@ -39,6 +41,12 @@ export class ExpenseService {
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.getCategoriesUrl).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  getFrequencies(): Observable<Frequency[]> {
+    return this.http.get<Frequency[]>(this.getFrequenciesUrl).pipe(      
       catchError(this.handleError)
     )
   }

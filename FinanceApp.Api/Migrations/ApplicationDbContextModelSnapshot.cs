@@ -29,10 +29,19 @@ namespace FinanceApp.Api.Migrations
                     b.Property<decimal>("BalanceLimit")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<bool>("IsCashAccount")
+                    b.Property<bool>("ExcludeFromSurplus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsAddNewAccount")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDisposableIncomeAccount")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsEmergencyFund")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsMandatory")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")

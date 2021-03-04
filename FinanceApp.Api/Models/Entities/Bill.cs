@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using FinanceApp.Api.Enums;
-using FinanceApp.API.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceApp.Api.Models.Entities
 {
@@ -31,16 +30,18 @@ namespace FinanceApp.Api.Models.Entities
         [Required, DataType(DataType.Currency)]
         [Display(Name = "Amount Due")]
         public decimal AmountDue { get; set; }
+        
+        [Required]
+        [ForeignKey("Frequency")]
+        public int PaymentFrequencyId { get;set; }
+        public Freqency PaymentFrequency { get; set; }
 
-        [EnumDataType(typeof(FrequencyEnum))]
-        [Required, Display(Name = "Frequency")]
-        public FrequencyEnum PaymentFrequency { get; set; }
-
-        [EnumDataType(typeof(CategoriesEnum))]
-        [Required, Display(Name = "Category")]
-        public string Category { get; set; }
-
+        [Required]
+        [ForeignKey("Category")]
         public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
 
         public long AccountId { get; set; }
 

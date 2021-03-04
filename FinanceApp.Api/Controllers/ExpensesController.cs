@@ -28,7 +28,7 @@ namespace FinanceApp.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<Expense>> Expenses()
         {
-            return await PagedListExtensions.ToListAsync(_context.Expenses.Include(e => e.Category));
+            return await PagedListExtensions.ToListAsync(_context.Expenses.Include(e => e.Category).Include(e => e.PaymentFrequency));
         }
 
         [HttpGet]
@@ -38,15 +38,21 @@ namespace FinanceApp.Api.Controllers
         }
 
         [HttpGet]
+        public async Task<IEnumerable<Freqency>> GetFrequencies()
+        {
+            return await _context.Frequencies.Where(f => f.IsActive).ToListAsync();
+        }
+
+        [HttpGet]
         public async Task<IEnumerable<AmortizedExpenses>> AmortizedExpenses()
         {
             var amortizedExpenses = new List<AmortizedExpenses>();
             var today = DateTime.Today;
 
             // Get all upcoming expenses and all unpaid past expenses 
-            var expenses = await _context.Expenses.Where(e => e.DueDate <= today && !e.Paid || e.DueDate >= today).ToListAsync();
+            var expenses = await _context.Expenses.Where(e => e.DueDate <= today && !e.Paid || e.DueDate >= today).Include(e => e.PaymentFrequency).ToListAsync();
             var accounts = await _context.Accounts.ToListAsync();
-            var income = await _context.Incomes.FirstOrDefaultAsync();
+            var income = await _context.Incomes.Include(i => i.PaymentFrequency).FirstOrDefaultAsync();
 
             var payDeductionsDict = CalculationsService.GetPayDeductionDict(accounts, expenses, "");
 

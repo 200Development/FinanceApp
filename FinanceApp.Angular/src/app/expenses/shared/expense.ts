@@ -5,7 +5,8 @@ export class Expense {
     dueDate: Date;
     payDeduction: number;
     amountDue: number;
-    paymentFrequency: any;
+    paymentFrequencyId: number;
+    paymentFrequency: any;    
     categoryId: number;
     category: any;
     accountId: number;

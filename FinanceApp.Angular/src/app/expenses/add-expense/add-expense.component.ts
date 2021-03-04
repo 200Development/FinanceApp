@@ -5,6 +5,7 @@ import { Frequencies } from 'src/app/enums/frequencies';
 import { Category } from '../shared/category';
 import { Expense } from '../shared/expense';
 import { ExpenseService } from '../shared/expense.service';
+import { Frequency } from '../shared/frequency';
 
 @Component({
   selector: 'add-expense',
@@ -15,7 +16,7 @@ export class AddExpenseComponent implements OnInit {
 
   constructor(private expenseService: ExpenseService) { }
 
-  frequencies = Frequencies;
+  frequencies: Frequency[] = [];
   categories: Category[] = [];
   expenses: Expense[] = [];
   newExpenseForm = new FormGroup({
@@ -29,29 +30,31 @@ export class AddExpenseComponent implements OnInit {
 
 
   ngOnInit() {
+    debugger;
     this.getCategories();
-  }
+    this.getFrequencies();
+  };
 
-  frequencyKeys(): Array<string> {
-    var keys = Object.keys(this.frequencies);
-    return keys.slice(keys.length / 2);
-  }
+  getFrequencies(): void {
+    this.expenseService.getFrequencies().subscribe((frequencies: Frequency[]) => {
+      this.frequencies = frequencies;
+    });
+  };
 
   getCategories(): void {
     this.expenseService.getCategories().subscribe((categories: Category[]) => {
       this.categories = categories;
     });
-  }
+  };
 
   addExpense() {
     var newExpense = this.mapExpense(this.newExpenseForm.value);
 
     this.expenseService.addExpense(newExpense).subscribe(
-      expense => {      
+      _ => {
         this.newExpenseForm.reset();
-      }
-    );
-  }
+      });
+  };
 
   mapExpense(newExpense: any) {
     let expense = new Expense();
@@ -64,5 +67,5 @@ export class AddExpenseComponent implements OnInit {
     expense.isBill = newExpense.isBillFormControl;
 
     return expense;
-  }
+  };
 }

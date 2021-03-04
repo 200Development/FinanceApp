@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FinanceApp.API.Enums;
 
 namespace FinanceApp.Api.Models.Entities
 {
@@ -14,7 +13,8 @@ namespace FinanceApp.Api.Models.Entities
             DueDate = DateTime.MinValue;
             PayDeduction = 0.00m;
             AmountDue = 0.00m;
-            PaymentFrequency = FrequencyEnum.Monthly;
+            PaymentFrequency = null;
+            PaymentFrequencyId = -1;
             Category = null;
             CategoryId = -1;
             AccountId = -1;
@@ -52,9 +52,9 @@ namespace FinanceApp.Api.Models.Entities
         public decimal AmountDue { get; set; }
 
         [Required]
-        [EnumDataType(typeof(FrequencyEnum))]
-        [Display(Name = "Frequency")]
-        public FrequencyEnum PaymentFrequency { get; set; }
+        [ForeignKey("Frequency")]
+        public int PaymentFrequencyId { get; set; }
+        public Freqency PaymentFrequency { get; set; }
 
         [Required]
         [ForeignKey("Category")]

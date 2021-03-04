@@ -21,7 +21,7 @@
     <!--Frequency column-->
     <ng-container matColumnDef="frequency">
         <th mat-header-cell *matHeaderCellDef> Frequency </th>
-        <td mat-cell *matCellDef="let expense"> {{ expense.paymentFrequency }} </td>
+        <td mat-cell *matCellDef="let expense"> {{ expense.paymentFrequency.displayName | titlecase }} </td>
     </ng-container>
 
     <!--Category column-->
@@ -35,7 +35,7 @@
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let expense" class="action-link">
             <a [routerLink]="['/editExpense']"
-                [queryParams]="{id: expense.id, name: expense.name, amountDue: expense.amountDue, dueDate: expense.dueDate, frequencyId: expense.paymentFrequency, categoryId: expense.category.id}">Edit</a>
+                [queryParams]="{id: expense.id, name: expense.name, amountDue: expense.amountDue, dueDate: expense.dueDate, frequencyId: expense.paymentFrequency.id, categoryId: expense.category.id}">Edit</a>
         </td>
     </ng-container>
 

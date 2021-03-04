@@ -41,7 +41,7 @@
                     <mat-form-field appearance="standard" class="expense-field">
                         <select matNativeControl required class="form-control" formControlName="frequencyFormControl">
                             <option label="-- Select Frequency --"></option>
-                            <option *ngFor="let frequency of frequencyKeys()" [selected]="frequency">{{frequency}}</option>
+                            <option *ngFor="let frequency of frequencies" [value]="frequency.id">{{frequency.displayName}}</option>
                         </select>
                         <mat-error *ngIf="editExpenseForm.hasError('required')">
                             This field is required

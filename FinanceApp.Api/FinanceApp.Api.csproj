@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Enums\CategoriesEnum.cs" />
+    <Compile Remove="Enums\FrequencyEnum.cs" />
     <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.cs" />
     <Compile Remove="Migrations\20201223220601_accountsTableUserIdNotRequired.Designer.cs" />
     <Compile Remove="Migrations\20210106061424_addExpenseAndIncomeTables.cs" />
@@ -26,10 +28,14 @@
     <Compile Remove="Migrations\20210116205652_addIncome.Designer.cs" />
     <Compile Remove="Migrations\20210116205800_updateIncome.cs" />
     <Compile Remove="Migrations\20210116205800_updateIncome.Designer.cs" />
+    <Compile Remove="Migrations\20210128043921_updateAccountsTable.cs" />
+    <Compile Remove="Migrations\20210128043921_updateAccountsTable.Designer.cs" />
     <Compile Remove="Migrations\20210213205707_updateAccounts.cs" />
     <Compile Remove="Migrations\20210213205707_updateAccounts.Designer.cs" />
     <Compile Remove="Migrations\20210214222309_new.cs" />
     <Compile Remove="Migrations\20210214222309_new.Designer.cs" />
+    <Compile Remove="Migrations\20210303033934_addFrequenciesTable.cs" />
+    <Compile Remove="Migrations\20210303033934_addFrequenciesTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

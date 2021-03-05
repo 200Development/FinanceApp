@@ -1,4 +1,4 @@
-<form [formGroup]="newExpenseForm" (ngSubmit)="addExpense()">
+<form [formGroup]="newExpenseForm">
     <div class="card">
         <div class="card-header">
             Add Expense
@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button mat-button class="expense-field" aria-label="add new expense button" type="submit">
+                    <button mat-button class="expense-field" aria-label="add new expense button" type="submit" (click)="addExpense()">
                         <mat-icon>add_circle_outline</mat-icon>Add
                     </button>
                 </div>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ExpensesTableComponent } from '../expenses-table/expenses-table.component';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Expense } from '../shared/expense';
+import { ExpenseService } from '../shared/expense.service';
 
 @Component({
   selector: 'expense-page',
@@ -8,9 +10,24 @@ import { ExpensesTableComponent } from '../expenses-table/expenses-table.compone
 })
 export class ExpensePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private expenseService: ExpenseService,private changeDetectorRefs: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
+  dataSource = new MatTableDataSource<Expense>(); 
+  expenses: Expense[];
+
+  ngOnInit() {
+    this.getExpenses();
+  }
+  
+  getExpenses() {
+    this.expenseService.getExpenses().subscribe((expenses: Expense[]) => {
+      this.expenses = expenses;
+      this.dataSource.data = expenses;
+    });
+  }
+
+  expenseAdded(){
+    this.getExpenses();
   }
 
 }

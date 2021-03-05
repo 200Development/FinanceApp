@@ -146,6 +146,7 @@ namespace FinanceApp.Api.Controllers
             try
             {
                 expense.Category = await _context.Categories.FindAsync(expense.CategoryId);
+                expense.PaymentFrequency = await _context.Frequencies.FindAsync(expense.PaymentFrequencyId);
                 
                 // Add account if one doesn't already exist for the expense category
                 var account = _context.Accounts.FirstOrDefault(a => a.Name == expense.Category.ToString());
@@ -169,7 +170,7 @@ namespace FinanceApp.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e);
             }
         }
 
@@ -198,7 +199,7 @@ namespace FinanceApp.Api.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e);
             }
         }
 
@@ -255,7 +256,7 @@ namespace FinanceApp.Api.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e);
             }
         }
     }

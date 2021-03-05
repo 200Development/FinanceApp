@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Account } from 'src/app/accounts/shared/account';
-import { Frequencies } from 'src/app/enums/frequencies';
+import { EventEmitter } from '@angular/core';
 import { Category } from '../shared/category';
 import { Expense } from '../shared/expense';
 import { ExpenseService } from '../shared/expense.service';
@@ -13,6 +12,7 @@ import { Frequency } from '../shared/frequency';
   styleUrls: ['./add-expense.component.css']
 })
 export class AddExpenseComponent implements OnInit {
+  @Output() expenseAdded = new EventEmitter()
 
   constructor(private expenseService: ExpenseService) { }
 
@@ -30,7 +30,6 @@ export class AddExpenseComponent implements OnInit {
 
 
   ngOnInit() {
-    debugger;
     this.getCategories();
     this.getFrequencies();
   };
@@ -49,12 +48,22 @@ export class AddExpenseComponent implements OnInit {
 
   addExpense() {
     var newExpense = this.mapExpense(this.newExpenseForm.value);
-
     this.expenseService.addExpense(newExpense).subscribe(
       _ => {
         this.newExpenseForm.reset();
+        this.newExpenseForm.setValue(
+          {
+            nameFormControl:' ',
+            isBillFormControl: new FormControl(true),
+            amountDueFormControl: new FormControl('', [Validators.required, Validators.min(0.01)]),
+            dueDateFormControl: new Date(),
+            frequencyFormControl: new FormControl('', Validators.required),
+            categoryFormControl: new FormControl('', Validators.required),
+          }
+        );
+        this.expenseAdded.emit();
       });
-  };
+  }
 
   mapExpense(newExpense: any) {
     let expense = new Expense();
@@ -62,7 +71,7 @@ export class AddExpenseComponent implements OnInit {
     expense.name = newExpense.nameFormControl;
     expense.amountDue = parseFloat(newExpense.amountDueFormControl);
     expense.dueDate = new Date(newExpense.dueDateFormControl);
-    expense.paymentFrequency = Frequencies[newExpense.frequencyFormControl];
+    expense.paymentFrequencyId = parseInt(newExpense.frequencyFormControl);
     expense.categoryId = parseInt(newExpense.categoryFormControl);
     expense.isBill = newExpense.isBillFormControl;
 

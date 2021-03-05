@@ -15,7 +15,7 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) { }
 
-f
+
   private expenseUrl = 'https://localhost:44313/api/expenses/Expenses';
   private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories';
   private getFrequenciesUrl = 'https://localhost:44313/api/expenses/GetFrequencies';
@@ -75,7 +75,7 @@ f
     );
   }
 
-  editExpense(expense: Expense): Observable<Expense> {
+  editExpense(expense: Expense): Observable<Expense> {    
     return this.http.put<Expense>(this.editExpenseUrl, expense, this.httpOptions).pipe(
       catchError(this.handleError)
     )

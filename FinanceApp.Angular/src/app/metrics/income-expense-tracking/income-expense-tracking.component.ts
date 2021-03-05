@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { ProgressBarMode } from '@angular/material/progress-bar';
 import { DTO } from 'src/app/DTOs/dto';
 import { MetricService } from '../metric.service';
 

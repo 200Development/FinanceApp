@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Expense } from '../shared/expense';
 import { ExpenseService } from '../shared/expense.service';
@@ -10,24 +10,23 @@ import { ExpenseService } from '../shared/expense.service';
 })
 export class ExpensePageComponent implements OnInit {
 
-  constructor(private expenseService: ExpenseService,private changeDetectorRefs: ChangeDetectorRef) { }
-
   dataSource = new MatTableDataSource<Expense>(); 
   expenses: Expense[];
 
+  constructor(private expenseService: ExpenseService) { }
+
   ngOnInit() {
     this.getExpenses();
-  }
+  };
   
   getExpenses() {
     this.expenseService.getExpenses().subscribe((expenses: Expense[]) => {
       this.expenses = expenses;
       this.dataSource.data = expenses;
     });
-  }
+  };
 
   expenseAdded(){
     this.getExpenses();
-  }
-
+  };
 }

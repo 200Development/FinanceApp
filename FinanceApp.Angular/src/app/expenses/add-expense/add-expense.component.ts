@@ -12,6 +12,7 @@ import { Frequency } from '../shared/frequency';
   styleUrls: ['./add-expense.component.css']
 })
 export class AddExpenseComponent implements OnInit {
+  
   @Output() expenseAdded = new EventEmitter()
 
   constructor(private expenseService: ExpenseService) { }
@@ -50,7 +51,7 @@ export class AddExpenseComponent implements OnInit {
     var newExpense = this.mapExpense(this.newExpenseForm.value);
     this.expenseService.addExpense(newExpense).subscribe(
       _ => {
-        this.newExpenseForm.reset();
+        // Reset form values
         this.newExpenseForm.setValue(
           {
             nameFormControl:' ',
@@ -61,6 +62,7 @@ export class AddExpenseComponent implements OnInit {
             categoryFormControl: new FormControl('', Validators.required),
           }
         );
+        // Notify expense-page (parent compenent) expense was added
         this.expenseAdded.emit();
       });
   }

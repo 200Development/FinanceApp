@@ -1,21 +1,21 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <account-bar-graph></account-bar-graph>
+        <account-bar-graph [data]="data"></account-bar-graph>
     </div>
     <div class="col-md-3"></div>
 </div>
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <add-account></add-account>
+        <add-account (accountAdded)="accountAdded()"></add-account>
     </div>
     <div class="col-md-3"></div>
 </div>
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <accounts-table></accounts-table>
+        <accounts-table [dataSource]="dataSource"></accounts-table>
     </div>
     <div class="col-md-3"></div>
 </div>

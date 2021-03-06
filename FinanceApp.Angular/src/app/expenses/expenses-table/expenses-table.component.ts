@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Expense } from '../shared/expense';
 
@@ -10,8 +10,8 @@ import { Expense } from '../shared/expense';
 export class ExpensesTableComponent {
 
   @Input() dataSource: MatTableDataSource<Expense>;
+
   constructor() { }
   
-  columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'action'];
-  
+  columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'action'];  
 }

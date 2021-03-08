@@ -1,8 +1,17 @@
-<google-chart #chart 
-    [title]="title" 
-    [type]="type" 
-    [data]="data" 
-    [options]="options" 
-    [width]="width" 
-    [height]="height">
-</google-chart>
+<div *ngIf="data != undefined && data.length > 0">
+    <google-chart #chart 
+        [title]="title" 
+        [type]="type" 
+        [data]="data" 
+        [options]="options" 
+        [width]="width"
+        [height]="height">
+    </google-chart>
+</div>
+<div *ngIf="data == undefined || data.length < 1">
+    <div style="min-height: 275px;">
+        <div style="width: max-content; margin: 0 auto; padding-top: 115px; font-size: large; font-weight: bold;">
+            No Accounts Yet
+        </div>
+    </div>
+</div>

@@ -15,7 +15,6 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) { }
 
-
   private expenseUrl = 'https://localhost:44313/api/expenses/Expenses';
   private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories';
   private getFrequenciesUrl = 'https://localhost:44313/api/expenses/GetFrequencies';
@@ -25,12 +24,14 @@ export class ExpenseService {
   private expenseDtoUrl = 'https://localhost:44313/api/expenses/DTO';
   private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
   private billUrl = 'https://localhost:44313/api/bills/';
-  private accountUrl = 'https://localhost:44313/api/accounts/';
+
   headers = new HttpHeaders({ 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+
   httpOptions = {
     headers: this.headers,
     crossDomain: true
   };
+
   errorMessage: string;
 
   getExpenses(): Observable<Expense[]> {
@@ -63,12 +64,6 @@ export class ExpenseService {
     );
   };
 
-  getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.accountUrl).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   addExpense(expense: Expense): Observable<Expense> {
     return this.http.post<Expense>(this.addExpenseUrl, expense, this.httpOptions).pipe(
       catchError(this.handleError)
@@ -79,12 +74,6 @@ export class ExpenseService {
     return this.http.put<Expense>(this.editExpenseUrl, expense, this.httpOptions).pipe(
       catchError(this.handleError)
     )
-  }
-
-  addBill(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(this.billUrl, expense, this.httpOptions).pipe(
-      catchError(this.handleError)
-    );
   }
 
   payExpense(id: number): Observable<boolean> {

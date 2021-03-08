@@ -12,4 +12,6 @@ export class AmountDueGraphComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  dataSource: any = {}; 
+
 }

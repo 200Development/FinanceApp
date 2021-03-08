@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { DTO } from 'src/app/DTOs/dto';
 import { Transaction } from './transaction';
 
 @Injectable({
@@ -12,8 +11,9 @@ export class TransactionService {
   
   constructor(private http: HttpClient) { }
   
-  private transactionUrl = 'https://localhost:44313/api/transactions';
-  private transactionDtoUrl = 'https://localhost:44313/api/transactions/dto';
+  private transactionUrl = 'https://localhost:44313/api/transactions/Transactions';
+  private addTransactionUrl = 'https://localhost:44313/api/transactions/AddTransaction';
+  
 
   headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
   httpOptions = {
@@ -27,18 +27,12 @@ export class TransactionService {
     );
   };
 
-  getTransactionDTO(): Observable<DTO> {
-    return this.http.get<DTO>(this.transactionDtoUrl).pipe(
+  
+  addTransaction(transaction: Transaction): Observable<Transaction> {    
+    return this.http.post<Transaction>(this.addTransactionUrl, transaction, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   };
- 
-  addTransaction(transaction: Transaction): Observable<Transaction> {
-    console.log("addTransaction start");
-    return this.http.post<Transaction>(this.transactionUrl, transaction, this.httpOptions).pipe(
-      catchError(this.handleError)
-    );
-  }
 
   
   public handleError(error: HttpErrorResponse) {
@@ -55,5 +49,5 @@ export class TransactionService {
     // Return an observable with a user-facing error message.
     return throwError(
       'Something bad happened; please try again later.');
-  }
+  };
 }

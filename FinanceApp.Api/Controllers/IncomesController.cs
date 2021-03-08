@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FinanceApp.Api.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
@@ -43,6 +44,15 @@ namespace FinanceApp.Api.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetIncome), new {id = income.Id}, income);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateNextPayday()
+        {
+            var income = await _context.Incomes.FirstOrDefaultAsync();
+            income.UpdateNextPayday();
+
+            return Ok();
         }
     }
 }

@@ -1,21 +1,21 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <cash-flow-graph></cash-flow-graph>
+        <cash-flow-graph [data]="data"></cash-flow-graph>
     </div>
     <div class="col-md-3"></div>
 </div>
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <add-transaction></add-transaction>
+        <add-transaction (transactionAdded)="transactionAdded()"></add-transaction>
     </div>
     <div class="col-md-3"></div>
 </div>
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <transactions-table></transactions-table>
+      <transactions-table [dataSource]="dataSource"></transactions-table>
     </div>
     <div class="col-md-3"></div>
 </div>

@@ -11,16 +11,15 @@ using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TransactionsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-
-        public TransactionsController(ApplicationDbContext _context)
+        
+        public TransactionsController(ApplicationDbContext context)
         {
-            this._context = _context;
+            _context = context;
         }
 
 
@@ -40,55 +39,24 @@ namespace FinanceApp.Api.Controllers
 
             return transaction;
         }
-
-        [HttpGet]
-        [Route("dto")]
-        public async Task<ActionResult<DTO>> GetTransactionDto()
-        {
-            var dto = new DTO();
-            var transactionDtos = new List<TransactionDTO>();
-
-            try
-            {
-                var transactions = await PagedListExtensions.ToListAsync(_context.Transactions);
-
-                foreach (var transaction in transactions)
-                {
-                    var transactionDto = new TransactionDTO();
-                    transactionDto.Transaction = transaction;
-
-                    transactionDtos.Add(transactionDto);
-                }
-
-                dto.TransactionDtos = transactionDtos;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
-            }
-
-
-            return Ok(dto);
-        }
-
+        
         [HttpPost]
         public async Task<ActionResult<Transaction>> AddTransaction([FromBody] Transaction transaction)
         {
             try
             {
+                transaction.Category = await _context.Categories.FindAsync(transaction.CategoryId);
+
                 // Save new transaction
                 await _context.AddAsync(transaction);
                 await _context.SaveChangesAsync();
 
                 // Create new account for transaction category if one doesn't already exist
-                var account = _context.Accounts.FirstOrDefault(a => a.Name == transaction.Category.ToString());
+                var account = _context.Accounts.FirstOrDefault(a => a.Name == transaction.Category.Name);
                 if (account == null)
                 {
                     account = new Account();
-                    account.IsCashAccount = false;
-                    account.IsEmergencyFund = false;
-                    account.Name = transaction.Category.ToString();
+                    account.Name = transaction.Category.Name;
                     if (transaction.Type == TransactionTypesEnum.Expense)
                         account.Balance -= transaction.Amount;
                     else

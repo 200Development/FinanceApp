@@ -149,7 +149,7 @@ namespace FinanceApp.Api.Controllers
                 expense.PaymentFrequency = await _context.Frequencies.FindAsync(expense.PaymentFrequencyId);
                 
                 // Add account if one doesn't already exist for the expense category
-                var account = _context.Accounts.FirstOrDefault(a => a.Name == expense.Category.ToString());
+                var account = _context.Accounts.FirstOrDefault(a => a.Name == expense.Category.Name);
 
                 if (account == null)
                 {
@@ -188,7 +188,7 @@ namespace FinanceApp.Api.Controllers
 
                 dbExpense.Name = expense.Name;
                 dbExpense.AmountDue = expense.AmountDue;
-                dbExpense.DueDate = expense.DueDate;
+                dbExpense.DueDate = expense.DueDate.ToUniversalTime();
                 dbExpense.PaymentFrequency = expense.PaymentFrequency;
                 dbExpense.CategoryId = expense.CategoryId;
 
@@ -229,10 +229,10 @@ namespace FinanceApp.Api.Controllers
                     newExpense.AmountDue = expense.AmountDue;
                     newExpense.AccountId = expense.AccountId;
                     newExpense.Account = await _context.Accounts.FindAsync(expense.AccountId);
-                    newExpense.DueDate = CalculationsService.GetNextFrequencyDate(expense.DueDate, expense.PaymentFrequency);
+                    newExpense.DueDate = CalculationsService.GetNextFrequencyDate(expense.DueDate, expense.PaymentFrequency).ToUniversalTime();
                     newExpense.IsBill = true;
                     newExpense.PaymentFrequency = expense.PaymentFrequency;
-                    newExpense.Category = expense.Category;
+                    newExpense.CategoryId = expense.CategoryId;
                     newExpense.PayDeduction = expense.PayDeduction;
 
                     await _context.Expenses.AddAsync(newExpense);
@@ -244,7 +244,7 @@ namespace FinanceApp.Api.Controllers
                 transaction.Payee = expense.Name;
                 transaction.Date = DateTime.UtcNow;
                 transaction.Amount = expense.AmountDue;
-                transaction.Category = expense.Category;
+                transaction.CategoryId = expense.CategoryId;
                 transaction.Type = TransactionTypesEnum.Expense;
                 transaction.UserId = expense.UserId;
 

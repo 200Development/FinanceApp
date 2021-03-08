@@ -20,23 +20,26 @@ export class AccountPageComponent {
 
     getCashAccounts() {
         this.accountService.getCashAccounts().subscribe((accounts: Account[]) => {
+            debugger;
             this.accounts = accounts;
             this.dataSource.data = accounts;
             this.data = this.accountsToArray(accounts);
         });    
     };        
+    
+    accountsToArray(accounts: Account[]) {
+        var accountArray = [];
+        accounts.forEach(account => {
+            var newAccount = [account.name, account.balance];
+            accountArray.push(newAccount);
+        });
 
+        return accountArray;
+    }
+
+
+    // Event handler
     accountAdded() {
         this.getCashAccounts();
     };
-    
-    accountsToArray(accounts: Account[]) {
-        var columns = [];
-        accounts.forEach(account => {
-            var column = [account.name, account.balance];
-            columns.push(column);
-        });
-
-        return columns;
-    }
 }

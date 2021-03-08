@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { DTO } from 'src/app/DTOs/dto';
 import { Income } from './income';
 
 @Injectable({
@@ -14,7 +13,7 @@ export class IncomeService {
 
   private getIncomesUrl = 'https://localhost:44313/api/incomes/incomes';
   private addIncomeUrl = 'https://localhost:44313/api/incomes/AddIncome';
-  private incomeDtoUrl = 'https://localhost:44313/api/incomes/dto';
+  private updateNextPaydayUrl = 'https://localhost:44313/api/incomes/UpdateNextPayday';
   headers = new HttpHeaders({ 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' });
   httpOptions = {
     headers: this.headers,
@@ -27,16 +26,17 @@ export class IncomeService {
     );
   }
 
-  getIncomeDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.incomeDtoUrl).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   addIncome(income: Income): Observable<Income> {
     return this.http.post<Income>(this.addIncomeUrl, income, this.httpOptions).pipe(
       catchError(this.handleError)
     );
+  }
+
+  updateNextPayday(): void {
+    debugger;
+    this.http.post(this.updateNextPaydayUrl, null, this.httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   
   public handleError(error: HttpErrorResponse) {

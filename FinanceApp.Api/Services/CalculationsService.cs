@@ -322,20 +322,7 @@ namespace FinanceApp.API.Services
             {
                 var accountContribution = new Dictionary<long?, decimal>();
                 var billContribution = new Dictionary<long?, decimal>();
-
-
-                //Zeros out all accounts req paycheck contributions
-                foreach (var account in accounts)
-                {
-                    account.PaycheckContribution = 0.0m;
-                }
-
-                //Zeros out all bills req paycheck contributions
-                foreach (var bill in bills)
-                {
-                    bill.PayDeduction = 0.0m;
-                }
-
+                
                 // update suggested paycheck contributions for bills
                 foreach (var bill in bills)
                 {
@@ -405,20 +392,7 @@ namespace FinanceApp.API.Services
             {
                 var accountContribution = new Dictionary<long?, decimal>();
                 var billContribution = new Dictionary<long?, decimal>();
-
-
-                //Zeros out all accounts req paycheck contributions
-                foreach (var account in accounts)
-                {
-                    account.PaycheckContribution = 0.0m;
-                }
-
-                //Zeros out all bills req paycheck contributions
-                foreach (var expense in expenses)
-                {
-                    expense.PayDeduction = 0.0m;
-                }
-
+                
                 // update suggested paycheck contributions for bills
                 foreach (var expense in expenses)
                 {

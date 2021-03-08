@@ -43,6 +43,7 @@ namespace FinanceApp.Api.Models.Entities
         [DataType(DataType.Currency)]
         [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         [Display(Name = "Pay Deduction")]
+        [NotMapped]
         public decimal PayDeduction { get; set; }
 
         [Required]

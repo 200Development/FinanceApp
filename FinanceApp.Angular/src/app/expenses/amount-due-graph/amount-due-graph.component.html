@@ -1,3 +1,6 @@
-<div style="min-height: 275px;">
-    <div style="width: max-content; margin: 0 auto; padding-top: 115px; font-size: large; font-weight: bold;">No Expenses Yet</div>
+<div *ngIf="dataSource != undefined && dataSource.data != undefined && dataSource.data.length > 0" style="min-height: 275px;">
+    <div style="width: max-content; margin: 0 auto; padding-top: 115px; font-size: large; font-weight: bold;">No Expenses Graph Yet</div>
+</div>
+<div *ngIf="dataSource == undefined || dataSource.data == undefined || dataSource.data.length < 1" style="min-height: 275px;">
+    <div style="width: max-content; margin: 0 auto; padding-top: 115px; font-size: large; font-weight: bold;">No Expenses Graph Yet</div>
 </div>

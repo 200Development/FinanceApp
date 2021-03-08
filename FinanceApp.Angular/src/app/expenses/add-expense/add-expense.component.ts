@@ -13,13 +13,12 @@ import { Frequency } from '../shared/frequency';
 })
 export class AddExpenseComponent implements OnInit {
   
-  @Output() expenseAdded = new EventEmitter()
+  @Output() expenseAdded = new EventEmitter();
 
   constructor(private expenseService: ExpenseService) { }
 
   frequencies: Frequency[] = [];
   categories: Category[] = [];
-  expenses: Expense[] = [];
   newExpenseForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     isBillFormControl: new FormControl(true),

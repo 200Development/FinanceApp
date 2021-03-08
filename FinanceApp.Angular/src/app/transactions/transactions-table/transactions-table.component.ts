@@ -1,29 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Transaction } from '../shared/transaction';
-import { TransactionService } from '../shared/transaction.service';
 
 @Component({
-    selector: 'transactions-table',
-    templateUrl: './transactions-table.component.html',
-    styleUrls: ['./transactions-table.component.css'] 
+  selector: 'transactions-table',
+  templateUrl: './transactions-table.component.html',
+  styleUrls: ['./transactions-table.component.css']
 })
-export class TransactionsTableComponent implements OnInit{
-    
-    constructor(private transactionService: TransactionService) {}
-   
-    dataSource = new MatTableDataSource<Transaction>();
-    columnsToDisplay = ['payee', 'date', 'amount', 'category'];
-    transactions: Transaction[];
-    
-    ngOnInit() {
-      this.getTransactions();
-    }
+export class TransactionsTableComponent {
+
+  @Input() dataSource: MatTableDataSource<Transaction>;
   
-    getTransactions() {
-      this.transactionService.getTransactions()
-      .subscribe((transactions: Transaction[]) => {
-        this.dataSource.data = transactions;
-      });
-    }
+  constructor() { }
+
+  columnsToDisplay = ['payee', 'date', 'amount', 'category'];
 }

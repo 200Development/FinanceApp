@@ -38,64 +38,6 @@ namespace FinanceApp.Api.Controllers
             return await PagedListExtensions.ToListAsync(_context.Accounts.Where(a => a.IsCashAccount));
         }
 
-        // GET: api/accounts/dto
-        [HttpGet]
-        [Route("dto")]
-        public async Task<DTO> GetAccountDto()
-        {
-            var dto = new DTO();
-            var accountDtos = new List<AccountDTO>();
-            try
-            {
-                var accounts = await PagedListExtensions.ToListAsync(_context.Accounts);
-                var bills = await PagedListExtensions.ToListAsync(_context.Bills);
-                var income = _context.Incomes.FirstOrDefault();
-                var payDeductionDict = CalculationsService.GetPayDeductionDict(accounts, bills);
-                var requiredSavingsDict = CalculationsService.GetAccountRequiredSavingsDict(payDeductionDict, bills, income);
-                var sumOfAccountBalances = 0.0m;
-                var totalSurplus = 0.0m;
-
-                foreach (var account in accounts)
-                {
-                    var newDto = new AccountDTO();
-                    newDto.Account = account;
-                    newDto.Bills = await bills.Where(b => b.AccountId == account.Id).ToListAsync();
-                    newDto.BillSum = newDto.Bills.Sum(b => b.AmountDue);
-
-                    payDeductionDict.TryGetValue(account.Id, out var payDeduction);
-
-                    newDto.PayDeduction = payDeduction;
-                    newDto.PaycheckPercentage = CalculationsService.GetPaycheckPercentage(payDeductionDict, payDeduction);
-                    newDto.ExpensesBeforeNextPaycheck = 63.43m;
-
-                    requiredSavingsDict.TryGetValue(account.Id, out var accountRequiredSavings);
-                    
-                    newDto.RequiredSavings = accountRequiredSavings;
-
-                    var accountSurplus = account.Balance - accountRequiredSavings;
-                    newDto.BalanceSurplus = accountSurplus;
-
-                    totalSurplus += accountSurplus;
-                    sumOfAccountBalances += account.Balance;
-
-
-                    accountDtos.Add(newDto);
-                }
-
-                dto.AccountDtos = accountDtos;
-                dto.SumOfAccountBalances = accounts.Sum(a => a.Balance);
-                dto.TotalSurplus = totalSurplus;
-
-
-                return dto;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
-            }
-        }
-
         // GET: api/accounts/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(long id)

@@ -43,7 +43,7 @@ namespace FinanceApp.Api.Models.Entities
 
         public int? SecondMonthlyPayDay { get; set; }
 
-        private void UpdateNextPayday()
+        public void UpdateNextPayday()
         {
             var today = DateTime.Now;
 
@@ -124,71 +124,6 @@ namespace FinanceApp.Api.Models.Entities
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-            }
-        }
-
-        public decimal GetMonthlyIncome()
-        {
-            return this.PaymentFrequency.Name.ToLower() switch
-            {
-                "annually" => this.Amount / 12,
-                "biannually" => this.Amount / 6,
-                "quarterly" => this.Amount / 3,
-                "monthly" => this.Amount,
-                "bimonthly" => this.Amount * 2,
-                "biweekly" => this.Amount * 2,// TODO: Refactor to account for the 2 extra paychecks per year
-                "weekly" => this.Amount * 52 / 12,
-                "daily" => this.Amount * 364.25m / 12,
-                _ => throw new ArgumentOutOfRangeException(),
-            };
-        }
-
-        public decimal? GetOutstandingMonthlyIncome()
-        {
-            var today = DateTime.Today;
-            var nextPayday = this.NextPayday;
-
-            switch (this.PaymentFrequency.Name.ToLower())
-            {
-                case "annually":
-                    throw new ArgumentOutOfRangeException();
-                case "biannually":
-                    throw new ArgumentOutOfRangeException();
-                case "quarterly":
-                    throw new ArgumentOutOfRangeException();
-                case "monthly":
-                    throw new ArgumentOutOfRangeException();
-                case "bimonthly":
-                    var secondMonthlyPayDay = this.SecondMonthlyPayDay;
-                    if (secondMonthlyPayDay != null && today < new DateTime(today.Year, today.Month, secondMonthlyPayDay.Value))
-                    {
-                        var firstMonthlyPayDay = this.FirstMonthlyPayDay;
-                        if (firstMonthlyPayDay != null && today < new DateTime(today.Year, today.Month, firstMonthlyPayDay.Value))
-                            return this.Amount * 2;
-
-                        return this.Amount;
-                    }
-
-                    return 0.0m;
-                case "biweekly":
-
-                    if (today.Month != nextPayday.Month) return 0.0m;
-                    if (today.Month == nextPayday.AddDays(14).Month)
-                    {
-                        if (today.Month == nextPayday.AddDays(28).Month)
-                            return Amount * 3;
-
-                        return Amount * 2;
-                    }
-                    else
-                    {
-                        return Amount;
-                    }
-
-                case "weekly":
-                    throw new ArgumentOutOfRangeException();
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }

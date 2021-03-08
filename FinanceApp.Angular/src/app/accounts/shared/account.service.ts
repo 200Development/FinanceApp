@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { Account } from './account';
-import { DTO } from "../../DTOs/dto";
 import { catchError } from 'rxjs/operators';
 
 
@@ -13,12 +12,13 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  private accountUrl = 'https://localhost:44313/api/accounts/accounts';
+  private accountUrl = 'https://localhost:44313/api/accounts';
   private cashAccountUrl = 'https://localhost:44313/api/accounts/cashAccounts';
   private addAccountUrl = 'https://localhost:44313/api/accounts/addAccount';
   private editAccountUrl = 'https://localhost:44313/api/accounts/editAccount';
-  private accountDtosUrl = 'https://localhost:44313/api/accounts/dto';
+
   headers = new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*' });
+  
   httpOptions = {
     headers: this.headers,
     crossDomain: true
@@ -28,16 +28,10 @@ export class AccountService {
     return this.http.get<Account[]>(this.accountUrl).pipe(
       catchError(this.handleError)
     );
-  };
+  }
 
   getCashAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.cashAccountUrl).pipe(
-      catchError(this.handleError)
-    );
-  };
-
-  getAccountDto(): Observable<DTO> {
-    return this.http.get<DTO>(this.accountDtosUrl).pipe(
       catchError(this.handleError)
     );
   };

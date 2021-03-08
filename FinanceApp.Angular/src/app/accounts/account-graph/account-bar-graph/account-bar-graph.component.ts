@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { AccountService } from '../../shared/account.service';
 import { Account } from '../../shared/account';
 
 const ELEMENT_DATA: Account[] = [

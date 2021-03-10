@@ -27,27 +27,48 @@ namespace FinanceApp.Api.Controllers
         // GET: api/accounts/?pageIndex=0&pageSize=10
         // GET: api/accounts/?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc
         [HttpGet]
-        public async Task<IEnumerable<Account>> Accounts()
+        public async Task<ActionResult<IEnumerable<Account>>> Accounts()
         {
-            return await PagedListExtensions.ToListAsync(_context.Accounts);
+            try
+            {
+                return await PagedListExtensions.ToListAsync(_context.Accounts);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Account>> CashAccounts()
+        public async Task<ActionResult<IEnumerable<Account>>> CashAccounts()
         {
-            return await PagedListExtensions.ToListAsync(_context.Accounts.Where(a => a.IsCashAccount));
+            try
+            {
+                return await PagedListExtensions.ToListAsync(_context.Accounts.Where(a => a.IsCashAccount));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
         }
 
         // GET: api/accounts/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(long id)
         {
-            var account = await _context.Accounts.FindAsync(id);
+            try
+            {
+                var account = await _context.Accounts.FindAsync(id);
 
-            if (account == null)
-                return NotFound();
+                if (account == null)
+                    return NotFound();
 
-            return account;
+                return account;
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
         }
 
         // POST: api/accounts/addAccount
@@ -66,8 +87,7 @@ namespace FinanceApp.Api.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e);
             }
         }
 
@@ -93,8 +113,27 @@ namespace FinanceApp.Api.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return StatusCode(500, e.Message);
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAccount(long id)
+        {
+            try
+            {
+                var account = await _context.Accounts.FindAsync(id);
+
+                if (account == null) return NotFound();
+
+                _context.Remove(account);
+                await _context.SaveChangesAsync();
+
+                return StatusCode(204);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
             }
         }
     }

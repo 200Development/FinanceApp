@@ -20,7 +20,6 @@ export class AccountPageComponent {
 
     getCashAccounts() {
         this.accountService.getCashAccounts().subscribe((accounts: Account[]) => {
-            debugger;
             this.accounts = accounts;
             this.dataSource.data = accounts;
             this.data = this.accountsToArray(accounts);

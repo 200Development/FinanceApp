@@ -28,7 +28,8 @@
  <ng-container matColumnDef="action">
   <th mat-header-cell *matHeaderCellDef> Action </th>
   <td mat-cell *matCellDef="let account" class="action-link"> 
-    <a [routerLink]="['/editAccount']" [queryParams]="{id: account.id, name: account.name, balance: account.balance}">Edit</a>  
+    <a [routerLink]="['/editAccount']" [queryParams]="{id: account.id, name: account.name, balance: account.balance}">Edit</a> |
+    <a (click)="deleteAccount(account);">Delete</a>
   </td>
 </ng-container>
 

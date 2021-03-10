@@ -10,6 +10,7 @@ import { AccountListComponent } from '../account-list/account-list.component';
 import { AddAccountComponent } from '../add-account/add-account.component';
 import { EditAccountComponent } from '../edit-account/edit-account.component';
 import { AccountsSortHeaderComponent } from '../accounts-sort-header/accounts-sort-header.component';
+import { DeleteAccountDialogComponent } from '../delete-account-dialog/delete-account-dialog.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AccountsSortHeaderComponent } from '../accounts-sort-header/accounts-so
     AccountBarGraphComponent,
     AccountListComponent,
     AccountsSortHeaderComponent,
+    DeleteAccountDialogComponent,
   ],
   imports: [
     SharedModule,

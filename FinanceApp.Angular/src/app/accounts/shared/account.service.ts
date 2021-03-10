@@ -16,6 +16,7 @@ export class AccountService {
   private cashAccountUrl = 'https://localhost:44313/api/accounts/cashAccounts';
   private addAccountUrl = 'https://localhost:44313/api/accounts/addAccount';
   private editAccountUrl = 'https://localhost:44313/api/accounts/editAccount';
+  private deleteAccountUrl = 'https://localhost:44313/api/accounts/deleteAccount';
 
   headers = new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Origin': '*' });
   
@@ -28,7 +29,7 @@ export class AccountService {
     return this.http.get<Account[]>(this.accountUrl).pipe(
       catchError(this.handleError)
     );
-  }
+  };
 
   getCashAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.cashAccountUrl).pipe(
@@ -46,8 +47,14 @@ export class AccountService {
   editAccount(account: Account): Observable<Account> {
     return this.http.put<Account>(this.editAccountUrl, account, this.httpOptions).pipe(
       catchError(this.handleError)
-    )
-  }
+    );
+  };
+
+  deleteAccount(id: number): Observable<any> {   
+    return this.http.delete(this.deleteAccountUrl + '/' + id).pipe(
+      catchError(this.handleError)
+    );
+  };
 
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -63,5 +70,5 @@ export class AccountService {
     // Return an observable with a user-facing error message.
     return throwError(
       'Something bad happened; please try again later.');
-  }
+  };
 };

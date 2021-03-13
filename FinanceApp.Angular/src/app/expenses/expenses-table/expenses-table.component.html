@@ -34,8 +34,8 @@
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let expense" class="action-link">
-            <a [routerLink]="['/editExpense']"
-                [queryParams]="{id: expense.id, name: expense.name, amountDue: expense.amountDue, dueDate: expense.dueDate, frequencyId: expense.paymentFrequency.id, categoryId: expense.category.id}">Edit</a>
+            <a [routerLink]="['/editExpense']" [queryParams]="{id: expense.id, name: expense.name, amountDue: expense.amountDue, dueDate: expense.dueDate, frequencyId: expense.paymentFrequency.id, categoryId: expense.category.id}">Edit</a> |
+            <a class="action-link" (click)="deleteExpense(expense);">Delete</a>
         </td>
     </ng-container>
 

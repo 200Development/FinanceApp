@@ -20,7 +20,7 @@ export class AccountsTableComponent {
 
     // dialog returns accound.id if delete is confirmed.  undefined is returned if delete is cancelled.
     deleteAccount(account: any) {
-        const dialogRef = this.dialog.open(DeleteAccountDialogComponent, { height: "250px", width: "auto", data: { balance: account.balance, name: account.name, id: account.id } });
+        const dialogRef = this.dialog.open(DeleteAccountDialogComponent, { height: "auto", width: "auto", data: { balance: account.balance, name: account.name, id: account.id } });
         dialogRef.afterClosed().subscribe(result => {
             debugger;
             if(!isNaN(result)) {

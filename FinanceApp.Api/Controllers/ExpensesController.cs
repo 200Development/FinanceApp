@@ -259,5 +259,26 @@ namespace FinanceApp.Api.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteExpense(long id)
+        {
+            try
+            {
+                var expense = await _context.Expenses.FindAsync(id);
+
+                if (expense == null) return NotFound();
+
+                _context.Remove(expense);
+                await _context.SaveChangesAsync();
+
+                return StatusCode(204);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
     }
 }

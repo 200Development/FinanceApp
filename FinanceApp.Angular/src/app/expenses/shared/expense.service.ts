@@ -15,15 +15,15 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) { }
 
-  private expenseUrl = 'https://localhost:44313/api/expenses/Expenses';
-  private getCategoriesUrl = 'https://localhost:44313/api/expenses/GetCategories';
-  private getFrequenciesUrl = 'https://localhost:44313/api/expenses/GetFrequencies';
-  private amortizedExpenseUrl = 'https://localhost:44313/api/expenses/AmortizedExpenses';
-  private addExpenseUrl = 'https://localhost:44313/api/expenses/AddExpense';
-  private editExpenseUrl = 'https://localhost:44313/api/expenses/EditExpense';
+  private expenseUrl = 'https://localhost:44313/api/expenses/expenses';
+  private getCategoriesUrl = 'https://localhost:44313/api/expenses/getCategories';
+  private getFrequenciesUrl = 'https://localhost:44313/api/expenses/getFrequencies';
+  private amortizedExpenseUrl = 'https://localhost:44313/api/expenses/amortizedExpenses';
+  private addExpenseUrl = 'https://localhost:44313/api/expenses/addExpense';
+  private editExpenseUrl = 'https://localhost:44313/api/expenses/editExpense';
   private expenseDtoUrl = 'https://localhost:44313/api/expenses/DTO';
-  private payExpenseUrl = 'https://localhost:44313/api/expenses/PayExpense';
-  private billUrl = 'https://localhost:44313/api/bills/';
+  private payExpenseUrl = 'https://localhost:44313/api/expenses/payExpense';
+  private deleteExpenseUrl = 'https://localhost:44313/api/expenses/deleteExpense';
 
   headers = new HttpHeaders({ 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' });
 
@@ -43,20 +43,20 @@ export class ExpenseService {
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.getCategoriesUrl).pipe(
       catchError(this.handleError)
-    )
-  }
+    );
+  };
 
   getFrequencies(): Observable<Frequency[]> {
     return this.http.get<Frequency[]>(this.getFrequenciesUrl).pipe(      
       catchError(this.handleError)
-    )
-  }
+    );
+  };
 
   getAmortizedExpenses(): Observable<AmortizedExpense[]> {
     return this.http.get<AmortizedExpense[]>(this.amortizedExpenseUrl).pipe(
       catchError(this.handleError)
     );
-  }
+  };
 
   getExpenseDto(): Observable<DTO> {
     return this.http.get<DTO>(this.expenseDtoUrl).pipe(
@@ -68,20 +68,26 @@ export class ExpenseService {
     return this.http.post<Expense>(this.addExpenseUrl, expense, this.httpOptions).pipe(
       catchError(this.handleError)
     );
-  }
+  };
 
   editExpense(expense: Expense): Observable<Expense> {    
     return this.http.put<Expense>(this.editExpenseUrl, expense, this.httpOptions).pipe(
       catchError(this.handleError)
-    )
-  }
+    );
+  };
 
   payExpense(id: number): Observable<boolean> {
     const url = `${this.payExpenseUrl}/${id}`;
     return this.http.put<boolean>(url, this.httpOptions).pipe(
       catchError(this.handleError)
     );
-  }
+  };
+
+  deleteExpense(id: number): Observable<any> {
+    return this.http.delete(this.deleteExpenseUrl + '/' + id).pipe(
+      catchError(this.handleError)
+    );
+  };
 
   public handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

@@ -1,0 +1,12 @@
+<div *ngIf="data != undefined">
+    <h1 mat-dialog-title>Delete {{ data.name | titlecase }} Expense</h1>
+    <div mat-dialog-content>
+      <h2>Are you sure?</h2>
+      <h3>Amount: {{ data.amountDue | currency }}</h3>
+      <h3>Due: {{ data.dueDate | date }}</h3>
+    </div>
+    <div mat-dialog-actions>
+      <button class="btn btn-danger" mat-button [mat-dialog-close]="data.id">Delete</button>
+      <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+    </div>
+  </div>

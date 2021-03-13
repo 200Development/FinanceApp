@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseRoutingModule } from './expense-routing.module';
 import { AmortizedExpensesSortHeaderComponent } from '../amortized-expenses-sort-header/amortized-expenses-sort-header.component';
 import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
+import { DeleteExpenseDialogComponent } from '../delete-expense-dialog/delete-expense-dialog.component';
 
 
 
@@ -19,7 +20,8 @@ import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
     AmountDueGraphComponent,    
     AddExpenseComponent,
     AmortizedExpensesSortHeaderComponent,
-    EditExpenseComponent
+    EditExpenseComponent,
+    DeleteExpenseDialogComponent
   ],
   imports: [
     SharedModule,

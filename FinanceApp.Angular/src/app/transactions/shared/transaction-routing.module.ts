@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TransactionsPageComponent } from '../../transactions/transactions-page/transactions-page.component';
+import { EditTransactionComponent } from '../edit-transaction/edit-transaction.component';
 
 
 
@@ -9,6 +10,7 @@ import { TransactionsPageComponent } from '../../transactions/transactions-page/
   imports: [
     RouterModule.forChild([
       { path: 'transactions', component: TransactionsPageComponent },
+      { path: 'editTransaction', component: EditTransactionComponent }
     ])
   ],
   exports: [

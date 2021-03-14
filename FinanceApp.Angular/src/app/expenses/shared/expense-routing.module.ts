@@ -8,9 +8,8 @@ import { ExpensePageComponent } from '../expense-page/expense-page.component';
   declarations: [],
   imports: [
     RouterModule.forChild([
-     { path: 'expenses', component: ExpensePageComponent },
-     { path: 'editExpense', component: EditExpenseComponent }
-
+      { path: 'expenses', component: ExpensePageComponent },
+      { path: 'editExpense', component: EditExpenseComponent }
     ])
   ],
   exports: [

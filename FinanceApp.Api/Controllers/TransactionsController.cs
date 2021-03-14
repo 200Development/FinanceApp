@@ -7,6 +7,7 @@ using FinanceApp.Api.Enums;
 using FinanceApp.Api.Models.DTOs;
 using FinanceApp.Api.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.TeleTrust;
 using X.PagedList;
 
 namespace FinanceApp.Api.Controllers
@@ -17,6 +18,7 @@ namespace FinanceApp.Api.Controllers
     {
         private readonly ApplicationDbContext _context;
         
+
         public TransactionsController(ApplicationDbContext context)
         {
             _context = context;
@@ -46,6 +48,7 @@ namespace FinanceApp.Api.Controllers
             try
             {
                 transaction.Category = await _context.Categories.FindAsync(transaction.CategoryId);
+                transaction.Date = transaction.Date.ToUniversalTime();
 
                 // Save new transaction
                 await _context.AddAsync(transaction);
@@ -80,6 +83,53 @@ namespace FinanceApp.Api.Controllers
             {
                 Console.WriteLine(e);
                 return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Transaction>> EditTransaction([FromBody] Transaction transaction)
+        {
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest($"Transaction is invalid");
+
+                var dbTransaction = await _context.Transactions.FindAsync(transaction.Id);
+
+                if (dbTransaction == null) return NoContent();
+
+                dbTransaction.Payee = transaction.Payee;
+                dbTransaction.Amount = transaction.Amount;
+                dbTransaction.Date = transaction.Date.ToUniversalTime();
+                dbTransaction.CategoryId = transaction.CategoryId;
+
+                _context.Entry(dbTransaction).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return Ok(transaction);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTransaction(long id)
+        {
+            try
+            {
+                var transaction = await _context.Transactions.FindAsync(id);
+
+                if (transaction == null) return NotFound(id);
+
+                _context.Remove(transaction);
+                await _context.SaveChangesAsync();
+
+                return StatusCode(204, transaction);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
             }
         }
     }

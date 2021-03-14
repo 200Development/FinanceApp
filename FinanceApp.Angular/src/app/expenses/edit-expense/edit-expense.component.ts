@@ -30,8 +30,8 @@ export class EditExpenseComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.getCategories();
-    this.getFrequencies();
+    this.loadCategories();
+    this.loadFrequencies();
 
 
     this.route.queryParams
@@ -46,17 +46,16 @@ export class EditExpenseComponent implements OnInit {
           'categoryFormControl': parseInt(expense.categoryId)
         });
         this.id = parseInt(expense.id);
-      }
-      );
+      });
   };
 
-  getFrequencies(): void {
+  loadFrequencies(): void {
     this.expenseService.getFrequencies().subscribe((frequencies: Frequency[]) => {
       this.frequencies = frequencies;
     });
   }
 
-  getCategories(): void {
+  loadCategories(): void {
     this.expenseService.getCategories().subscribe((categories: Category[]) => {
       this.categories = categories;
     });
@@ -66,10 +65,9 @@ export class EditExpenseComponent implements OnInit {
     var newExpense = this.mapExpense(this.editExpenseForm.value);
 
     this.expenseService.editExpense(newExpense).subscribe(
-      _ => {
-        this.location.back();
-      }
-    )
+      _ => { 
+        this.location.back(); 
+      });
   };
 
   mapExpense(expense: any) {

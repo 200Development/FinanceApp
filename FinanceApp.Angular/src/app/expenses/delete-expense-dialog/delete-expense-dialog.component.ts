@@ -8,6 +8,7 @@ import { Expense } from '../shared/expense';
   styleUrls: ['./delete-expense-dialog.component.css']
 })
 export class DeleteExpenseDialogComponent {
+  
   constructor(public dialogRef: MatDialogRef<DeleteExpenseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Expense) { }
 

@@ -19,10 +19,9 @@ export class ExpensesTableComponent {
     columnsToDisplay = ['name', 'amountDue', 'dueDate', 'frequency', 'category', 'action'];
 
     // dialog returns accound.id if delete is confirmed.  undefined is returned if delete is cancelled.
-    deleteExpense(expense: any) {
+    deleteExpense(expense: Expense) {
         const dialogRef = this.dialog.open(DeleteExpenseDialogComponent, { height: "auto", width: "auto", data: { amountDue: expense.amountDue, dueDate: expense.dueDate, name: expense.name, id: expense.id } });
         dialogRef.afterClosed().subscribe(result => {
-            debugger;
             if (!isNaN(result)) {
                 this.expensesService.deleteExpense(result).subscribe(result => {
                     console.log(result);

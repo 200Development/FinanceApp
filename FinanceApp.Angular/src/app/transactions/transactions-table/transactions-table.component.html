@@ -24,6 +24,15 @@
         <td mat-cell *matCellDef="let transaction"> {{ transaction.category.name }} </td>
     </ng-container>
 
+    <!--Action column-->
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let transaction">
+            <a class="action-link" [routerLink]="['/editTransaction']" [queryParams]="{id: transaction.id, payee: transaction.payee, amount: transaction.amount, date: transaction.date, categoryId: transaction.category.id, type: transaction.type }">Edit</a> |
+            <a class="action-link" (click)="deleteTransaction(transaction);">Delete</a>
+        </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
     <tr mat-row *matRowDef="let transaction; columns: columnsToDisplay;"></tr>   
 </table>

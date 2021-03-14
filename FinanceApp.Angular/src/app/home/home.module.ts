@@ -5,9 +5,9 @@ import { SharedModule } from '../shared.module';
 import { LoginModule } from '../login/login.module';
 import { AccountModule } from '../accounts/shared/account.module';
 import { ExpensesModule } from '../expenses/shared/expenses.module';
-import { TransactionModule } from '../transactions/shared/transaction.module';
+import { TransactionModule } from '../transactions/shared/transactions.module';
 import { IncomeModule } from '../incomes/shared/income.module';
-import { DashboardModule } from '../dashboard/dashboard.module';
+import { DashboardModule } from '../DTOs/dashboard.module';
 
 
 

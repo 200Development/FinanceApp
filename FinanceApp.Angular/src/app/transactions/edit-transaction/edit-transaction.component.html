@@ -1,0 +1,59 @@
+<form [formGroup]="editTransactionForm" (ngSubmit)="editTransaction()">
+    <div class="card">
+        <div class="card-header">
+            Edit {{ transaction.payee | titlecase }} ({{ type | titlecase }})
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <mat-form-field appearance="standard" class="transaction-field">
+                        <mat-label>Date</mat-label>
+                        <input matInput class="form-control" formControlName="dateFormControl" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>               
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <mat-form-field appearance="standard" class="transaction-field">
+                        <mat-label>Payee</mat-label>
+                        <input matInput class="form-control" type="text" formControlName="payeeFormControl" placeholder="Payee">
+                        <mat-icon matSuffix></mat-icon>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 form-group">
+                    <mat-form-field appearance="standard" class="transaction-field">
+                        <mat-label>Amount</mat-label>
+                        <input matInput class="form-control" type="number" formControlName="amountFormControl" step="0.01" placeholder="0.00">
+                        <mat-icon matSuffix></mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>          
+            <div class="row">             
+                <div class="col-md-6 form-group">
+                    <mat-form-field appearance="standard" class="transaction-field">
+                        <select matNativeControl required class="form-control" formControlName="categoryFormControl">
+                            <option label="--select category --"></option>
+                            <option *ngFor="let category of categories" [value]="category.id">
+                                {{category.name}}
+                            </option>
+                        </select>
+                        <mat-error *ngIf="editTransactionForm.hasError('required')">
+                            This field is required
+                        </mat-error>
+                        <mat-hint></mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button mat-button class="transaction-field" aria-label="save modified transaction button" type="submit">
+                        <mat-icon>add_circle_outline</mat-icon>Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

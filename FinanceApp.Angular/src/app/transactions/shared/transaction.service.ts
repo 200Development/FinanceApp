@@ -11,8 +11,10 @@ export class TransactionService {
   
   constructor(private http: HttpClient) { }
   
-  private transactionUrl = 'https://localhost:44313/api/transactions/Transactions';
-  private addTransactionUrl = 'https://localhost:44313/api/transactions/AddTransaction';
+  private transactionUrl = 'https://localhost:44313/api/transactions/transactions';
+  private addTransactionUrl = 'https://localhost:44313/api/transactions/addTransaction';
+  private editTransactionUrl = 'https://localhost:44313/api/transactions/editTransaction';
+  private deleteTransactionUrl = 'https://localhost:44313/api/transactions/deleteTransaction';
   
 
   headers = new HttpHeaders({ 'content-type': 'application/json','Access-Control-Allow-Origin': '*'});
@@ -30,6 +32,18 @@ export class TransactionService {
   
   addTransaction(transaction: Transaction): Observable<Transaction> {    
     return this.http.post<Transaction>(this.addTransactionUrl, transaction, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  };
+
+  editTransaction(transaction: Transaction): Observable<Transaction> {
+    return this.http.put<Transaction>(this.editTransactionUrl, transaction, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  };
+
+  deleteTransaction(id: number): Observable<any> {
+    return this.http.delete(this.deleteTransactionUrl + '/' + id).pipe(
       catchError(this.handleError)
     );
   };

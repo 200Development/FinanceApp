@@ -19,6 +19,7 @@ namespace FinanceApp.Api.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+
         public ExpensesController(ApplicationDbContext context)
         {
             _context = context;
@@ -180,7 +181,7 @@ namespace FinanceApp.Api.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest($"Expense.Name: {expense.Name}, Expense.Id: {expense.Id} is invalid");
+                    return BadRequest($"Expense is invalid");
 
                 var dbExpense = await _context.Expenses.FindAsync(expense.Id);
 
@@ -267,18 +268,17 @@ namespace FinanceApp.Api.Controllers
             {
                 var expense = await _context.Expenses.FindAsync(id);
 
-                if (expense == null) return NotFound();
+                if (expense == null) return NotFound(id);
 
                 _context.Remove(expense);
                 await _context.SaveChangesAsync();
 
-                return StatusCode(204);
+                return StatusCode(204, expense);
             }
             catch (Exception e)
             {
                 return StatusCode(500, e);
             }
         }
-
     }
 }

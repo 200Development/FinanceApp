@@ -24,6 +24,7 @@
     "angular-google-charts": "^2.0.1",
     "bootstrap": "^4.6.0",
     "font-awesome": "^4.7.0",
+    "plaid": "^9.6.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.3"

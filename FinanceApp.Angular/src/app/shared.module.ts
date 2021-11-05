@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSortModule } from '@angular/material/sort';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PlaidModule } from './plaid/plaid.module';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     MatSortModule,
     MatGridListModule,
-    MatDialogModule
+    MatDialogModule,
+    PlaidModule
   ],
   exports: [
     FormsModule,
@@ -73,7 +75,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     MatSortModule,
     MatGridListModule,
-    MatDialogModule
+    MatDialogModule,
+    PlaidModule
   ]
 })
 export class SharedModule { }

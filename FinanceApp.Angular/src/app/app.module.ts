@@ -35,7 +35,8 @@ import { MetricsModule } from './metrics/metrics.module';
     RegisterModule,
     HomeModule,
     AppRoutingModule,
-    BrowserAnimationsModule,         
+    BrowserAnimationsModule,
+          
   ],
   providers: [],
   bootstrap: [AppComponent]
